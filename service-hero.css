@@ -7,25 +7,7 @@
   transform: scale(var(--first-panel-scale, 1));
 }
 .fitted-artboard { height: 1018px; overflow: visible; }
-/* Full-screen hero (sizes come from fitServiceArtboard). On wide screens a
-   blurred copy of the hero photo fills the sides the 1440x1018 artwork
-   doesn't reach and the sharp photo's edges fade into it; on tall screens
-   the photo itself is stretched to cover the box. */
-.fitted-artboard::before {
-  position: absolute;
-  left: var(--hero-box-left, 0);
-  top: var(--hero-box-top, 0);
-  width: var(--hero-box-width, 100%);
-  height: var(--hero-box-height, 100%);
-  background: #0b2a6b var(--hero-photo, none) center / cover no-repeat;
-  filter: blur(28px) saturate(1.1);
-  transform: scale(1.12);
-  content: "";
-}
-.fitted-artboard.has-side-fill > :first-child {
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
-}
+/* Phones: the hero photo covers the full-screen hero box (see service-hero.js). */
 #figma-canvas .fitted-artboard.has-cover-photo > :first-child img {
   inset: 0;
   width: 100%;
