@@ -49,8 +49,6 @@ const metricMobile=matchMedia('(max-width:760px)');
 const positionBenefits=()=>{(metricMobile.matches?metricArtBottom:overview).append(benefitGrid);};
 positionBenefits();
 metricMobile.addEventListener('change',positionBenefits);
-const quote="“C'est notre deuxième participation à WAJAHNI et je dois avouer être agréablement surprise par l'évolution continue de l'événement, d'autant plus que l'équipe est exclusivement composée de jeunes. C'est un excellent départ pour un début prometteur.”";
-document.querySelector('.quotes').innerHTML=Array.from({length:3},()=>'<article class="quote"><div class="quote-meta"><img src="assets/home/n272-14087.png" alt="Logo partenaire" width="56" height="56"><img src="assets/home/n272-14089.png" alt="" width="65" height="65"></div><div class="person"><img src="assets/home/n272-14088.png" alt="Mme Ghosn Ennaem" width="92" height="92"><div><h3>Mme. Ghosn ennaem</h3><p>Directrice d’admission</p></div></div><blockquote>'+quote+'</blockquote></article>').join('');
 const serviceCards = [
   ['educareer', 'Le grand salon de l’orientation en Tunisie.', '9639', '#f4671f'],
   ['roadshow', 'Une série de salons dans 9 régions de la Tunisie.', '9641', '#17b0c4'],

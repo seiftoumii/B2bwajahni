@@ -65,6 +65,5 @@
 @media(min-width:1700px){.benefit-grid{gap:26px}.benefit-icon{width:91px;height:91px;margin-top:-14px;margin-bottom:20px}.benefit-number{right:27px;top:12px}.benefit h3{letter-spacing:-1px}.benefit-rule{width:30px;margin:13px 0}}
 .detail>img{padding:10px;box-sizing:content-box;border-radius:50%;background:#fff1df}.detail:first-of-type>img{background:#ef7016}.detail:nth-of-type(2)>img{background:#d8f0f4}
 .service-icon{background:linear-gradient(135deg,#ff5f00,#ff9a3d);box-shadow:0 5px 15px #ee691630}
-.testimonials{background:#fff url('assets/home/testimonials.png') center/cover}
 @media(max-width:760px){.hero-button{top:calc(76px + 31.53vw)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}.reveal{opacity:1;translate:none}}
