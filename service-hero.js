@@ -2,12 +2,12 @@
 // their shell by only the difference introduced by fitting the first panel.
 function fitServiceArtboard(viewport, canvasScale, canvasHeight, heroHeight, nextPanelTop, contentBounds) {
   const headerBottom = document.querySelector('.site-header').getBoundingClientRect().bottom;
-  const available = Math.max(1, document.documentElement.clientHeight - headerBottom);
-  const heroScale = Math.min(canvasScale, available / heroHeight);
   const artboard = viewport.querySelector('.fitted-artboard');
 
-  document.body.style.paddingTop = headerBottom + 'px';
   if (!artboard) {
+    const available = Math.max(1, document.documentElement.clientHeight - headerBottom);
+    const heroScale = Math.min(canvasScale, available / heroHeight);
+    document.body.style.paddingTop = headerBottom + 'px';
     const offset = heroHeight * heroScale - nextPanelTop * canvasScale;
     viewport.style.height = (canvasHeight * canvasScale + offset) + 'px';
     viewport.firstElementChild.style.top = offset + 'px';
@@ -18,12 +18,18 @@ function fitServiceArtboard(viewport, canvasScale, canvasHeight, heroHeight, nex
 
   // Full-width hero: the artwork uses the same width-based scale as the rest
   // of the page, so its content spans the full page width. The hero box is
-  // at least the screen height below the header. When the artwork is taller
+  // at least the screen height. When the artwork is taller
   // than the screen, the empty sky above and below its content (outside
   // contentBounds, in design px) is trimmed so the content fits; on tall
   // screens (phones) the content is centred and the photo covers the box.
-  const [boundsTop, boundsBottom] = contentBounds || [0, heroHeight];
+  // The hero starts at the very top of the page, behind the floating navbar
+  // (no white strip above it); its content is only trimmed down to just below
+  // the navbar so nothing hides under it.
+  document.body.style.paddingTop = '0px';
+  const available = Math.max(1, document.documentElement.clientHeight);
+  const [contentTopBound, boundsBottom] = contentBounds || [0, heroHeight];
   const scale = canvasScale;
+  const boundsTop = Math.max(0, contentTopBound - headerBottom / scale);
   const fullHeight = heroHeight * scale;
   const boxHeight = Math.min(fullHeight, Math.max(available, (boundsBottom - boundsTop) * scale));
   let contentTop;
