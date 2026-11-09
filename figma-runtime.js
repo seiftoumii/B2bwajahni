@@ -39,7 +39,7 @@
     updateScale();
     window.addEventListener('resize', updateScale, { passive: true });
 
-    addHotspot('figma-hotspot--hero', 'Découvrir les packs Wajahni', () => scrollToNode('210:3440'));
+    addHotspot('figma-hotspot--hero', 'Découvrir les packs Wajahni', () => document.querySelector('#packs')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     ['Tunis', 'Sfax', 'Sousse'].forEach((city, index) => addHotspot('figma-hotspot--aftermovie', `Voir l’after-movie Wajahni Caravan ${city}`, () => toastMessage(`L’after-movie ${city} sera bientôt disponible.`)));
 
     const cardSelectors = [
@@ -145,28 +145,13 @@
       statsCounterObserver.observe(stat);
     });
 
-    const investmentSections = canvas.querySelectorAll('[data-investment-section]');
-    let investmentSwitching = false;
-    function selectInvestment(tab) {
-      const next = canvas.querySelector(`[data-investment-section="${tab}"]`);
-      const current = [...investmentSections].find((section) => !section.classList.contains('is-hidden'));
-      if (investmentSwitching || !next || current === next) return;
-      investmentSwitching = true;
-      current.classList.remove('is-entering');
-      current.classList.add('is-leaving');
-      canvas.querySelectorAll('[data-investment-tab]').forEach((control) => {
-        control.setAttribute('aria-pressed', String(control.dataset.investmentTab === tab));
-      });
-      window.setTimeout(() => {
-        current.classList.add('is-hidden');
-        current.classList.remove('is-leaving');
-        current.setAttribute('aria-hidden', 'true');
-        next.classList.remove('is-hidden');
-        next.setAttribute('aria-hidden', 'false');
-        next.classList.remove('is-entering');
-        window.requestAnimationFrame(() => next.classList.add('is-entering'));
-        investmentSwitching = false;
-      }, 150);
+    // Replace the two Figma pack frames (one per tab, each with its own tab
+    // switch) by the shared packs section, identical on all three event pages.
+    const packsFrame = canvas.querySelector('[data-investment-section="exposant"]');
+    if (packsFrame && window.WajahniPacks) {
+      const packsParent = packsFrame.parentElement;
+      canvas.querySelectorAll('[data-investment-section]').forEach((section) => section.remove());
+      window.WajahniPacks.mount({ page: 'caravan', parent: packsParent, top: 3926, height: 812 });
     }
     const statsSections = canvas.querySelectorAll('[data-stats-section]');
     let statsSwitching = false;
@@ -197,18 +182,6 @@
       control.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); choose(); }
       });
-    });
-
-    canvas.querySelectorAll('[data-investment-tab]').forEach((control) => {
-      const choose = () => selectInvestment(control.dataset.investmentTab);
-      control.addEventListener('click', choose);
-      control.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); choose(); }
-      });
-    });
-    investmentSections.forEach((section) => section.setAttribute('aria-hidden', String(section.classList.contains('is-hidden'))));
-    canvas.querySelectorAll('[data-investment-tab]').forEach((control) => {
-      control.setAttribute('aria-pressed', String(control.dataset.investmentTab === 'exposant'));
     });
 
     ['201:1321', '201:1374', '210:3462', '215:5178'].forEach((id) => {
