@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Wajahni Roadshow — tournée nationale de l’orientation." />
+    <title>Wajahni Roadshow 2027</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Montserrat:wght@300;400;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      :root { --canvas-scale: 1; }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; background: #fff; }
+      body { margin: 0; min-width: 320px; overflow-x: hidden; background: #fff; }
+      #figma-viewport { position: relative; width: 1440px; height: 6460px; margin: 0 auto; overflow: hidden; }
+      #figma-shell { position: absolute; inset: 0 auto auto 0; width: 1440px; height: 6460px; transform: scale(var(--canvas-scale)); transform-origin: top left; }
+      #figma-canvas { position: relative; width: 1440px; height: 6460px; overflow: hidden; }
+      #figma-canvas [class*="font-['Poppins:"] { font-family: Poppins, Arial, sans-serif !important; }
+      #figma-canvas [class*="font-['Poppins:Regular']"] { font-weight: 400 !important; }
+      #figma-canvas [class*="font-['Poppins:Medium']"] { font-weight: 500 !important; }
+      #figma-canvas [class*="font-['Poppins:SemiBold']"] { font-weight: 600 !important; }
+      #figma-canvas [class*="font-['Poppins:Bold']"] { font-weight: 700 !important; }
+      #figma-canvas [class*="font-['Poppins:ExtraBold']"] { font-weight: 800 !important; }
+      #figma-canvas [class*="font-['Cairo:"] { font-family: Cairo, sans-serif !important; }
+      .roadshow-card { transform-origin: center; transition: scale 260ms cubic-bezier(.22,1,.36,1), translate 260ms cubic-bezier(.22,1,.36,1), box-shadow 260ms ease, filter 260ms ease; will-change: scale, translate; }
+      .roadshow-card:hover { z-index: 5; scale: 1.018; translate: 0 -6px; filter: brightness(1.015); box-shadow: 0 18px 34px rgba(19,44,110,.18); }
+      .roadshow-reveal { opacity: 0; transform: translateY(16px); }
+      .roadshow-reveal.is-visible { animation: roadshow-reveal-in 600ms cubic-bezier(.22,1,.36,1) both; animation-delay: var(--reveal-delay, 0ms); }
+      /* The Figma export contains the two tab states as stacked frames. The runtime
+         overlays the selected state at the original pack-section position. */
+      [data-node-id="247:12022"].roadshow-pack--partner { top: 3887.1px !important; }
+      .roadshow-pack--partner[hidden], .roadshow-pack--exhibitor[hidden] { display: none !important; }
+      .roadshow-after-packs { transform: translateY(-840px); }
+      .roadshow-counter { font-variant-numeric: tabular-nums; }
+      @keyframes roadshow-reveal-in { to { opacity: 1; transform: translateY(0); } }
+      @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+    </style>
+  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script></head>
+  <body id="top"><header class="site-header"></header><script src="site-nav.js"></script>
+    <main id="figma-viewport" aria-label="Wajahni Roadshow 2027"><div id="figma-shell"><div id="figma-canvas"></div></div></main>
+    <script type="text/babel" src="roadshow-page.jsx"></script>
+    <script type="text/babel">ReactDOM.createRoot(document.getElementById('figma-canvas')).render(<PageRoadshow />);</script>
+    <script src="roadshow-runtime.js"></script>
+    <script src="service-links.js"></script>
+  </body>
+</html>

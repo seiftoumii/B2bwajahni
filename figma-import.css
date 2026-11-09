@@ -1,0 +1,15 @@
+:root { color-scheme: light; background: #fff; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; background: #fff; }
+.figma-page { position: relative; width: min(100%, 933px); margin: 0 auto; background: #fff; }
+.figma-page__render { display: block; width: 100%; height: auto; }
+.hotspot { position: absolute; display: block; border-radius: 999px; outline-offset: 4px; }
+.hotspot:focus-visible { outline: 3px solid #f46722; }
+/* Coordinates are proportional to Figma's exported 933 × 4096 canvas. */
+.hotspot--discover { left: 7%; top: 5.6%; width: 23%; height: 2.1%; }
+.hotspot--contact { right: 4%; top: .65%; width: 17%; height: 1.2%; }
+.anchor { position: absolute; left: 0; }
+#presentation { top: 13%; }
+#contact { top: 87%; }
+@media (min-width: 934px) { .figma-page { box-shadow: 0 0 0 1px rgba(27,42,74,.06); } }

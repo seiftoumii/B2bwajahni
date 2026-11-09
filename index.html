@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Wajahni Caravan 2027 — implementation exacte de la maquette Figma." />
+    <title>Wajahni Caravan 2027</title>
+    <style>
+      :root { --canvas-width: 1440; --canvas-height: 6363; --canvas-scale: 1; color-scheme: light; }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; background: #fff; }
+      body { margin: 0; min-width: 320px; overflow-x: hidden; background: #fff; }
+      #figma-viewport { position: relative; width: 1440px; height: 6363px; margin: 0 auto; overflow: hidden; }
+      #figma-shell { position: absolute; inset: 0 auto auto 0; width: 1440px; height: 6363px; transform: scale(var(--canvas-scale)); transform-origin: top left; }
+      #figma-canvas { position: relative; width: 1440px; height: 6363px; overflow: hidden; }
+      /* Figma's generated classes encode text styles as font-family names such
+         as "Poppins:ExtraBold". Map those tokens to the actual web font. */
+      #figma-canvas [class*="font-['Poppins:"] { font-family: "Poppins", Arial, sans-serif !important; }
+      #figma-canvas [class*="font-['Poppins:Regular']"] { font-weight: 400 !important; }
+      #figma-canvas [class*="font-['Poppins:Medium']"] { font-weight: 500 !important; }
+      #figma-canvas [class*="font-['Poppins:SemiBold']"] { font-weight: 600 !important; }
+      #figma-canvas [class*="font-['Poppins:Bold']"] { font-weight: 700 !important; }
+      #figma-canvas [class*="font-['Poppins:ExtraBold']"] { font-weight: 800 !important; }
+      #figma-canvas [class*="font-['Caveat:"] { font-family: "Caveat", cursive !important; }
+      /* Keep the hero artwork at its exported Figma bounds while Tailwind's
+         browser compiler initializes the external JSX component. */
+      #figma-canvas [data-node-id="201:1376"] { position: absolute; left: -2px; top: -3px; width: 1442px; height: 1021px; }
+      #figma-canvas [data-node-id="201:1376"] > div { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+      #figma-canvas [data-node-id="201:1376"] img { position: absolute; left: -0.08%; top: -0.05%; width: 100.04%; height: 100%; max-width: none; }
+      /* Header: group navigation, make the active route and primary action clear. */
+      #figma-canvas [data-node-id="201:1232"] { top: 33px; gap: 28px; padding: 12px 18px; border: 1px solid rgba(255,255,255,.18); border-radius: 18px; background: rgba(8,35,87,.28); box-shadow: 0 10px 28px rgba(4,22,65,.18); backdrop-filter: blur(12px); }
+      #figma-canvas [data-node-id="201:1232"] a,
+      #figma-canvas [data-node-id="201:1244"] { position: relative; padding: 6px 0; border: 0; color: #fff; background: transparent; text-decoration: none; cursor: pointer; transition: color .2s ease, transform .2s ease; }
+      #figma-canvas [data-node-id="201:1232"] a:hover,
+      #figma-canvas [data-node-id="201:1244"]:hover { color: #ffd1bf; transform: translateY(-1px); }
+      #figma-canvas [data-node-id="201:1236"] { color: #fff6f1; font-weight: 700; }
+      #figma-canvas [data-node-id="201:1236"]::after { position: absolute; right: 0; bottom: 0; left: 0; height: 2px; border-radius: 2px; background: #f4622a; content: ""; }
+      #figma-canvas [data-node-id="201:1232"] a:focus-visible,
+      #figma-canvas [data-node-id="201:1244"]:focus-visible { outline: 3px solid #fff; outline-offset: 4px; border-radius: 4px; }
+      #figma-canvas [data-node-id="201:1375"] { border-radius: 14px; box-shadow: 0 8px 22px rgba(4,22,65,.16); }
+      #figma-canvas [data-node-id="201:1245"] { top: 30px; }
+      #figma-canvas [data-node-id="201:1246"] { box-shadow: 0 10px 24px rgba(244,98,42,.32); transition: transform .22s ease, box-shadow .22s ease; }
+      #figma-canvas [data-node-id="201:1246"]:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(244,98,42,.42); }
+      .investment-section.is-hidden { display: none; }
+      .investment-section.is-leaving { animation: investment-out 150ms ease-in forwards; pointer-events: none; }
+      .investment-section.is-entering { animation: investment-in 260ms cubic-bezier(.22,1,.36,1) both; }
+      .investment-section.is-entering [data-node-id="210:3469"] > div,
+      .investment-section.is-entering [data-node-id="210:3937"] > div { animation: investment-card-in 430ms cubic-bezier(.22,1,.36,1) both; }
+      .investment-section.is-entering [data-node-id="210:3469"] > div:nth-child(2),
+      .investment-section.is-entering [data-node-id="210:3937"] > div:nth-child(2) { animation-delay: 55ms; }
+      .investment-section.is-entering [data-node-id="210:3469"] > div:nth-child(3),
+      .investment-section.is-entering [data-node-id="210:3937"] > div:nth-child(3) { animation-delay: 110ms; }
+      .investment-section.is-entering [data-node-id="210:3469"] > div:nth-child(4),
+      .investment-section.is-entering [data-node-id="210:3937"] > div:nth-child(4) { animation-delay: 165ms; }
+      .investment-badge { position: absolute; z-index: 4; top: 14px; right: 12px; padding: 6px 11px; border-radius: 0 10px 0 10px; color: #fff; background: linear-gradient(90deg, #ff5f00, #ff9a3d); box-shadow: 0 4px 8px rgba(255, 95, 0, .25); font: 600 9px/1 Poppins, Arial, sans-serif; letter-spacing: .45px; white-space: nowrap; }
+      .interactive-card { position: relative; transform-origin: center; transition: transform 260ms cubic-bezier(.22,1,.36,1), box-shadow 260ms ease, filter 260ms ease; will-change: transform; }
+      .interactive-card:hover { z-index: 8; transform: translateY(-5px) scale(1.018); filter: brightness(1.015); box-shadow: 0 18px 34px rgba(13,42,82,.16); }
+      .interactive-card:focus-within { z-index: 8; transform: translateY(-5px) scale(1.018); box-shadow: 0 18px 34px rgba(13,42,82,.16); }
+      .concept-card { transition: transform 240ms cubic-bezier(.22,1,.36,1); }
+      .concept-card:hover { transform: scale(1.018); }
+      .text-reveal { opacity: 0; transform: translateY(9px); }
+      .text-reveal.is-revealed { animation: text-reveal-in 560ms cubic-bezier(.22,1,.36,1) both; animation-delay: var(--text-delay, 0ms); }
+      .count-up { font-variant-numeric: tabular-nums; }
+      [data-investment-tab] { cursor: pointer; transition: filter .2s ease, transform .2s ease; }
+      [data-investment-tab]:hover { filter: brightness(1.03); }
+      [data-investment-tab]:active { transform: scale(.97); }
+      [data-investment-tab]:focus-visible { outline: 3px solid #0d2a52; outline-offset: 3px; }
+      @keyframes investment-out { to { opacity: 0; transform: translateY(-10px) scale(.985); } }
+      @keyframes investment-in { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+      @keyframes investment-card-in { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes text-reveal-in { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+      .stats-section.is-hidden { display: none; }
+      .stats-section.is-leaving { animation: investment-out 150ms ease-in forwards; pointer-events: none; }
+      .stats-section.is-entering { animation: investment-in 260ms cubic-bezier(.22,1,.36,1) both; }
+      .stats-tab-pill { border: 0; padding: 0; background: #dfe6f0; transition: background .2s ease, transform .2s ease; }
+      .stats-tab-pill:hover { transform: scale(1.05); }
+      .stats-tab-pill:focus-visible { outline: 3px solid #0d2a52; outline-offset: 3px; }
+      .stats-tab-pill[aria-pressed="true"] { background: linear-gradient(90deg, #ff5f00, #ff9a3d); }
+      .stats-hover-block { position: relative; transform-origin: center; transition: transform 240ms cubic-bezier(.22,1,.36,1), box-shadow 240ms ease, filter 240ms ease; will-change: transform; }
+      .stats-hover-block:hover { z-index: 5; transform: translateY(-3px) scale(1.035); filter: brightness(1.015); box-shadow: 0 12px 24px rgba(13,42,82,.14); }
+      .stats-count { display: inline-block; font-variant-numeric: tabular-nums; }
+      .figma-hotspot { position: absolute; z-index: 20; border: 0; border-radius: 999px; background: transparent; cursor: pointer; }
+      .figma-hotspot:focus-visible { outline: 4px solid #fff; outline-offset: 4px; box-shadow: 0 0 0 7px #f4622a; }
+      .figma-hotspot:hover { background: rgba(255,255,255,.1); }
+      .figma-hotspot--hero { left: 42px; top: 758px; width: 326px; height: 86px; }
+      .figma-hotspot--contact { left: 1150px; top: 26px; width: 250px; height: 72px; }
+      .figma-hotspot--aftermovie { top: 2512px; width: 376px; height: 312px; border-radius: 14px; }
+      .figma-hotspot--aftermovie:nth-of-type(3) { left: 72px; }
+      .figma-hotspot--aftermovie:nth-of-type(4) { left: 530px; }
+      .figma-hotspot--aftermovie:nth-of-type(5) { left: 990px; }
+      .figma-fade { opacity: 0; }
+      .figma-fade.is-visible { animation: figma-fade-in 650ms cubic-bezier(.22,1,.36,1) forwards; }
+      [data-node-id="201:1376"].is-visible { animation: figma-backdrop-in 850ms cubic-bezier(.22,1,.36,1) forwards; }
+      @keyframes figma-fade-in { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes figma-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+      .figma-dialog { width: min(520px, calc(100vw - 32px)); border: 0; border-radius: 20px; padding: 0; box-shadow: 0 24px 80px rgba(11, 28, 70, .35); }
+      .figma-dialog::backdrop { background: rgba(8, 18, 48, .72); backdrop-filter: blur(5px); }
+      .figma-dialog__content { padding: 30px; color: #0d2a52; font-family: Poppins, Arial, sans-serif; }
+      .figma-dialog__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+      .figma-dialog h2 { margin: 0; font-size: 28px; line-height: 1.1; }
+      .figma-dialog p { color: #5e6c86; font-size: 14px; line-height: 1.55; }
+      .figma-close { width: 40px; height: 40px; border: 0; border-radius: 50%; color: #0d2a52; background: #edf2f9; font-size: 23px; cursor: pointer; }
+      .figma-form { display: grid; gap: 14px; margin-top: 22px; }
+      .figma-form label { display: grid; gap: 6px; color: #1b2a4a; font-size: 13px; font-weight: 700; }
+      .figma-form input, .figma-form textarea { width: 100%; border: 1px solid #dfe6f0; border-radius: 9px; padding: 12px; color: #1b2a4a; font: inherit; }
+      .figma-form textarea { min-height: 98px; resize: vertical; }
+      .figma-submit { justify-self: start; border: 0; border-radius: 10px; padding: 13px 22px; color: #fff; background: linear-gradient(90deg,#f7861d,#ef5a10); font: 700 14px Poppins,Arial,sans-serif; cursor: pointer; }
+      .figma-toast { position: fixed; z-index: 50; bottom: 24px; left: 50%; padding: 13px 18px; border-radius: 999px; transform: translate(-50%, 20px); color: #fff; background: #0d2a52; font: 600 14px Poppins,Arial,sans-serif; opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
+      .figma-toast.is-visible { opacity: 1; transform: translate(-50%,0); }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+    </style>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&display=swap" media="print" onload="this.media='all'" rel="stylesheet" />
+<link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script></head>
+  <body id="top" data-page="caravan"><header class="site-header"></header><script src="site-nav.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <main id="figma-viewport" aria-label="Wajahni Caravan 2027">
+      <div id="figma-shell"><div id="figma-canvas"></div></div>
+    </main>
+    <dialog class="figma-dialog" id="contact-dialog" aria-labelledby="contact-title">
+      <div class="figma-dialog__content">
+        <div class="figma-dialog__header"><div><h2 id="contact-title">Contactez-nous</h2><p>Écrivons ensemble la prochaine étape de votre participation.</p></div><button class="figma-close" type="button" aria-label="Fermer">×</button></div>
+        <form class="figma-form"><label>Nom<input name="name" autocomplete="name" required /></label><label>Email<input name="email" type="email" autocomplete="email" required /></label><label>Message<textarea name="message" required></textarea></label><button class="figma-submit" type="submit">Envoyer une demande</button></form>
+      </div>
+    </dialog>
+    <div class="figma-toast" role="status" aria-live="polite"></div>
+    <script type="text/babel" src="figma-page.jsx?v=home-nav-2"></script>
+    <script type="text/babel">ReactDOM.createRoot(document.getElementById('figma-canvas')).render(<PageCaravan />);</script>
+    <script src="figma-runtime.js?v=home-nav-2"></script>
+    <script src="service-links.js"></script>
+  </body>
+</html>

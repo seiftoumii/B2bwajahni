@@ -1,0 +1,26 @@
+.site-header {
+  position: fixed; z-index: 10000; top: 16px; left: 50%; transform: translateX(-50%);
+  box-sizing: border-box; width: min(1415px, calc(100% - 28px)); padding: 10px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  border-radius: 48px; background: #dd511c; color: white; box-shadow: 0 5px 22px #692d1926;
+  font: 500 13px/1.45 Poppins, Arial, sans-serif;
+}
+.site-header a { color: inherit; text-decoration: none; white-space: nowrap; }
+.site-logo img { display: block; width: clamp(86px, 9vw, 118px); height: auto; }
+.site-header nav { display: flex; align-items: center; gap: clamp(8px, 1.15vw, 22px); }
+.site-header nav a { font: inherit; font-size: clamp(10px, .95vw, 14px); padding: 7px 0; }
+.site-header nav a:hover, .site-header nav a[aria-current] { color: #101f4d; text-decoration: underline; text-underline-offset: 4px; }
+.site-header .site-contact, .site-header button {
+  border: 0; border-radius: 30px; background: white; color: #993408;
+  padding: 10px 14px; font: inherit; font-weight: 700;
+}
+.site-header button { display: none; cursor: pointer; }
+.site-header :focus-visible { outline: 3px solid #152957; outline-offset: 2px; }
+@media (max-width: 1050px) {
+  .site-header { top: 8px; padding: 8px 12px; width: calc(100% - 16px); gap: 6px; font-size: 12px; }
+  .site-header button { display: block; }
+  .site-header nav { display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+    padding: 8px; background: #dd511c; border-radius: 18px; max-height: calc(100dvh - 80px); overflow-y: auto; }
+  .site-header.is-open nav { display: grid; gap: 0; }
+  .site-header nav a { padding: 11px 14px; font-size: 14px; }
+}

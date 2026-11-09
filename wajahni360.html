@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="WAJAHNI 360° — communication dédiée au secteur de l'éducation." />
+    <title>WAJAHNI 360°</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <script>
+      [
+        'assets/w360/slide-01.jpg',
+        'assets/w360/slide-02.jpg',
+        'assets/w360/slide-03.jpg',
+        'assets/w360/slide-04.jpg',
+        'assets/w360/slide-05.jpg',
+        'assets/w360/slide-06.jpg',
+        'assets/w360/slide-07.jpg',
+        'assets/w360/slide-08.jpg',
+        'assets/w360/slide-09.jpg',
+        'assets/w360/slide-10.jpg',
+        'assets/w360/slide-11.jpg',
+        'assets/w360/slide-12.jpg',
+        'assets/w360/slide-13.jpg'
+      ].forEach((src) => {
+        const preload = document.createElement('link');
+        preload.rel = 'preload';
+        preload.as = 'image';
+        preload.href = src;
+        preload.fetchPriority = 'high';
+        document.head.append(preload);
+      });
+    </script>
+    <style>
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; background: #fff; }
+      body { min-width: 320px; margin: 0; overflow-x: hidden; font-family: Poppins, Arial, sans-serif; }
+      .w360-page { background: #fff; color: #152d68; }
+      .w360-nav { position: fixed; z-index: 30; top: 14px; left: 50%; display: flex; align-items: center; width: min(1160px, calc(100vw - 32px)); height: 58px; padding: 0 15px 0 29px; border-radius: 999px; background: rgba(255, 95, 0, .86); box-shadow: 0 8px 24px rgba(115, 47, 10, .16); transform: translateX(-50%); backdrop-filter: blur(12px); transition: background .3s ease, box-shadow .3s ease, opacity .3s ease; }
+      .w360-nav.is-scrolled { background: rgba(255, 95, 0, .42); box-shadow: 0 5px 18px rgba(64, 26, 4, .1); opacity: .76; }
+      .w360-nav.is-scrolled:hover, .w360-nav.is-scrolled:focus-within { background: rgba(255, 95, 0, .9); box-shadow: 0 8px 24px rgba(115, 47, 10, .16); opacity: 1; }
+      .w360-logo { display: grid; place-items: center; width: 110px; height: 36px; flex: 0 0 auto; }
+      .w360-logo img { display: block; width: 100%; height: 100%; object-fit: contain; filter: brightness(0) invert(1); }
+      .w360-nav-links { display: flex; align-items: center; gap: clamp(11px, 1.7vw, 25px); margin-left: 22px; min-width: 0; }
+      .w360-nav a { color: #fff; text-decoration: none; }
+      .w360-nav-links a { font-size: clamp(9px, .86vw, 12.5px); font-weight: 500; white-space: nowrap; transition: color .2s ease, transform .2s ease; }
+      .w360-nav-links a:hover, .w360-nav-links .is-active { color: #163b8b; transform: translateY(-1px); }
+      .w360-contact { display: flex; align-items: center; gap: 7px; margin-left: auto; padding: 10px 17px; border-radius: 999px; background: #fff; color: #fd5c30 !important; font-size: 12px; font-weight: 700; white-space: nowrap; transition: transform .2s ease, box-shadow .2s ease; }
+      .w360-contact:hover { transform: translateY(-2px); box-shadow: 0 7px 16px rgba(103, 35, 0, .18); }
+      .w360-contact span { font-size: 18px; line-height: 1; }
+      .w360-deck-controls { position: fixed; z-index: 31; left: 24px; bottom: 30px; display: flex; align-items: center; gap: 13px; color: #fff; mix-blend-mode: difference; }
+      .w360-deck-controls.is-intro { opacity: 0; pointer-events: none; }
+      .w360-deck-count { display: flex; align-items: baseline; gap: 3px; min-width: 48px; font-size: 10px; font-weight: 600; letter-spacing: 1px; }
+      .w360-deck-count strong { font-size: 17px; }
+      .w360-deck-dots { display: flex; align-items: center; gap: 5px; }
+      .w360-deck-dots button { width: 18px; height: 18px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+      .w360-deck-dots button::after { display: block; width: 100%; height: 2px; content: ''; background: rgba(255,255,255,.42); transition: width .32s ease, background .32s ease; }
+      .w360-deck-dots button.is-active::after { width: 100%; background: #fff; }
+      .w360-deck-dots button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+      .w360-deck-label { font-size: 9px; font-weight: 600; letter-spacing: 1.8px; white-space: nowrap; }
+      main { overflow: hidden; }
+      /* Continuous site layout: the Figma exports are page sections, not slides. */
+      .w360-section { display: block; width: 100%; min-height: 0; padding: 0; overflow: visible; background: #fff; opacity: 1 !important; transform: none !important; scroll-snap-align: none; }
+      .w360-section::before, .w360-section::after { display: none; }
+      .w360-section img { display: block; width: 100%; height: auto; max-width: none; max-height: none; border: 0; border-radius: 0; box-shadow: none; object-fit: initial; transform: none !important; transition: none; }
+      .w360-wheel-hero { position: relative; display: grid; grid-template-columns: minmax(280px, .8fr) minmax(500px, 1.2fr); align-items: center; gap: 30px; min-height: 100svh; padding: 110px clamp(40px, 8vw, 150px) 62px; overflow: hidden; isolation: isolate; background: #10295f; color: #fff; scroll-snap-align: start; }
+      .w360-wheel-hero::before { position: absolute; z-index: -2; inset: -15%; content: ''; background: radial-gradient(circle at 74% 47%, rgba(246,111,20,.68) 0 7%, rgba(246,111,20,.16) 22%, transparent 39%), radial-gradient(circle at 11% 8%, rgba(61,126,233,.46), transparent 31%), linear-gradient(130deg, #0b1e52, #153e92 55%, #0b2b72); }
+      .w360-wheel-hero::after { position: absolute; z-index: -1; right: -24vw; bottom: -38vw; width: 72vw; height: 72vw; border: 1px solid rgba(255,255,255,.1); border-radius: 50%; box-shadow: 0 0 0 70px rgba(255,255,255,.025), 0 0 0 140px rgba(255,255,255,.018); content: ''; }
+      .w360-wheel-copy { max-width: 460px; }
+      .w360-wheel-copy p { margin: 0 0 13px; color: #ff8a35; font-size: 13px; font-weight: 700; letter-spacing: 4.5px; }
+      .w360-wheel-copy h1 { margin: 0; font-size: clamp(39px, 4.1vw, 68px); line-height: 1.04; letter-spacing: -2.4px; }
+      .w360-wheel-copy > span { display: block; max-width: 340px; margin-top: 20px; color: rgba(255,255,255,.78); font-size: 16px; line-height: 1.55; }
+      .w360-wheel { position: relative; justify-self: center; width: min(43vw, 590px); min-width: 520px; aspect-ratio: 1; border: 1px solid rgba(255,255,255,.24); border-radius: 50%; box-shadow: inset 0 0 0 45px rgba(255,255,255,.025), inset 0 0 0 105px rgba(255,255,255,.02), 0 24px 80px rgba(0,14,54,.28); }
+      .w360-wheel::before, .w360-wheel::after { position: absolute; top: 50%; left: 50%; width: 1px; height: 100%; content: ''; background: linear-gradient(transparent, rgba(255,255,255,.18), transparent); transform: translate(-50%, -50%); }
+      .w360-wheel::after { transform: translate(-50%, -50%) rotate(90deg); }
+      .w360-wheel-core { position: absolute; top: 50%; left: 50%; width: 410px; height: 410px; overflow: hidden; filter: drop-shadow(0 20px 42px rgba(4,19,63,.48)); transform: translate(-50%, -50%); }
+      .w360-wheel-core svg { display: block; width: 100% !important; height: 100% !important; transform: scale(1.5); transform-origin: center; }
+      .w360-wheel-node { position: absolute; top: 50%; left: 50%; display: flex; flex-direction: column; width: 144px; padding: 12px 13px; border: 1px solid rgba(255,255,255,.24); border-radius: 12px; background: rgba(6,28,79,.62); color: #fff; cursor: pointer; text-align: left; transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-255px) rotate(var(--inverse-angle)); backdrop-filter: blur(10px); transition: background .22s ease, border-color .22s ease, box-shadow .22s ease, scale .22s ease; }
+      .w360-wheel-node:hover, .w360-wheel-node:focus-visible { border-color: #ffad6c; background: rgba(246,110,20,.88); box-shadow: 0 13px 24px rgba(3,17,57,.34); outline: none; scale: 1.07; }
+      .w360-wheel-node em { color: #ff9b55; font-size: 9px; font-style: normal; font-weight: 700; letter-spacing: 1.4px; }
+      .w360-wheel-node:hover em, .w360-wheel-node:focus-visible em { color: #fff; }
+      .w360-wheel-node strong { margin-top: 3px; font-size: 14px; }
+      .w360-wheel-node small { margin-top: 2px; color: rgba(255,255,255,.72); font-size: 9px; line-height: 1.3; }
+      .w360-wheel-explore { position: absolute; bottom: 36px; left: clamp(40px, 8vw, 150px); display: flex; align-items: center; gap: 12px; padding: 0; border: 0; background: transparent; color: #fff; cursor: pointer; font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: 2px; }
+      .w360-wheel-explore span { display: grid; place-items: center; width: 29px; height: 29px; border: 1px solid rgba(255,255,255,.6); border-radius: 50%; font-size: 17px; transition: background .2s ease, transform .2s ease; }
+      .w360-wheel-explore:hover span { background: #f56e14; transform: translateY(3px); }
+      /* The Figma exports are presented as a deliberate visual deck: each panel owns a screen instead of following another flat image. */
+      .w360-section { position: relative; display: grid; place-items: center; isolation: isolate; width: 100%; min-height: 100svh; padding: 112px 30px 36px; overflow: hidden; background: #10295f; opacity: 1; transform: none; scroll-snap-align: start; scroll-snap-stop: always; }
+      .w360-section::before { position: absolute; z-index: -2; inset: -48px; content: ''; background-image: var(--panel-image); background-position: center; background-size: cover; filter: blur(32px) saturate(.86) brightness(.68); opacity: .64; transform: scale(1.09); }
+      .w360-section::after { position: absolute; z-index: -1; inset: 0; content: ''; background: radial-gradient(circle at 14% 88%, rgba(246,110,20,.5), transparent 36%), radial-gradient(circle at 88% 11%, rgba(48,110,218,.42), transparent 34%), linear-gradient(120deg, rgba(8,35,91,.9), rgba(14,50,120,.56) 51%, rgba(237,78,23,.48)); pointer-events: none; }
+      .w360-page.is-motion-ready .w360-section { opacity: 0; transform: translateY(26px); }
+      .w360-section.is-visible { animation: w360-reveal .9s cubic-bezier(.22, 1, .36, 1) var(--panel-delay, 0ms) both; }
+      .w360-section img { position: relative; z-index: 1; display: block; width: auto; max-width: 100%; height: min(calc(100svh - 148px), 1024px); max-height: 1024px; border-radius: 14px; box-shadow: 0 24px 70px rgba(4, 10, 35, .38); object-fit: contain; object-position: center; transform: scale(1.012); transition: transform 8s cubic-bezier(.22,1,.36,1); }
+      .w360-section.is-visible img { transform: scale(1); }
+      .w360-slide-index { position: absolute; z-index: 3; right: 31px; bottom: 29px; display: flex; align-items: center; gap: 9px; color: rgba(255,255,255,.9); font-size: 11px; font-weight: 600; letter-spacing: 2px; text-shadow: 0 1px 4px rgba(0,0,0,.3); }
+      .w360-slide-index i { width: 30px; height: 1px; background: rgba(255,255,255,.72); }
+      .w360-intro-cue { position: absolute; z-index: 3; left: clamp(28px, 5vw, 76px); bottom: 54px; display: flex; flex-direction: column; gap: 4px; padding-left: 17px; border-left: 2px solid #f56d1b; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.45); }
+      .w360-intro-cue b { font-size: 12px; letter-spacing: 3px; }
+      .w360-intro-cue small { font-size: 12px; font-weight: 500; }
+      .w360-contact-section { position: relative; display: grid; place-items: center; min-height: 100svh; padding: 90px 24px; overflow: hidden; background: linear-gradient(112deg, #f68a1e, #f16b13); color: #fff; text-align: center; scroll-snap-align: start; }
+      .w360-contact-section::before { content: ''; position: absolute; width: 540px; height: 540px; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; transform: translate(-52%, -47%); }
+      .w360-contact-section > * { position: relative; margin: 0; }
+      .w360-contact-section p { font-size: 14px; font-weight: 600; letter-spacing: 5px; }
+      .w360-contact-section h2 { max-width: 800px; margin-top: 14px; font-size: clamp(34px, 4.1vw, 62px); line-height: 1.08; }
+      .w360-contact-section a { margin-top: 28px; padding: 16px 25px; border-radius: 999px; background: #fff; color: #ed5f12; font-size: 16px; font-weight: 700; text-decoration: none; transition: transform .2s ease; }
+      .w360-contact-section a:hover { transform: translateY(-3px) scale(1.02); }
+      .w360-loader { position: fixed; z-index: 100; inset: 0; display: grid; place-items: center; background: linear-gradient(135deg, #10295f, #173d8d 58%, #ec6815); color: #fff; opacity: 1; transition: opacity .48s ease, visibility .48s ease; }
+      .w360-loader.is-hidden { visibility: hidden; opacity: 0; pointer-events: none; }
+      .w360-loader-mark { display: grid; place-items: center; gap: 15px; text-align: center; }
+      .w360-loader-orbit { position: relative; width: 72px; height: 72px; border: 2px solid rgba(255,255,255,.28); border-radius: 50%; }
+      .w360-loader-orbit::before, .w360-loader-orbit::after { position: absolute; border-radius: 50%; content: ''; }
+      .w360-loader-orbit::before { inset: 8px; border: 2px solid transparent; border-top-color: #fff; border-right-color: #ffad69; animation: w360-spin 1s linear infinite; }
+      .w360-loader-orbit::after { top: -4px; left: 50%; width: 8px; height: 8px; background: #fff; box-shadow: 0 0 16px rgba(255,255,255,.9); transform: translateX(-50%); }
+      .w360-loader strong { font-size: 12px; letter-spacing: 4px; }
+      .w360-loader span { color: rgba(255,255,255,.72); font-size: 10px; letter-spacing: 1.6px; }
+      @keyframes w360-reveal { to { opacity: 1; transform: translateY(0); } }
+      @keyframes w360-spin { to { transform: rotate(360deg); } }
+      @media (max-width: 1050px) { .w360-nav { top: 11px; height: 54px; padding: 0 13px 0 20px; } .w360-logo { width: 98px; } .w360-nav-links { gap: 11px; margin-left: 16px; } .w360-contact { padding: 9px 13px; font-size: 11px; } .w360-wheel-hero { grid-template-columns: 1fr; place-items: center; padding: 102px 36px 78px; text-align: center; } .w360-wheel-copy > span { margin-right: auto; margin-left: auto; } .w360-wheel { width: min(61vw, 500px); min-width: 500px; } .w360-wheel-core { width: 320px; height: 320px; } .w360-wheel-node { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-216px) rotate(var(--inverse-angle)); } .w360-wheel-explore { left: 50%; transform: translateX(-50%); } }
+      @media (max-width: 760px) { .w360-nav { width: calc(100vw - 18px); padding: 0 15px; } .w360-logo { width: 94px; } .w360-nav-links { display: none; } .w360-contact { padding: 10px 15px; } .w360-wheel-hero { display: block; padding: 105px 20px 74px; text-align: center; } .w360-wheel-copy h1 { font-size: 39px; } .w360-wheel { width: min(88vw, 395px); min-width: 0; margin: 32px auto 0; } .w360-wheel-core { width: 230px; height: 230px; } .w360-wheel-node { width: 93px; min-height: 60px; padding: 7px 8px; transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-46vw) rotate(var(--inverse-angle)); } .w360-wheel-node em { font-size: 7px; } .w360-wheel-node strong { font-size: 10px; } .w360-wheel-node small { display: none; } .w360-wheel-explore { bottom: 20px; font-size: 9px; } .w360-deck-controls { left: 15px; bottom: 14px; } .w360-deck-label { display: none; } .w360-section { min-height: 100svh; padding: 88px 10px 42px; } .w360-section img { width: 100%; height: auto; max-height: calc(100svh - 130px); border-radius: 9px; } .w360-slide-index { right: 18px; bottom: 18px; } .w360-intro-cue { left: 24px; bottom: 46px; } .w360-contact-section { min-height: 100svh; } }
+      /* Final website-flow overrides: no deck framing, no slide sizing, no image treatment. */
+      .w360-section { display: block; width: 100%; min-height: 0; padding: 0; overflow: visible; background: #fff; opacity: 1 !important; transform: none !important; scroll-snap-align: none; }
+      .w360-section::before, .w360-section::after { display: none; }
+      .w360-section img { position: static; display: block; width: 100%; height: auto; max-width: none; max-height: none; border: 0; border-radius: 0; box-shadow: none; object-fit: initial; transform: none !important; transition: none; }
+      /* Let each Figma visual dissolve into the next instead of ending on a hard image edge. */
+      .w360-page main { position: relative; isolation: isolate; background: linear-gradient(120deg, #f2f6fc 0%, #fff8f3 48%, #eef4fd 100%); }
+      .w360-section:not(:first-child) { z-index: 1; margin-top: 42px; -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 28px, #000 92px); mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 28px, #000 92px); }
+      .w360-contact-section { z-index: 2; margin-top: 42px; -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 28px, #000 92px); mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 28px, #000 92px); }
+      .w360-contact-section { min-height: 480px; scroll-snap-align: none; }
+      @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+    </style>
+  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script></head>
+  <body id="top"><header class="site-header"></header><script src="site-nav.js"></script>
+    <div class="w360-loader" id="w360-loader" role="status" aria-live="polite" aria-label="Chargement de WAJAHNI 360°">
+      <div class="w360-loader-mark"><div class="w360-loader-orbit" aria-hidden="true"></div><strong>WAJAHNI 360°</strong><span>CHARGEMENT DE L’EXPÉRIENCE</span></div>
+    </div>
+    <div id="w360-root"></div>
+    <script type="text/babel" src="wajahni360-page.jsx"></script>
+    <script type="text/babel">ReactDOM.createRoot(document.getElementById('w360-root')).render(<Wajahni360Page />);</script>
+    <script src="wajahni360-runtime.js"></script>
+  </body>
+</html>

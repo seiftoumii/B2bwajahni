@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Wajahni Platform — la plateforme qui accompagne chaque projet d’orientation." />
+    <title>Wajahni Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root { --platform-width: 1440; --platform-height: 18729; --platform-scale: 1; }
+      * { box-sizing: border-box; }
+      html { background: #fff; scroll-behavior: smooth; }
+      body { min-width: 320px; margin: 0; overflow-x: hidden; background: #fff; }
+      #platform-viewport { position: relative; width: 1440px; height: 18729px; margin: 0 auto; overflow: hidden; }
+      #platform-shell { position: absolute; top: 0; left: 0; width: 1440px; height: 18729px; transform: scale(var(--platform-scale)); transform-origin: top left; }
+      #platform-canvas { position: relative; width: 1440px; height: 18729px; overflow: hidden; background: #fff; }
+      .platform-panel { position: absolute; left: 0; width: 1440px; overflow: hidden; background: #fff; }
+      .platform-panel img { display: block; width: 100%; height: 100%; object-fit: cover; }
+      .platform-panel--blended { -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 28px, #000 92px); mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 28px, #000 92px); }
+      .platform-overlay-logo { position: absolute; z-index: 3; width: 132px; height: 132px; object-fit: contain; }
+      .platform-nav { position: fixed; z-index: 20; top: 43px; left: 36px; right: 36px; display: flex; align-items: center; height: 48px; color: #fff; font: 500 14.5px/1 Poppins,Arial,sans-serif; transition: background .25s ease, box-shadow .25s ease, transform .25s ease, backdrop-filter .25s ease; }
+      .platform-nav.is-scrolled { top: 18px; padding: 7px 10px; border: 1px solid rgba(255,255,255,.2); border-radius: 16px; background: rgba(11,31,77,.38); box-shadow: 0 9px 24px rgba(8,25,69,.2); backdrop-filter: blur(12px); }
+      .platform-nav__logo { display: block; width: 138px; height: 45px; flex: 0 0 auto; object-fit: cover; }
+      .platform-nav__links { display: flex; align-items: center; gap: 36px; margin-left: 26px; }
+      .platform-nav a { position: relative; color: inherit; text-decoration: none; white-space: nowrap; transition: color .18s ease, transform .18s ease; }
+      .platform-nav a:hover { color: #ffd9c6; transform: translateY(-1px); }
+      .platform-nav a[aria-current="page"] { color: #f4622a; font-weight: 700; }
+      .platform-nav__contact { display: flex; align-items: center; gap: 12px; margin-left: auto; border: 0; border-radius: 999px; padding: 14px 26px; color: #fff; background: #f4622a; box-shadow: 0 8px 18px rgba(244,98,42,.28); font: 500 16px/1 Poppins,Arial,sans-serif; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
+      .platform-nav__contact:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(244,98,42,.38); }
+      .platform-nav__contact img { width: 19px; height: 19px; }
+      .platform-nav a:focus-visible, .platform-nav__contact:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+      .platform-loader { position: fixed; z-index: 60; inset: 0; display: grid; place-items: center; color: #fff; background: #11275c; font: 600 15px Poppins,Arial,sans-serif; transition: opacity .38s ease, visibility .38s ease; }
+      .platform-loader::before { width: 32px; height: 32px; margin-bottom: 14px; border: 3px solid rgba(255,255,255,.28); border-top-color: #ff6a00; border-radius: 50%; content: ""; animation: platform-spin .8s linear infinite; }
+      .platform-loader.is-ready { visibility: hidden; opacity: 0; pointer-events: none; }
+      .platform-dialog { width: min(520px,calc(100vw - 32px)); border: 0; border-radius: 20px; padding: 0; box-shadow: 0 24px 80px rgba(11,28,70,.35); }
+      .platform-dialog::backdrop { background: rgba(8,18,48,.72); backdrop-filter: blur(5px); }
+      .platform-dialog__content { padding: 30px; color: #11275c; font-family: Poppins,Arial,sans-serif; }
+      .platform-dialog__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+      .platform-dialog h2 { margin: 0; font-size: 28px; line-height: 1.1; }.platform-dialog p { color: #5e6c86; font-size: 14px; line-height: 1.55; }
+      .platform-dialog__close { width: 40px; height: 40px; border: 0; border-radius: 50%; color: #11275c; background: #edf2f9; font-size: 23px; cursor: pointer; }
+      .platform-form { display: grid; gap: 14px; margin-top: 22px; }.platform-form label { display: grid; gap: 6px; color: #1b2a4a; font-size: 13px; font-weight: 700; }
+      .platform-form input,.platform-form textarea { width: 100%; border: 1px solid #dfe6f0; border-radius: 9px; padding: 12px; color: #1b2a4a; font: inherit; }.platform-form textarea { min-height: 98px; resize: vertical; }
+      .platform-form button { justify-self: start; border: 0; border-radius: 10px; padding: 13px 22px; color: #fff; background: linear-gradient(90deg,#f7861d,#ef5a10); font: 700 14px Poppins,Arial,sans-serif; cursor: pointer; }
+      .platform-toast { position: fixed; z-index: 61; bottom: 24px; left: 50%; padding: 13px 18px; border-radius: 999px; transform: translate(-50%,20px); color: #fff; background: #11275c; font: 600 14px Poppins,Arial,sans-serif; opacity: 0; pointer-events: none; transition: opacity .25s ease,transform .25s ease; }.platform-toast.is-visible { transform: translate(-50%,0); opacity: 1; }
+      @keyframes platform-spin { to { transform: rotate(360deg); } }
+      @media (max-width: 900px) { .platform-nav__links { gap: 18px; margin-left: 16px; font-size: 12px; }.platform-nav__contact { padding: 12px 18px; font-size: 14px; } }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; }.platform-loader::before { animation: none; }* { transition-duration: .01ms !important; } }
+    </style>
+  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script></head>
+  <body id="top"><header class="site-header"></header><script src="site-nav.js"></script>
+    <div class="platform-loader" aria-live="polite">Chargement de WAJAHNI Platform</div>
+    <main id="platform-viewport" aria-label="Wajahni Platform"><div id="platform-shell"><div id="platform-canvas"></div></div></main>
+    
+    <dialog class="platform-dialog" id="platform-contact" aria-labelledby="platform-contact-title"><div class="platform-dialog__content"><div class="platform-dialog__top"><div><h2 id="platform-contact-title">Contactez-nous</h2><p>Parlons de votre projet avec WAJAHNI Platform.</p></div><button class="platform-dialog__close" type="button" aria-label="Fermer">×</button></div><form class="platform-form"><label>Nom<input required autocomplete="name" /></label><label>Email<input required type="email" autocomplete="email" /></label><label>Message<textarea required></textarea></label><button type="submit">Envoyer une demande</button></form></div></dialog>
+    <div class="platform-toast" role="status" aria-live="polite"></div>
+    <script src="platform-runtime.js"></script>
+  </body>
+</html>

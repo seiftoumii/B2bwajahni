@@ -1,0 +1,45 @@
+/* Summit artboard dimensions are expressed relative to its 1443px width. */
+.summit-services {
+  container-type: inline-size;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+  color: #131c4e;
+  background: url('assets/edu/n237-9549.png') -1.85vw -12.55vw / 43.15vw auto no-repeat,
+    url('assets/edu/n237-9551.svg') -3.7vw 6.16vw / 25.9vw auto no-repeat,
+    url('assets/edu/n237-9554.svg') right 2.35vw top 29.46vw / 4.31vw auto no-repeat,
+    url('assets/edu/n237-9571.svg') right 2.23vw top 4.81vw / 12.33vw auto no-repeat #fbfbfd;
+  padding-block: 3.33vw 4.75vw;
+}
+.summit-services .arabic { margin: 0; font: 700 2.71cqw/1.55 Cairo, Arial, sans-serif; color: #131c4e; }
+.services-underline { display: block; width: 11.47cqw; margin: .45cqw auto 1.8cqw; }
+.summit-services h2 { font-size: 2.96cqw; letter-spacing: -.031cqw; line-height: 1.4; color: #131c4e; margin: 0; }
+.summit-services h2 span { color: #f4671f; }
+.summit-services .intro { margin: .12cqw auto 1.55cqw; max-width: none; font-size: 1.17cqw; line-height: 1.55; color: #4b5563; }
+.summit-grid { margin-inline: 3.82% 2.85%; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 1.60cqw; }
+.summit-card { position: relative; height: 24.04cqw; display: block; border-radius: 1.11cqw; overflow: hidden; background: #fbfbfd; box-shadow: 0 .25cqw 1.11cqw #14193c12; color: #131c4e; transition: transform .2s, box-shadow .2s; }
+.summit-card:hover, .summit-card:focus-visible { transform: translateY(-4px); box-shadow: 0 9px 24px #14193c24; }
+.summit-photo { display: block; width: 100%; height: 9.64cqw; object-fit: cover; }
+.summit-card:nth-child(2) .summit-photo { height: 9.06cqw; }
+.summit-badge { position: absolute; top: 6.16cqw; left: 50%; transform: translateX(-50%); width: 4.99cqw; height: 4.99cqw; border-radius: .31cqw; background: var(--badge); }
+.summit-card h3 { position: absolute; inset: 11.71cqw 0 auto; font-size: 1.17cqw; line-height: 1.316; }
+.summit-card p { position: absolute; inset: 15.73cqw 1.48cqw auto; font-size: .925cqw; line-height: 1.5; color: #4b5563; }
+.summit-arrow { position: absolute; bottom: .99cqw; left: 50%; transform: translateX(-50%); width: 3.08cqw; height: 3.08cqw; display: grid; place-items: center; border-radius: 50%; background: var(--badge); color: white; font-size: 1.36cqw; }
+.summit-more { display: inline-flex; align-items: center; justify-content: center; gap: 2.1cqw; margin-top: 4.45cqw; padding: 1.23cqw 2.84cqw; border-radius: 999px; background: linear-gradient(90deg,#f4671f,#fb9800); color: white; font-size: 1.23cqw; font-weight: 600; box-shadow: 0 .62cqw .74cqw #f4671f4d; }
+@media (max-width: 800px) {
+  .summit-services { padding: 36px 0 44px; }
+  .summit-services .arabic { font-size: 26px; }
+  .services-underline { width: 105px; margin: 4px auto 18px; }
+  .summit-services h2 { margin-inline: 5%; font-size: clamp(24px,5vw,32px); line-height: 1.2; }
+  .summit-services .intro { margin: 12px 6% 22px; font-size: 14px; }
+  .summit-services .intro br { display: none; }
+  .summit-grid { grid-template-columns: repeat(auto-fit,minmax(min(100%,175px),1fr)); margin: 0 4%; gap: 16px; }
+  .summit-card { display: flex; flex-direction: column; align-items: center; height: auto; border-radius: 14px; padding-bottom: 12px; }
+  .summit-card .summit-photo, .summit-card:nth-child(2) .summit-photo { height: auto; aspect-ratio: 251/139; }
+  .summit-badge, .summit-card h3, .summit-card p, .summit-arrow { position: static; transform: none; }
+  .summit-badge { width: 56px; height: 56px; margin-top: -36px; z-index: 1; border-radius: 4px; }
+  .summit-card h3 { margin: 8px 10px; font-size: 16px; }
+  .summit-card p { font-size: 13px; margin: 0 14px 14px; }
+  .summit-arrow { width: 36px; height: 36px; margin-top: auto; font-size: 18px; }
+  .summit-more { margin: 26px 4% 0; padding: 13px 21px; font-size: 14px; gap: 16px; }
+}

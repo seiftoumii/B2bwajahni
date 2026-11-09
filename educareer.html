@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Wajahni Edu-Career Summit 2027 — implementation exacte de la maquette Figma." />
+    <title>Wajahni Edu-Career Summit 2027</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      :root { --canvas-width: 1440; --canvas-height: 6998; --canvas-scale: 1; color-scheme: light; }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; background: #fff; }
+      body { margin: 0; min-width: 320px; overflow-x: hidden; background: #fff; }
+      #figma-viewport { position: relative; width: 1440px; height: 6998px; margin: 0 auto; overflow: hidden; }
+      #figma-shell { position: absolute; inset: 0 auto auto 0; width: 1440px; height: 6998px; transform: scale(var(--canvas-scale)); transform-origin: top left; }
+      #figma-canvas { position: relative; width: 1440px; height: 6998px; overflow: hidden; }
+      /* Figma's generated classes encode text styles as font-family names such
+         as "Poppins:ExtraBold". Map those tokens to the actual web font. */
+      #figma-canvas [class*="font-['Poppins:"] { font-family: "Poppins", Arial, sans-serif !important; }
+      #figma-canvas [class*="font-['Poppins:Regular']"] { font-weight: 400 !important; }
+      #figma-canvas [class*="font-['Poppins:Medium']"] { font-weight: 500 !important; }
+      #figma-canvas [class*="font-['Poppins:SemiBold']"] { font-weight: 600 !important; }
+      #figma-canvas [class*="font-['Poppins:Bold']"] { font-weight: 700 !important; }
+      #figma-canvas [class*="font-['Poppins:ExtraBold']"] { font-weight: 800 !important; }
+      #figma-canvas [class*="font-['Caveat:"] { font-family: "Caveat", cursive !important; }
+      /* Keep the hero artwork at its exported Figma bounds while Tailwind's
+         browser compiler initializes the external JSX component. */
+      #figma-canvas [data-node-id="201:1376"] { position: absolute; left: -2px; top: -3px; width: 1442px; height: 1021px; }
+      #figma-canvas [data-node-id="201:1376"] > div { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+      #figma-canvas [data-node-id="201:1376"] img { position: absolute; left: -0.08%; top: -0.05%; width: 100.04%; height: 100%; max-width: none; }
+      /* Header: group navigation, make the active route and primary action clear. */
+      #figma-canvas [data-node-id="201:1232"] { top: 33px; gap: 28px; padding: 12px 18px; border: 1px solid rgba(255,255,255,.18); border-radius: 18px; background: rgba(8,35,87,.28); box-shadow: 0 10px 28px rgba(4,22,65,.18); backdrop-filter: blur(12px); }
+      #figma-canvas [data-node-id="201:1232"] a,
+      #figma-canvas [data-node-id="201:1244"] { position: relative; padding: 6px 0; border: 0; color: #fff; background: transparent; text-decoration: none; cursor: pointer; transition: color .2s ease, transform .2s ease; }
+      #figma-canvas [data-node-id="201:1232"] a:hover,
+      #figma-canvas [data-node-id="201:1244"]:hover { color: #ffd1bf; transform: translateY(-1px); }
+      #figma-canvas [data-node-id="201:1236"] { color: #fff6f1; font-weight: 700; }
+      #figma-canvas [data-node-id="201:1236"]::after { position: absolute; right: 0; bottom: 0; left: 0; height: 2px; border-radius: 2px; background: #f4622a; content: ""; }
+      #figma-canvas [data-node-id="201:1232"] a:focus-visible,
+      #figma-canvas [data-node-id="201:1244"]:focus-visible { outline: 3px solid #fff; outline-offset: 4px; border-radius: 4px; }
+      #figma-canvas [data-node-id="201:1375"] { border-radius: 14px; box-shadow: 0 8px 22px rgba(4,22,65,.16); }
+      #figma-canvas [data-node-id="201:1245"] { top: 30px; }
+      #figma-canvas [data-node-id="201:1246"] { box-shadow: 0 10px 24px rgba(244,98,42,.32); transition: transform .22s ease, box-shadow .22s ease; }
+      #figma-canvas [data-node-id="201:1246"]:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(244,98,42,.42); }
+      /* Keep the year visually separate from SUMMIT at every rendered scale. */
+      #figma-canvas [data-node-id="237:8106"] { left: 452px; }
+      /* Figma’s handwritten value proposition is set on a gentle rising angle. */
+      #figma-canvas [data-node-id="237:8116"],
+      #figma-canvas [data-node-id="237:8118"],
+      #figma-canvas [data-node-id="237:8120"] { transform: rotate(-5deg); transform-origin: center right; }
+      .investment-section.is-hidden { display: none; }
+      .investment-section.is-leaving { animation: investment-out 150ms ease-in forwards; pointer-events: none; }
+      .investment-section.is-entering { animation: investment-in 260ms cubic-bezier(.22,1,.36,1) both; }
+      .investment-section.is-entering [data-node-id="210:3469"] > div,
+      .investment-section.is-entering [data-node-id="210:3937"] > div { animation: investment-card-in 430ms cubic-bezier(.22,1,.36,1) both; }
+      .investment-section.is-entering [data-node-id="210:3469"] > div:nth-child(2),
+      .investment-section.is-entering [data-node-id="210:3937"] > div:nth-child(2) { animation-delay: 55ms; }
+      .investment-section.is-entering [data-node-id="210:3469"] > div:nth-child(3),
+      .investment-section.is-entering [data-node-id="210:3937"] > div:nth-child(3) { animation-delay: 110ms; }
+      .investment-section.is-entering [data-node-id="210:3469"] > div:nth-child(4),
+      .investment-section.is-entering [data-node-id="210:3937"] > div:nth-child(4) { animation-delay: 165ms; }
+      .investment-badge { position: absolute; z-index: 4; top: 14px; right: 12px; padding: 6px 11px; border-radius: 0 10px 0 10px; color: #fff; background: linear-gradient(90deg, #ff5f00, #ff9a3d); box-shadow: 0 4px 8px rgba(255, 95, 0, .25); font: 600 9px/1 Poppins, Arial, sans-serif; letter-spacing: .45px; white-space: nowrap; }
+      .interactive-card { position: relative; transform-origin: center; transition: transform 260ms cubic-bezier(.22,1,.36,1), box-shadow 260ms ease, filter 260ms ease; will-change: transform; }
+      .interactive-card:hover { z-index: 8; transform: translateY(-5px) scale(1.018); filter: brightness(1.015); box-shadow: 0 18px 34px rgba(13,42,82,.16); }
+      .interactive-card:focus-within { z-index: 8; transform: translateY(-5px) scale(1.018); box-shadow: 0 18px 34px rgba(13,42,82,.16); }
+      .concept-card { transition: transform 240ms cubic-bezier(.22,1,.36,1); }
+      .concept-card:hover { transform: scale(1.018); }
+      .text-reveal { opacity: 0; transform: translateY(9px); }
+      .text-reveal.is-revealed { animation: text-reveal-in 560ms cubic-bezier(.22,1,.36,1) both; animation-delay: var(--text-delay, 0ms); }
+      .count-up { font-variant-numeric: tabular-nums; }
+      [data-investment-tab] { cursor: pointer; transition: filter .2s ease, transform .2s ease; }
+      [data-investment-tab]:hover { filter: brightness(1.03); }
+      [data-investment-tab]:active { transform: scale(.97); }
+      [data-investment-tab]:focus-visible { outline: 3px solid #0d2a52; outline-offset: 3px; }
+      @keyframes investment-out { to { opacity: 0; transform: translateY(-10px) scale(.985); } }
+      @keyframes investment-in { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+      @keyframes investment-card-in { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes text-reveal-in { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+      .stats-section.is-hidden { display: none; }
+      .stats-section.is-leaving { animation: investment-out 150ms ease-in forwards; pointer-events: none; }
+      .stats-section.is-entering { animation: investment-in 260ms cubic-bezier(.22,1,.36,1) both; }
+      .stats-tab-pill { border: 0; padding: 0; background: #dfe6f0; transition: background .2s ease, transform .2s ease; }
+      .stats-tab-pill:hover { transform: scale(1.05); }
+      .stats-tab-pill:focus-visible { outline: 3px solid #0d2a52; outline-offset: 3px; }
+      .stats-tab-pill[aria-pressed="true"] { background: linear-gradient(90deg, #ff5f00, #ff9a3d); }
+      .stats-hover-block { position: relative; transform-origin: center; transition: transform 240ms cubic-bezier(.22,1,.36,1), box-shadow 240ms ease, filter 240ms ease; will-change: transform; }
+      .stats-hover-block:hover { z-index: 5; transform: translateY(-3px) scale(1.035); filter: brightness(1.015); box-shadow: 0 12px 24px rgba(13,42,82,.14); }
+      .stats-count { display: inline-block; font-variant-numeric: tabular-nums; }
+      .figma-hotspot { position: absolute; z-index: 20; border: 0; border-radius: 999px; background: transparent; cursor: pointer; }
+      .figma-hotspot:focus-visible { outline: 4px solid #fff; outline-offset: 4px; box-shadow: 0 0 0 7px #f4622a; }
+      .figma-hotspot:hover { background: rgba(255,255,255,.1); }
+      .figma-hotspot--hero { left: 42px; top: 882px; width: 330px; height: 74px; }
+      .figma-hotspot--contact { left: 1150px; top: 26px; width: 250px; height: 72px; }
+      .figma-hotspot--aftermovie { top: 2512px; width: 376px; height: 312px; border-radius: 14px; }
+      .figma-hotspot--aftermovie:nth-of-type(3) { left: 72px; }
+      .figma-hotspot--aftermovie:nth-of-type(4) { left: 530px; }
+      .figma-hotspot--aftermovie:nth-of-type(5) { left: 990px; }
+      .figma-fade { opacity: 0; }
+      .figma-fade.is-visible { animation: figma-fade-in 650ms cubic-bezier(.22,1,.36,1) forwards; }
+      [data-node-id="201:1376"].is-visible { animation: figma-backdrop-in 850ms cubic-bezier(.22,1,.36,1) forwards; }
+      /* Edu-Career Summit interaction layer — applied to the exported Figma nodes. */
+      .summit-card { transform-origin: center; transition: transform 280ms cubic-bezier(.22,1,.36,1), box-shadow 280ms ease, filter 280ms ease; will-change: transform; }
+      .summit-card:hover { z-index: 9; transform: translateY(-6px) scale(1.018); filter: brightness(1.015); box-shadow: 0 18px 34px rgba(13,42,82,.16); }
+      .summit-card:focus-visible { outline: 3px solid #f4671f; outline-offset: 4px; }
+      .summit-image-card { transform-origin: center; transition: transform 280ms cubic-bezier(.22,1,.36,1), filter 280ms ease; will-change: transform; }
+      .summit-image-card:hover { transform: scale(1.022); filter: saturate(1.06); }
+      .summit-section-reveal { opacity: 0; transform: translateY(20px); }
+      .summit-section-reveal.is-visible { animation: summit-section-in 700ms cubic-bezier(.22,1,.36,1) both; animation-delay: var(--section-delay, 0ms); }
+      .summit-counter { display: inline-block; font-variant-numeric: tabular-nums; }
+      .summit-investment { transition: top 360ms cubic-bezier(.22,1,.36,1), opacity 200ms ease, transform 360ms cubic-bezier(.22,1,.36,1); }
+      .summit-investment.summit-section-reveal { animation: none !important; }
+      .summit-investment.is-inactive { display: none !important; opacity: 0 !important; pointer-events: none; transform: translateY(14px) scale(.99) !important; }
+      .summit-investment.is-active { display: block; opacity: 1 !important; pointer-events: auto; transform: translateY(0) scale(1) !important; }
+      .summit-investment-tab { cursor: pointer; transition: transform 180ms ease, filter 180ms ease; }
+      .summit-investment-tab:hover { transform: scale(1.035); filter: brightness(1.03); }
+      .summit-investment-tab:active { transform: scale(.97); }
+      .summit-stats-panel { position: absolute; inset: 0; transition: opacity 240ms ease, transform 360ms cubic-bezier(.22,1,.36,1); }
+      .summit-stats-panel.is-hidden { display: none; opacity: 0; pointer-events: none; }
+      .summit-stats-panel.is-active { display: block; opacity: 1; pointer-events: none; }
+      .summit-stats-panel > * { pointer-events: auto; }
+      .summit-pack-panel { position: absolute; inset: 0; transition: opacity 240ms ease, transform 360ms cubic-bezier(.22,1,.36,1); }
+      .summit-pack-panel.is-hidden { display: none; opacity: 0; pointer-events: none; }
+      .summit-pack-panel.is-active { display: block; opacity: 1; pointer-events: auto; }
+      .summit-pack-details { position: absolute; top: 137px; right: 17px; left: 18px; color: #2f3d5e; font: 400 10.5px/1.42 Poppins, Arial, sans-serif; }
+      .summit-pack-details ul { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; }
+      .summit-pack-details li { position: relative; padding-left: 15px; }
+      .summit-pack-details li::before { position: absolute; top: .41em; left: 0; width: 6px; height: 6px; border-radius: 50%; background: #f4671f; content: ""; }
+      .summit-pack-recommended { position: absolute; z-index: 8; top: 20px; right: 0; border-radius: 11px 0 0 11px; padding: 7px 12px; color: #fff; background: linear-gradient(90deg, #ff5f00, #ff9a3d); box-shadow: 0 4px 10px rgba(255,95,0,.25); font: 700 9px/1 Poppins, Arial, sans-serif; letter-spacing: .5px; }
+      .educareer-investments { position: absolute; z-index: 12; top: 3887px; left: 0; width: 1440.986px; height: 839.566px; overflow: hidden; background: #fff; font-family: Poppins, Arial, sans-serif; isolation: isolate; }
+      .educareer-investments__left-art { position: absolute; z-index: 0; top: 17.85px; left: -53.56px; width: 374.926px; height: 352.189px; object-fit: contain; opacity: .9; pointer-events: none; }
+      .educareer-investments__arrow { position: absolute; z-index: 0; top: 10.73px; right: 3.94px; width: 178.884px; height: 105.754px; overflow: hidden; pointer-events: none; }
+      .educareer-investments__arrow img { display: block; width: 178.882px; height: 303.709px; max-width: none; }
+      .educareer-investments__arrow { display: none; }
+      .educareer-investments__bottom-art { position: absolute; z-index: 0; right: 26.67px; bottom: 48.65px; width: 71.417px; height: 65.418px; pointer-events: none; }
+      .educareer-investments__title { position: absolute; z-index: 1; top: 19.64px; right: -.11px; left: 0; margin: 0; color: #0d2a52; font-size: 38.385px; font-weight: 800; letter-spacing: -.45px; text-align: center; }
+      .educareer-investments__title span { color: #f4571b; }
+      .educareer-investments__tabs { position: absolute; z-index: 1; top: 117.9px; left: calc(50% - 158.491px); display: flex; width: 316.902px; height: 41.063px; margin: 0; padding: 0; border: 0; border-radius: 23.21px; background: #f0f2f6; }
+      .educareer-investments__tab { display: flex; flex: 1; align-items: center; justify-content: center; border: 0; border-radius: 23.21px; color: #93a0b4; background: transparent; font: 600 13.39px/normal Poppins,Arial,sans-serif; letter-spacing: .8927px; cursor: pointer; transition: color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease; }
+      .educareer-investments__tab:hover { transform: translateY(-1px); }
+      .educareer-investments__tab[aria-selected="true"] { color: #fff; background: linear-gradient(90deg,#f97316,#f4571b); box-shadow: 0 5.356px 6.249px rgba(244,87,27,.35); }
+      .educareer-investments__grid { position: absolute; z-index: 1; top: 183.9px; left: 67px; display: grid; grid-template-columns: 310px 311px 310px 311px; gap: 21.424px; margin: 0; }
+      .educareer-pack { position: relative; height: 500px; overflow: hidden; border-radius: 16.068px; background: #fff; box-shadow: 0 8.927px 30.351px rgba(30,50,90,.1); animation: educareer-pack-in .46s both cubic-bezier(.22,1,.36,1); transition: transform .26s cubic-bezier(.22,1,.36,1), box-shadow .26s ease; }
+      .educareer-pack:nth-child(2) { animation-delay: .05s; }.educareer-pack:nth-child(3) { animation-delay: .1s; }.educareer-pack:nth-child(4) { animation-delay: .15s; }
+      .educareer-pack:hover { z-index: 2; transform: translateY(-6px) scale(1.018); box-shadow: 0 18px 34px rgba(13,42,82,.16); }
+      .educareer-pack__head { display: flex; align-items: center; min-height: 78.556px; padding: 0; background: linear-gradient(134.904deg,#eef1f6,#f7f9fc); }
+      .educareer-pack--bronze .educareer-pack__head { background: linear-gradient(135deg,#fde3d2,#fdf3ec); }
+      .educareer-pack--silver .educareer-pack__head { background: linear-gradient(134.904deg,#c9eaf6,#eaf7fc); }
+      .educareer-pack--gold .educareer-pack__head { background: linear-gradient(135deg,#fdeec4,#fdf8e8); }
+      .educareer-pack__icon { display: flex; flex-direction: column; width: 82.127px; height: 78.556px; align-items: center; justify-content: center; gap: 1.785px; border-radius: 0 0 12.498px 0; background: linear-gradient(135deg,#dde3ec,#eef2f7); }
+      .educareer-pack--bronze .educareer-pack__icon { background: linear-gradient(135deg,#fbd0b4,#fde6d6); }.educareer-pack--silver .educareer-pack__icon { background: linear-gradient(135deg,#a9dff2,#cfeef8); }.educareer-pack--gold .educareer-pack__icon { background: linear-gradient(135deg,#fce39f,#fdf0cd); }
+      .educareer-pack__icon img { display: none; }.educareer-pack__fallback-icon { display: block; width: 32.136px; height: 31.664px; color: #12325c; }.educareer-pack__fallback-icon svg { display: block; width: 100%; height: 100%; }.educareer-pack__area { height: 25.888px; color: #12325c; font-size: 16.961px; font-weight: 700; line-height: 25.888px; }.educareer-pack__area sup { position: relative; top: -.44em; font-size: 9.819px; }
+      .educareer-pack__name { color: #0d2a52; font-size: 24.102px; font-weight: 800; }.educareer-pack__label { padding: .893px 0 1.785px 19.639px; }
+      .educareer-pack__price { height: 35.707px; margin: 15px 19.639px 0; padding-top: 5.353px; border-bottom: .893px solid #edf0f5; color: #f4571b; font-size: 16.961px; font-weight: 700; text-align: right; }
+      .educareer-pack__list { display: grid; gap: 8px; margin: 0; padding: 0 16px; color: #2f3d5e; font-size: 10.15px; line-height: 1.27; list-style: none; }
+      .educareer-pack__list li { position: relative; padding-left: 14px; }
+      .educareer-pack__list li::before { position: absolute; top: .15em; left: 0; width: 11px; height: 11px; background: url('assets/edu/n257-13962.svg') center/contain no-repeat; content: ""; }
+      .educareer-pack__list li.is-included::before { display: grid; place-items: center; border-radius: 50%; background: #ff6200; color: #fff; content: "✓"; font: 700 9px/11px Arial,sans-serif; }
+      .educareer-pack__list li.is-unavailable::before { display: grid; place-items: center; border: 1px solid #a9b0c0; border-radius: 50%; background: transparent; color: #a9b0c0; content: "×"; font: 700 10px/9px Arial,sans-serif; }
+      .educareer-pack__badge { position: absolute; top: 19px; right: 0; border-radius: 10px 0 0 10px; padding: 7px 11px; color: #fff; background: linear-gradient(90deg,#ff5f00,#ff9a3d); font-size: 9px; font-weight: 700; letter-spacing: .5px; }
+      .educareer-investments.is-partner .educareer-investments__grid { grid-template-columns: repeat(4, 317px); gap: 17.872px; }
+      .educareer-investments.is-partner .educareer-investments__arrow { display: block; }
+      .educareer-investments.is-partner .educareer-investments__title { top: 19.66px; color: #12225c; font-size: 39.319px; letter-spacing: -.8936px; }
+      .educareer-investments.is-partner .educareer-investments__title span { color: #ff6a00; }
+      .educareer-investments.is-partner .educareer-investments__tabs { top: 104.24px; left: calc(50% - 15.27px); width: 321.697px; height: 41.106px; border-radius: 26.808px; background: #eef1f6; }
+      .educareer-investments.is-partner .educareer-investments__tab { border-radius: 26.808px; color: #8c93a3; font-size: 12.51px; letter-spacing: .5362px; }
+      .educareer-investments.is-partner .educareer-investments__tab[aria-selected="true"] { background: linear-gradient(90deg,#ff5f00,#ff9a3d); box-shadow: 0 5.362px 7.149px rgba(255,110,0,.35); }
+      .educareer-investments.is-partner .educareer-pack { border-radius: 16.085px; }
+      .educareer-investments.is-partner .educareer-pack__head { min-height: 78.637px; background: linear-gradient(90deg,#f6f8fc,#eef2f9); }
+      .educareer-investments.is-partner .educareer-pack--bronze .educareer-pack__head { background: linear-gradient(90deg,#ffe6d8,#fff3ec); }
+      .educareer-investments.is-partner .educareer-pack--silver .educareer-pack__head { background: linear-gradient(90deg,#cdeef9,#eaf8fd); }
+      .educareer-investments.is-partner .educareer-pack--gold .educareer-pack__head { background: linear-gradient(90deg,#ffeec2,#fff8e4); }
+      .educareer-investments.is-partner .educareer-pack__icon { width: 78.637px; height: 78.637px; border-radius: 0 0 19.659px 0; }
+      .educareer-investments.is-partner .educareer-pack__label { padding-left: 17.872px; }
+      .educareer-investments.is-partner .educareer-pack__price { margin-right: 16.085px; margin-left: 16.085px; }
+      .educareer-investments__grid.is-switching { pointer-events: none; animation: educareer-grid-switch .28s cubic-bezier(.22,1,.36,1) both; }
+      @keyframes educareer-grid-switch { 0% { opacity: .35; transform: translateY(9px) scale(.99); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+      @keyframes educareer-pack-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+      .summit-stats-tabs { position: absolute; z-index: 18; display: flex; gap: 8px; left: 50%; top: 3836px; transform: translateX(-50%); padding: 5px; border: 1px solid rgba(19,44,110,.12); border-radius: 999px; background: rgba(255,255,255,.94); box-shadow: 0 8px 20px rgba(19,44,110,.12); font: 700 13px Poppins, Arial, sans-serif; }
+      .summit-stats-tabs button { min-width: 68px; border: 0; border-radius: 999px; padding: 8px 14px; color: #526078; background: transparent; cursor: pointer; transition: background 180ms ease, color 180ms ease, transform 180ms ease; }
+      .summit-stats-tabs button:hover { transform: translateY(-1px); }
+      .summit-stats-tabs button[aria-selected="true"] { color: #fff; background: linear-gradient(90deg, #f4671f, #fb9800); box-shadow: 0 5px 12px rgba(244,103,31,.28); }
+      @keyframes summit-section-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes figma-fade-in { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes figma-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+      .figma-dialog { width: min(520px, calc(100vw - 32px)); border: 0; border-radius: 20px; padding: 0; box-shadow: 0 24px 80px rgba(11, 28, 70, .35); }
+      .figma-dialog::backdrop { background: rgba(8, 18, 48, .72); backdrop-filter: blur(5px); }
+      .figma-dialog__content { padding: 30px; color: #0d2a52; font-family: Poppins, Arial, sans-serif; }
+      .figma-dialog__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+      .figma-dialog h2 { margin: 0; font-size: 28px; line-height: 1.1; }
+      .figma-dialog p { color: #5e6c86; font-size: 14px; line-height: 1.55; }
+      .figma-close { width: 40px; height: 40px; border: 0; border-radius: 50%; color: #0d2a52; background: #edf2f9; font-size: 23px; cursor: pointer; }
+      .figma-form { display: grid; gap: 14px; margin-top: 22px; }
+      .figma-form label { display: grid; gap: 6px; color: #1b2a4a; font-size: 13px; font-weight: 700; }
+      .figma-form input, .figma-form textarea { width: 100%; border: 1px solid #dfe6f0; border-radius: 9px; padding: 12px; color: #1b2a4a; font: inherit; }
+      .figma-form textarea { min-height: 98px; resize: vertical; }
+      .figma-submit { justify-self: start; border: 0; border-radius: 10px; padding: 13px 22px; color: #fff; background: linear-gradient(90deg,#f7861d,#ef5a10); font: 700 14px Poppins,Arial,sans-serif; cursor: pointer; }
+      .figma-toast { position: fixed; z-index: 50; bottom: 24px; left: 50%; padding: 13px 18px; border-radius: 999px; transform: translate(-50%, 20px); color: #fff; background: #0d2a52; font: 600 14px Poppins,Arial,sans-serif; opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
+      .figma-toast.is-visible { opacity: 1; transform: translate(-50%,0); }
+      /* Edu-Career Summit — navigation, CTA, card and entrance interactions. */
+      .figma-nav-link { position: relative; cursor: pointer; transition: color .2s ease, transform .2s ease; }
+      .figma-nav-link p { position: relative; padding: 6px 0; }
+      .figma-nav-link p::after { position: absolute; right: 0; bottom: 0; left: 0; height: 2px; border-radius: 2px; background: #f4622a; content: ""; transform: scaleX(0); transform-origin: left center; transition: transform .28s cubic-bezier(.22,1,.36,1); }
+      .figma-nav-link:hover { color: #ffd1bf !important; transform: translateY(-1px); }
+      .figma-nav-link:hover p::after, .figma-nav-link:focus-visible p::after, .figma-nav-link.is-current p::after { transform: scaleX(1); }
+      .figma-nav-link:focus-visible { outline: 3px solid #fff; outline-offset: 4px; border-radius: 4px; }
+      .fx-cta { cursor: pointer; transition: transform .22s cubic-bezier(.22,1,.36,1), box-shadow .22s ease, filter .22s ease; }
+      .fx-cta:hover { transform: translateY(-3px); filter: brightness(1.05); box-shadow: 0 14px 30px rgba(244,98,42,.38); }
+      .fx-cta:active { transform: translateY(-1px) scale(.98); }
+      .fx-cta img, .fx-cta svg { transition: transform .25s cubic-bezier(.22,1,.36,1); }
+      .fx-cta:hover img, .fx-cta:hover svg { transform: translateX(5px); }
+      .fx-card { transform-origin: center; transition: transform 280ms cubic-bezier(.22,1,.36,1), box-shadow 280ms ease; will-change: transform; }
+      .fx-card:hover { z-index: 9; transform: translateY(-7px) scale(1.02); box-shadow: 0 20px 38px rgba(13,42,82,.18); }
+      .fx-card img { transition: transform 420ms cubic-bezier(.22,1,.36,1); }
+      .fx-card:hover img { transform: scale(1.06); }
+      .fx-hero-in { opacity: 0; translate: 0 18px; animation: fx-hero-in 760ms cubic-bezier(.22,1,.36,1) forwards; animation-delay: var(--fx-delay, 0ms); }
+      @keyframes fx-hero-in { to { opacity: 1; translate: 0 0; } }
+      .figma-hotspot--aftermovie { transition: background .25s ease, box-shadow .25s ease, transform .25s ease; }
+      .figma-hotspot--aftermovie::after { position: absolute; top: 50%; left: 50%; width: 64px; height: 64px; border-radius: 50%; background: rgba(244,98,42,.92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M9 6.5v11l9-5.5z'/%3E%3C/svg%3E") center/30px no-repeat; box-shadow: 0 10px 24px rgba(244,98,42,.45); content: ""; opacity: 0; transform: translate(-50%, -42%) scale(.7); transition: opacity .25s ease, transform .3s cubic-bezier(.22,1,.36,1); }
+      .figma-hotspot--aftermovie:hover { background: rgba(8,18,48,.18); box-shadow: 0 18px 34px rgba(13,42,82,.22); transform: scale(1.015); }
+      .figma-hotspot--aftermovie:hover::after { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      .fx-progress { position: fixed; z-index: 60; top: 0; left: 0; width: 100%; height: 3px; transform: scaleX(0); transform-origin: left center; background: linear-gradient(90deg, #f4622a, #fb9800); pointer-events: none; }
+      .figma-form input:focus, .figma-form textarea:focus { border-color: #f4622a; outline: 0; box-shadow: 0 0 0 3px rgba(244,98,42,.18); }
+      .figma-submit, .figma-close { transition: transform .2s ease, box-shadow .2s ease, filter .2s ease; }
+      .figma-submit:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 10px 22px rgba(239,90,16,.35); }
+      .figma-close:hover { transform: rotate(90deg); filter: brightness(.96); }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+    </style>
+  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script></head>
+  <body id="top"><header class="site-header"></header><script src="site-nav.js"></script>
+    <main id="figma-viewport" aria-label="Wajahni Edu-Career Summit 2027">
+      <div id="figma-shell"><div id="figma-canvas"></div></div>
+    </main>
+    <dialog class="figma-dialog" id="contact-dialog" aria-labelledby="contact-title">
+      <div class="figma-dialog__content">
+        <div class="figma-dialog__header"><div><h2 id="contact-title">Contactez-nous</h2><p>Écrivons ensemble la prochaine étape de votre participation.</p></div><button class="figma-close" type="button" aria-label="Fermer">×</button></div>
+        <form class="figma-form"><label>Nom<input name="name" autocomplete="name" required /></label><label>Email<input name="email" type="email" autocomplete="email" required /></label><label>Message<textarea name="message" required></textarea></label><button class="figma-submit" type="submit">Envoyer une demande</button></form>
+      </div>
+    </dialog>
+    <div class="figma-toast" role="status" aria-live="polite"></div>
+    <script type="text/babel" src="educareer-page.jsx"></script>
+    <script type="text/babel">ReactDOM.createRoot(document.getElementById('figma-canvas')).render(<PageEduCareerSummit />);</script>
+    <div class="fx-progress" aria-hidden="true"></div>
+    <script src="educareer-runtime.js"></script>
+    <script src="service-links.js"></script>
+  </body>
+</html>
