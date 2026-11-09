@@ -50,7 +50,7 @@
       button.setAttribute('role', 'link');
       button.setAttribute('tabindex', '0');
       const open = () => {
-        if (here === 'home.html') cards[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (here === 'home' || here === 'home.html') cards[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
         else go(wajahniPages[0].href + '#services');
       };
       button.addEventListener('click', open);
