@@ -31,10 +31,6 @@
       .roadshow-card:hover { z-index: 5; scale: 1.018; translate: 0 -6px; filter: brightness(1.015); box-shadow: 0 18px 34px rgba(19,44,110,.18); }
       .roadshow-reveal { opacity: 0; transform: translateY(16px); }
       .roadshow-reveal.is-visible { animation: roadshow-reveal-in 600ms cubic-bezier(.22,1,.36,1) both; animation-delay: var(--reveal-delay, 0ms); }
-      /* The Figma export contains the two tab states as stacked frames. The runtime
-         overlays the selected state at the original pack-section position. */
-      [data-node-id="247:12022"].roadshow-pack--partner { top: 3887.1px !important; }
-      .roadshow-pack--partner[hidden], .roadshow-pack--exhibitor[hidden] { display: none !important; }
       .roadshow-after-packs { transform: translateY(-840px); }
       .roadshow-counter { font-variant-numeric: tabular-nums; }
       /* The hero is built in HTML above the canvas (roadshow-hero.css). */
@@ -43,7 +39,7 @@
       @keyframes roadshow-reveal-in { to { opacity: 1; transform: translateY(0); } }
       @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
     </style>
-  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="roadshow-hero.css"></head>
+  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="roadshow-hero.css"><link rel="stylesheet" href="event-packs.css"></head>
   <body id="top"><header class="site-header"></header><script src="site-nav.js"></script>
     <section class="rs-hero" id="roadshow-hero" aria-labelledby="rs-hero-title">
       <div class="rs-hero__stage">
@@ -77,6 +73,7 @@
     <main id="figma-viewport" aria-label="Wajahni Roadshow 2027"><div id="figma-shell"><div id="figma-canvas"></div></div></main>
     <script type="text/babel" src="roadshow-page.jsx"></script>
     <script type="text/babel">ReactDOM.createRoot(document.getElementById('figma-canvas')).render(<PageRoadshow />);</script>
+    <script src="event-packs.js"></script>
     <script src="roadshow-runtime.js"></script>
     <script src="service-links.js"></script>
   </body>

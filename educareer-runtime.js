@@ -269,105 +269,13 @@
       if (top >= 6376) element.style.top = `${top - 1650}px`;
     });
 
-    const escapeHtml = (value) => value.replace(/[&<>\"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#039;' }[character]));
-    const artwork = {
-      left: 'assets/edu/n237-8287.png',
-      corner: 'assets/edu/n237-8289.svg',
-      icons: [
-        'assets/edu/n237-9016.svg',
-        'assets/edu/n237-9154.svg',
-        'assets/edu/n237-9292.svg',
-        'assets/edu/n237-9524.svg'
-      ]
-    };
-    const features = [
-      'Stand personnalisé',
-      "Insertion du logo de votre institution à la fin de l’after movie",
-      'Promotion de votre institution sur nos réseaux sociaux',
-      "Insertion de votre logo dans la bannière de la page d’inscription de l’événement",
-      'Insertion de votre logo sur les affiches urbaines',
-      "Animation d’un atelier",
-      'Intégration de votre logo sur le mur de presse',
-      'Intégration de votre logo dans la vidéo promotionnelle',
-      'Partage de la base de données',
-      'Interview exclusive pour votre institution qui sera partagée sur nos réseaux sociaux',
-      'Diffusion d’une vidéo (1 min Max) entre les discours des conférenciers',
-      'Intervention lors de la conférence (10 min)'
-    ];
-    const exhibitorPacks = [
-      { name: 'IRON', area: 4, price: '4 900 DT HT', enabled: 4, tone: 'iron' },
-      { name: 'BRONZE', area: 6, price: '5 500 DT HT', enabled: 6, tone: 'bronze' },
-      { name: 'SILVER', area: 8, price: '5 900 DT HT', enabled: 9, tone: 'silver', recommended: true },
-      { name: 'GOLD', area: 12, price: '6 500 DT HT', enabled: 12, tone: 'gold' }
-    ];
-    // Partner packages and availability tiers from the supplied Figma capture.
-    const partnerPacks = [
-      { name: 'IRON', area: 4, price: '4 500 DT HT', enabled: 4, tone: 'iron' },
-      { name: 'BRONZE', area: 6, price: '4 900 DT HT', enabled: 6, tone: 'bronze' },
-      { name: 'SILVER', area: 8, price: '5 500 DT HT', enabled: 9, tone: 'silver', recommended: true },
-      { name: 'GOLD', area: 12, price: '5 900 DT HT', enabled: 12, tone: 'gold' }
-    ];
-    const renderPack = (pack, index) => {
-      const list = pack.enabled
-        ? `<ul class="educareer-pack__list">${features.map((feature, featureIndex) => `<li class="${featureIndex < pack.enabled ? 'is-included' : 'is-unavailable'}" style="color:${featureIndex < pack.enabled ? '#2f3d5e' : '#a9b0c0'}">${escapeHtml(feature)}</li>`).join('')}</ul>`
-        : '';
-      return `<article class="educareer-pack educareer-pack--${pack.tone}">
-        <header class="educareer-pack__head">
-          <div class="educareer-pack__icon"><img alt="" src="${artwork.icons[index]}"><span class="educareer-pack__fallback-icon" aria-hidden="true"><svg viewBox="0 0 36 33" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7" width="30" height="17" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M6 27H30M8 24L6 30M28 24L30 30M10 11H26V20H10V11Z" stroke="currentColor" stroke-width="1.35"/><circle cx="15" cy="15.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M20 13.5C21.8 14.8 21.8 17.2 20 18.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span><span class="educareer-pack__area">${pack.area}m<sup>2</sup></span></div>
-          <div class="educareer-pack__label"><span class="educareer-pack__name">${pack.name}</span></div>
-        </header>
-        ${pack.price ? `<div class="educareer-pack__price">${pack.price}</div>` : '<div class="educareer-pack__price" aria-hidden="true"></div>'}
-        ${list}
-        ${pack.recommended ? '<span class="educareer-pack__badge">RECOMMANDÉ</span>' : ''}
-      </article>`;
-    };
-    const investment = document.createElement('section');
-    investment.className = 'educareer-investments';
-    investment.setAttribute('aria-labelledby', 'educareer-investment-title');
-    investment.innerHTML = `<img class="educareer-investments__left-art" alt="" src="${artwork.left}">
-      <img class="educareer-investments__bottom-art" alt="" src="${artwork.corner}">
-      <span class="educareer-investments__arrow" aria-hidden="true"><img alt="" src="assets/edu/n237-8855.svg"></span>
-      <h2 class="educareer-investments__title" id="educareer-investment-title">Sélectionnez votre <span>investissement</span></h2>
-      <div class="educareer-investments__tabs" role="tablist" aria-label="Type d’investissement">
-        <button class="educareer-investments__tab" type="button" role="tab" aria-selected="false" data-offer-tab="partner">PARTNER</button>
-        <button class="educareer-investments__tab" type="button" role="tab" aria-selected="true" data-offer-tab="exhibitor">EXPOSANT</button>
-      </div>
-      <div class="educareer-investments__grid" data-offer-grid>${exhibitorPacks.map(renderPack).join('')}</div>`;
-    canvas.append(investment);
-
-    const offerGrid = investment.querySelector('[data-offer-grid]');
-    const offerTabs = [...investment.querySelectorAll('[data-offer-tab]')];
-    const restoreMissingIcons = () => {
-      offerGrid.querySelectorAll('.educareer-pack__icon img').forEach((image) => {
-        const showFallback = () => {
-          image.style.display = 'none';
-          image.nextElementSibling.style.display = 'block';
-        };
-        if (image.complete) {
-          if (!image.naturalWidth) showFallback();
-        } else {
-          image.addEventListener('error', showFallback, { once: true });
-        }
-      });
-    };
-    restoreMissingIcons();
-    const setOffer = (offer) => {
-      const isPartner = offer === 'partner';
-      investment.classList.toggle('is-partner', isPartner);
-      offerTabs.forEach((tab) => tab.setAttribute('aria-selected', String(tab.dataset.offerTab === offer)));
-      offerGrid.classList.remove('is-switching');
-      // Restart the short transition without cloning the badge or card nodes.
-      void offerGrid.offsetWidth;
-      offerGrid.innerHTML = (isPartner ? partnerPacks : exhibitorPacks).map(renderPack).join('');
-      restoreMissingIcons();
-      offerGrid.classList.add('is-switching');
-    };
-    offerTabs.forEach((tab) => tab.addEventListener('click', () => setOffer(tab.dataset.offerTab)));
+    // Shared packs section (event-packs.js), identical on all three event pages.
+    window.WajahniPacks?.mount({ page: 'educareer', parent: canvas, top: 3887, height: 839.566 });
   }
 
   function enhance(tries = 0) {
     const pageRoot = canvas.firstElementChild;
-    if (!pageRoot || (!document.querySelector('.educareer-investments') && tries < 40)) { window.setTimeout(() => enhance(tries + 1), 100); return; }
+    if (!pageRoot || (!document.querySelector('.event-packs') && tries < 40)) { window.setTimeout(() => enhance(tries + 1), 100); return; }
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const byId = (id) => canvas.querySelector(`[data-node-id="${id}"]`);
     const sized = (el) => ({ w: el.offsetWidth, h: el.offsetHeight });

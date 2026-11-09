@@ -70,27 +70,20 @@
       node.classList.add('roadshow-counter');
       counterObserver.observe(node);
     });
-    const packs = canvas.querySelector('[data-node-id="247:11437"]');
+    // Replace the two Figma pack frames (one per tab, each with its own tab
+    // switch) by the shared packs section, identical on all three event pages.
+    const packsFrame = canvas.querySelector('[data-node-id="247:11437"]');
+    if (packsFrame && window.WajahniPacks) {
+      const packsParent = packsFrame.parentElement;
+      ['247:11437', '247:12022'].forEach((id) => canvas.querySelector(`[data-node-id="${id}"]`)?.remove());
+      window.WajahniPacks.mount({ page: 'roadshow', parent: packsParent, top: 3887.1, height: 839.566 });
+    }
     hero?.querySelector('.rs-hero__cta')?.addEventListener('click', (event) => {
+      const packs = document.querySelector('#packs');
       if (!packs) return;
       event.preventDefault();
       packs.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-
-    const exhibitorPack = packs;
-    const partnerPack = canvas.querySelector('[data-node-id="247:12022"]');
-    exhibitorPack?.classList.add('roadshow-pack--exhibitor');
-    partnerPack?.classList.add('roadshow-pack--partner');
-    partnerPack?.setAttribute('hidden', '');
-    const setPack = (variant) => {
-      const partnerActive = variant === 'partner';
-      exhibitorPack?.toggleAttribute('hidden', partnerActive);
-      partnerPack?.toggleAttribute('hidden', !partnerActive);
-    };
-    canvas.querySelector('[data-node-id="247:11460"]')?.addEventListener('click', () => setPack('partner'));
-    canvas.querySelector('[data-node-id="247:11462"]')?.addEventListener('click', () => setPack('exhibitor'));
-    canvas.querySelector('[data-node-id="247:12048"]')?.addEventListener('click', () => setPack('partner'));
-    canvas.querySelector('[data-node-id="247:12050"]')?.addEventListener('click', () => setPack('exhibitor'));
 
     // Remove the blank space produced by the inactive Figma-artboard export and
     // keep the content that follows directly after the unified tab panel.
