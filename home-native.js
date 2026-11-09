@@ -49,8 +49,6 @@ const metricMobile=matchMedia('(max-width:760px)');
 const positionBenefits=()=>{(metricMobile.matches?metricArtBottom:overview).append(benefitGrid);};
 positionBenefits();
 metricMobile.addEventListener('change',positionBenefits);
-const grid=document.querySelector('.partner-grid');
-for(let i=1;i<=55;i++)for(const [folder,count]of [['Tunisie',55],['International',31]])if(i<=count){const cell=document.createElement('div');cell.className='partner';const img=new Image();img.src='assets/'+folder+'/'+i+'.png';img.alt='Partenaire Wajahni '+folder+' '+i;img.loading='lazy';img.decoding='async';cell.append(img);grid.append(cell);}
 const quote="“C'est notre deuxième participation à WAJAHNI et je dois avouer être agréablement surprise par l'évolution continue de l'événement, d'autant plus que l'équipe est exclusivement composée de jeunes. C'est un excellent départ pour un début prometteur.”";
 document.querySelector('.quotes').innerHTML=Array.from({length:3},()=>'<article class="quote"><div class="quote-meta"><img src="assets/home/n272-14087.png" alt="Logo partenaire" width="56" height="56"><img src="assets/home/n272-14089.png" alt="" width="65" height="65"></div><div class="person"><img src="assets/home/n272-14088.png" alt="Mme Ghosn Ennaem" width="92" height="92"><div><h3>Mme. Ghosn ennaem</h3><p>Directrice d’admission</p></div></div><blockquote>'+quote+'</blockquote></article>').join('');
 const serviceCards = [
@@ -69,6 +67,6 @@ document.querySelector('.summit-grid').innerHTML = serviceCards.map(([key, copy,
     <span class="summit-arrow" aria-hidden="true">→</span>
   </a>`;
 }).join('');
-if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}}),{threshold:.06});document.querySelectorAll('.quote,.service,.partner,.contact-columns').forEach((el,i)=>{el.classList.add('reveal');el.style.setProperty('--delay',(i%5*40)+'ms');observer.observe(el);});}
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}}),{threshold:.06});document.querySelectorAll('.quote,.service,.contact-columns').forEach((el,i)=>{el.classList.add('reveal');el.style.setProperty('--delay',(i%5*40)+'ms');observer.observe(el);});}
 document.querySelector('form').onsubmit=e=>{e.preventDefault();const d=new FormData(e.currentTarget);const body=d.get('message')+'\n\n'+d.get('firstName')+' '+d.get('lastName')+'\nEmail : '+d.get('email')+'\nTéléphone : '+d.get('phone');location.href='mailto:rayen.mohsni@wajahni.tn?cc=jamila.moalla%40wajahni.tn&subject='+encodeURIComponent(d.get('subject'))+'&body='+encodeURIComponent(body);document.querySelector('.status').textContent='Message préparé. Envoyez-le depuis votre application e-mail.';};
 })();
