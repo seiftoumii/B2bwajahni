@@ -1,6 +1,6 @@
 // The remaining panels retain the original width-based canvas scale. Move
 // their shell by only the difference introduced by fitting the first panel.
-function fitServiceArtboard(viewport, canvasScale, canvasHeight, heroHeight, nextPanelTop) {
+function fitServiceArtboard(viewport, canvasScale, canvasHeight, heroHeight, nextPanelTop, contentBounds) {
   const headerBottom = document.querySelector('.site-header').getBoundingClientRect().bottom;
   const available = Math.max(1, document.documentElement.clientHeight - headerBottom);
   const heroScale = Math.min(canvasScale, available / heroHeight);
@@ -16,40 +16,41 @@ function fitServiceArtboard(viewport, canvasScale, canvasHeight, heroHeight, nex
     return;
   }
 
-  // Full-screen hero: the hero box always spans the whole viewport below the
-  // header. The artwork's content is scaled to fit inside it (centred), and
-  // its background photo is stretched to cover the full box.
-  const viewportWidth = 1440 * canvasScale;
-  const contentLeft = (viewportWidth - 1440 * heroScale) / 2;
-  const contentTop = (available - heroHeight * heroScale) / 2;
-  const offset = available - nextPanelTop * canvasScale;
+  // Full-width hero: the artwork uses the same width-based scale as the rest
+  // of the page, so its content spans the full page width. The hero box is
+  // at least the screen height below the header. When the artwork is taller
+  // than the screen, the empty sky above and below its content (outside
+  // contentBounds, in design px) is trimmed so the content fits; on tall
+  // screens (phones) the content is centred and the photo covers the box.
+  const [boundsTop, boundsBottom] = contentBounds || [0, heroHeight];
+  const scale = canvasScale;
+  const fullHeight = heroHeight * scale;
+  const boxHeight = Math.min(fullHeight, Math.max(available, (boundsBottom - boundsTop) * scale));
+  let contentTop;
+  if (fullHeight <= available) {
+    contentTop = (available - fullHeight) / 2;
+  } else {
+    const trim = fullHeight - boxHeight;
+    const spareGap = (boundsTop + heroHeight - boundsBottom) * scale - trim;
+    contentTop = -Math.min(trim, Math.max(0, boundsTop * scale - spareGap / 2));
+  }
+  const height = Math.max(available, boxHeight);
+  const offset = height - nextPanelTop * scale;
 
-  viewport.style.height = (canvasHeight * canvasScale + offset) + 'px';
+  viewport.style.height = (canvasHeight * scale + offset) + 'px';
   viewport.firstElementChild.style.top = offset + 'px';
-  viewport.style.setProperty('--first-panel-top', ((contentTop - offset) / canvasScale) + 'px');
-  viewport.style.setProperty('--first-panel-scale', heroScale / canvasScale);
+  viewport.style.setProperty('--first-panel-top', ((contentTop - offset) / scale) + 'px');
+  viewport.style.setProperty('--first-panel-scale', 1);
 
-  // Hero box in the artboard's own (unscaled) coordinates. The photo stays
-  // aligned with the artwork where it can, and fills the rest of the box.
-  const left = -contentLeft / heroScale;
-  const top = -contentTop / heroScale;
-  const width = viewportWidth / heroScale;
-  const height = available / heroScale;
-  artboard.style.clipPath = `inset(${top}px ${left}px ${heroHeight - top - height}px ${left}px)`;
-  artboard.style.setProperty('--hero-box-left', left + 'px');
-  artboard.style.setProperty('--hero-box-top', top + 'px');
-  artboard.style.setProperty('--hero-box-width', width + 'px');
-  artboard.style.setProperty('--hero-box-height', height + 'px');
-  const photo = artboard.firstElementChild && artboard.firstElementChild.querySelector('img');
-  if (photo) artboard.style.setProperty('--hero-photo', `url("${photo.currentSrc || photo.src}")`);
-  // Wide screens: blurred side fill keeps the photo aligned with the text.
-  // Tall screens (phones): the sharp photo itself covers the whole box.
-  const coverPhoto = contentTop > 1;
-  artboard.classList.toggle('has-side-fill', contentLeft > 1 && !coverPhoto);
+  // Hero box in the artboard's own (unscaled) coordinates.
+  const boxTop = -contentTop / scale;
+  const boxHeightLocal = height / scale;
+  artboard.style.clipPath = `inset(${boxTop}px 0 ${heroHeight - boxTop - boxHeightLocal}px 0)`;
+  const coverPhoto = contentTop > 0.5;
   artboard.classList.toggle('has-cover-photo', coverPhoto);
   const background = artboard.firstElementChild;
   if (background) Object.assign(background.style, coverPhoto
-    ? { left: left + 'px', top: top + 'px', width: width + 'px', height: height + 'px' }
+    ? { left: '0px', top: boxTop + 'px', width: '1440px', height: boxHeightLocal + 'px' }
     : { left: '', top: '', width: '', height: '' });
 }
 
