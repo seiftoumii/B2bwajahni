@@ -127,7 +127,13 @@
 }
 .tm-card__top { display: flex; align-items: flex-start; justify-content: space-between; }
 .tm-card__chat { width: calc(57 * var(--u)); height: auto; }
-.tm-card__logo { width: auto; max-width: calc(90 * var(--u)); height: calc(32 * var(--u)); object-fit: contain; margin-top: calc(6 * var(--u)); }
+.tm-card__logo { width: auto; max-width: calc(110 * var(--u)); height: calc(40 * var(--u)); object-fit: contain; object-position: right center; margin-top: calc(4 * var(--u)); }
+.tm-card__org {
+  margin-top: calc(10 * var(--u)); max-width: 55%; text-align: right;
+  color: #1d3f8f; font-size: calc(14 * var(--u)); font-weight: 700; line-height: 1.2;
+  letter-spacing: .04em; text-transform: uppercase;
+}
+.tm-card.is-picked { border-color: #f6a46c; box-shadow: 0 0 0 3px rgba(240, 100, 31, .14), 0 calc(16 * var(--u)) calc(34 * var(--u)) rgba(240, 100, 31, .14); }
 .tm-card__person {
   display: flex; align-items: center; gap: calc(31 * var(--u));
   margin-top: calc(23 * var(--u));
@@ -153,8 +159,9 @@
   color: var(--tm-text); font-size: calc(14.6 * var(--u)); line-height: 1.38;
 }
 
-/* Compact "other partner" card */
+/* Compact "other partner" card (a button: it shows that partner's quote) */
 .tm-mini {
+  width: 100%; font: inherit; text-align: left; cursor: pointer;
   display: flex; align-items: center; gap: calc(12 * var(--u));
   height: calc(95 * var(--u));
   padding: 0 calc(16 * var(--u)) 0 calc(14 * var(--u));
@@ -170,7 +177,8 @@
   border-radius: 50%; object-fit: cover;
   border: max(1px, calc(1.5 * var(--u))) solid #f2a26e; padding: calc(2 * var(--u)); background: #fff;
 }
-.tm-mini__text { flex: 1; min-width: 0; }
+.tm-mini__text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.tm-mini:focus-visible { outline: 2px solid var(--tm-orange); outline-offset: 2px; }
 .tm-mini__name { color: #0b0f24; font-size: calc(15.5 * var(--u)); font-weight: 700; line-height: 1.25; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tm-mini__role { color: #4c5268; font-size: calc(13.5 * var(--u)); line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tm-mini__chat { flex: none; width: calc(36 * var(--u)); height: auto; align-self: center; margin-top: calc(14 * var(--u)); }
@@ -207,6 +215,8 @@
   .tm__carousel--others { --tm-gap: 14px; margin-top: 4px; grid-template-columns: 48px minmax(0, 1fr) 48px; }
   .tm__track { padding: 18px 2px 24px; }
   .tm-card { min-height: 0; padding: 22px 22px 26px; border-radius: 18px; }
+  .tm-card__logo { height: 34px; max-width: 100px; }
+  .tm-card__org { font-size: 13px; }
   .tm-mini { height: auto; min-height: 84px; padding-top: 12px; padding-bottom: 12px; }
   .tm-mini__name, .tm-mini__role { white-space: normal; }
 }
