@@ -3,11 +3,18 @@
   const height = 6460;
   const viewport = document.querySelector('#figma-viewport');
   const canvas = document.querySelector('#figma-canvas');
+  const hero = document.querySelector('#roadshow-hero');
+  const heroHeight = 1018;
   const updateScale = () => {
     const scale = window.innerWidth / width;
     document.documentElement.style.setProperty('--canvas-scale', String(scale));
     viewport.style.width = `${width * scale}px`;
-    fitServiceArtboard(viewport, scale, height, 1018, 1018, [98, 880]);
+    // The hero is the HTML section above (#roadshow-hero), so the canvas
+    // starts at its second panel: skip the exported hero's 1018 design px.
+    viewport.style.height = `${(height - heroHeight) * scale}px`;
+    viewport.firstElementChild.style.top = `${-heroHeight * scale}px`;
+    const header = document.querySelector('.site-header');
+    if (header) hero?.style.setProperty('--rs-header', `${header.getBoundingClientRect().bottom}px`);
   };
   const hydrate = () => {
     if (!canvas.firstElementChild) return window.setTimeout(hydrate, 50);
@@ -64,7 +71,11 @@
       counterObserver.observe(node);
     });
     const packs = canvas.querySelector('[data-node-id="247:11437"]');
-    canvas.querySelector('[data-node-id="252:13596"]')?.addEventListener('click', () => packs?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    hero?.querySelector('.rs-hero__cta')?.addEventListener('click', (event) => {
+      if (!packs) return;
+      event.preventDefault();
+      packs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
 
     const exhibitorPack = packs;
     const partnerPack = canvas.querySelector('[data-node-id="247:12022"]');
