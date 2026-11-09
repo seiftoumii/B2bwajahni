@@ -1,0 +1,114 @@
+/* Home "Influenceurs & partenaires médiatiques" section.
+   It reuses the testimonials section's layout (testimonials.css: scenery,
+   heading, carousels, arrows, responsive stacking) through the shared .tm
+   classes. This file only styles its own cards: large influencer cards and
+   compact media partner cards. influencers.js fills them. */
+
+/* Large influencer card: Instagram badge, photo, name + handle, profile link */
+.im-card {
+  display: flex; flex-direction: column;
+  min-height: calc(420 * var(--u));
+  padding: calc(25 * var(--u)) calc(30 * var(--u)) calc(28 * var(--u));
+  border-radius: calc(18 * var(--u));
+  background: #fff;
+  border: 1.5px solid #ececef;
+  box-shadow: 0 calc(8 * var(--u)) calc(24 * var(--u)) rgba(20, 30, 60, .07);
+  transition: transform .3s, box-shadow .3s, border-color .3s;
+}
+.im-card:hover {
+  transform: translateY(-4px);
+  border-color: #f8d2b6;
+  box-shadow: 0 calc(16 * var(--u)) calc(34 * var(--u)) rgba(240, 100, 31, .12);
+}
+.im-card__top { display: flex; align-items: center; justify-content: space-between; }
+.im-card__ig { display: block; width: calc(40 * var(--u)); height: calc(40 * var(--u)); min-width: 26px; min-height: 26px; }
+.im-card__ig svg { display: block; width: 100%; height: 100%; }
+.im-card__tag {
+  color: #1d3f8f; font-size: calc(13 * var(--u)); font-weight: 700; line-height: 1.2;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.im-card__media {
+  display: block; position: relative; overflow: hidden;
+  margin-top: calc(18 * var(--u));
+  height: calc(215 * var(--u));
+  border-radius: calc(14 * var(--u));
+  background: #f4f1ee;
+}
+.im-card__photo { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; transition: transform .5s; }
+.im-card:hover .im-card__photo { transform: scale(1.04); }
+.im-card__initials {
+  display: grid; place-items: center; width: 100%; height: 100%;
+  background: linear-gradient(135deg, #0f1638 0%, #26304f 60%, #f0641f 160%);
+  color: #fff; font-size: calc(64 * var(--u)); font-weight: 700; letter-spacing: .04em;
+}
+.im-card__person {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: calc(14 * var(--u));
+  margin-top: auto; padding-top: calc(20 * var(--u));
+}
+.im-card__who { min-width: 0; }
+.im-card__name { color: #0b0f24; font-size: calc(18 * var(--u)); font-weight: 700; line-height: 1.25; letter-spacing: -.01em; }
+.im-card__handle {
+  position: relative; margin-top: calc(2 * var(--u)); padding-bottom: calc(8 * var(--u));
+  color: #4c5268; font-size: calc(14 * var(--u)); line-height: 1.35;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.im-card__handle::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: calc(62 * var(--u)); height: max(1.5px, calc(2 * var(--u))); border-radius: 9px;
+  background: var(--tm-orange);
+}
+.im-card__follow {
+  flex: none;
+  padding: calc(9 * var(--u)) calc(16 * var(--u));
+  border: 1.5px solid #f6b98d; border-radius: 999px;
+  color: var(--tm-orange); font-size: calc(13 * var(--u)); font-weight: 600; line-height: 1.2;
+  text-decoration: none; white-space: nowrap;
+  transition: background-color .2s, color .2s, border-color .2s;
+}
+.im-card__follow:hover { background: var(--tm-orange); border-color: var(--tm-orange); color: #fff; }
+.im-card__follow:focus-visible { outline: 2px solid var(--tm-orange); outline-offset: 2px; }
+
+/* Compact media partner card: logo tile, name, kind of media */
+.im-mini {
+  display: flex; align-items: center; gap: calc(14 * var(--u));
+  height: calc(95 * var(--u));
+  padding: 0 calc(16 * var(--u)) 0 calc(14 * var(--u));
+  border-radius: calc(14 * var(--u));
+  background: #fff;
+  border: 1.5px solid #ececef;
+  box-shadow: 0 calc(6 * var(--u)) calc(18 * var(--u)) rgba(20, 30, 60, .06);
+  transition: transform .3s, box-shadow .3s, border-color .3s;
+}
+.im-mini:hover { transform: translateY(-3px); border-color: #f8d2b6; box-shadow: 0 calc(12 * var(--u)) calc(26 * var(--u)) rgba(240, 100, 31, .12); }
+.im-mini__logo {
+  flex: none; display: block; overflow: hidden;
+  width: calc(96 * var(--u)); height: calc(64 * var(--u));
+  padding: calc(6 * var(--u));
+  border-radius: calc(10 * var(--u));
+  border: max(1px, calc(1.5 * var(--u))) solid #f2a26e;
+  background: #fff;
+}
+.im-mini__logo img { display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain; }
+.im-mini__text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.im-mini__name { color: #0b0f24; font-size: calc(15.5 * var(--u)); font-weight: 700; line-height: 1.25; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.im-mini__kind { color: #4c5268; font-size: calc(13.5 * var(--u)); line-height: 1.35; }
+
+@media (max-width: 1023px) {
+  .im-card { min-height: 0; padding: 20px 20px 22px; border-radius: 18px; }
+  .im-card__media { height: 230px; }
+  .im-card__initials { font-size: 56px; }
+  .im-mini { height: auto; min-height: 84px; padding-top: 12px; padding-bottom: 12px; }
+  .im-mini__logo { width: 84px; height: 56px; }
+  .im-mini__name { white-space: normal; }
+}
+@media (max-width: 640px) {
+  /* the kicker is longer than the testimonials one: let it wrap on phones */
+  .im .tm__kicker { white-space: normal; text-align: center; line-height: 1.6; letter-spacing: .2em; max-width: 100%; }
+  .im .tm__kicker::before, .im .tm__kicker::after { display: none; }
+  .im-card__media { height: auto; aspect-ratio: 4 / 3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .im-card, .im-mini, .im-card__photo { transition: none; }
+  .im-card:hover, .im-mini:hover, .im-card:hover .im-card__photo { transform: none; }
+}

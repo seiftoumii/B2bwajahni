@@ -79,7 +79,7 @@
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 
-  document.querySelectorAll('.tm__carousel').forEach(carousel => {
+  main.closest('.tm').querySelectorAll('.tm__carousel').forEach(carousel => {
     const track = carousel.querySelector('.tm__track');
     const step = () => {
       const cards = track.children;
