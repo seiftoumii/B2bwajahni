@@ -5,7 +5,7 @@
   "rewrites": [
     {
       "source": "/caravan",
-      "destination": "/index.html"
+      "destination": "/"
     }
   ]
 }
