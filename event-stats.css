@@ -1,0 +1,56 @@
+/* Shared "4 Années d'impact" stats section (event-stats.js).
+   Sizes are in 1440px design units inside each page's scaled canvas. */
+.event-stats { position: absolute; z-index: 11; left: 0; width: 1440px; overflow: hidden; color: #19325f; background: #fff url('assets/edu/n237-9782.png') center / cover no-repeat; font-family: Poppins, Arial, sans-serif; isolation: isolate; }
+.event-stats *, .event-stats *::before, .event-stats *::after { box-sizing: border-box; }
+
+.event-stats__eyebrow { position: absolute; top: 28px; left: 0; right: 0; color: #ed441a; font-size: 16px; font-weight: 600; letter-spacing: 6.9px; text-align: center; text-transform: uppercase; }
+.event-stats__title { position: absolute; top: 56px; left: 0; right: 0; margin: 0; color: #19325f; font-size: 46px; font-weight: 700; line-height: 50px; text-align: center; }
+.event-stats__title span { color: #f96b28; }
+
+/* The year switch never changes size or place: one element, fixed slot. */
+.event-stats__tabs { position: absolute; z-index: 2; top: 172px; left: 50%; display: flex; width: 240px; height: 42px; border-radius: 999px; background: #f0f2f6; box-shadow: 0 6px 16px rgba(19, 44, 110, .08); transform: translateX(-50%); }
+.event-stats__tab { display: flex; flex: 1 1 0; align-items: center; justify-content: center; margin: 0; padding: 0; border: 0; border-radius: 999px; color: #93a0b4; background: transparent; font: 700 15px/1 Poppins, Arial, sans-serif; letter-spacing: .9px; cursor: pointer; transition: color .2s ease, background-color .2s ease, box-shadow .2s ease; }
+.event-stats__tab:hover { color: #5e6c86; }
+.event-stats__tab[aria-selected="true"] { color: #fff; background: linear-gradient(90deg, #f97316, #f4571b); box-shadow: 0 5px 7px rgba(244, 87, 27, .35); }
+.event-stats__tab:focus-visible { outline: 3px solid #0d2a52; outline-offset: 3px; }
+
+/* Both year panels share one slot; only opacity changes when switching. */
+.event-stats__panel { position: absolute; z-index: 1; top: 232px; left: 50%; width: 506px; transform: translateX(-50%); visibility: hidden; opacity: 0; transition: opacity .25s ease, visibility 0s linear .25s; }
+.event-stats__panel.is-active { visibility: visible; opacity: 1; transition: opacity .25s ease; }
+.event-stats__panel.is-active .event-stats__card { animation: event-stats-in .42s cubic-bezier(.22,1,.36,1) both; }
+
+.event-stats__card { position: relative; overflow: hidden; border: 2px solid var(--accent); border-radius: 17px; background: #fff; box-shadow: 0 10px 30px rgba(19, 44, 110, .08); }
+.event-stats__head { position: relative; display: flex; align-items: center; gap: 22px; min-height: 82px; padding: 8px 16px; background-color: var(--accent); background-position: center; background-size: cover; color: #fff; }
+.event-stats__year { flex: none; font-size: 52px; font-weight: 700; line-height: 1; letter-spacing: -.8px; }
+.event-stats__where { display: flex; flex-direction: column; font-size: 14px; line-height: 18px; }
+.event-stats__note { position: absolute; right: 10px; bottom: 6px; padding: 2px 8px; border: 1px solid var(--accent); border-radius: 999px; color: var(--accent); background: #fff; font-size: 8px; font-weight: 600; }
+
+.event-stats__body { padding: 4px 14px 14px; }
+.event-stats__label { display: flex; align-items: center; gap: 8px; margin: 6px 0 4px; color: #19325f; font-size: 14px; font-weight: 600; letter-spacing: -.16px; }
+.event-stats__label img { width: 36px; height: 36px; }
+.event-stats__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin: 0; padding: 0; list-style: none; }
+.event-stats__chip { display: flex; align-items: center; gap: 10px; height: 64px; padding: 0 10px; border: 1px solid #eef1f6; border-radius: 15px; background: #fff; box-shadow: 1.9px 1.9px 1.9px rgba(0, 0, 0, .05); transition: translate .24s cubic-bezier(.22,1,.36,1), box-shadow .24s ease; }
+.event-stats__chip:hover { translate: 0 -3px; box-shadow: 0 10px 20px rgba(13, 42, 82, .12); }
+.event-stats__chip img { flex: none; width: 44px; height: 44px; }
+.event-stats__chip > span { display: flex; flex-direction: column; line-height: 1.15; }
+.event-stats__chip strong { color: #19325f; font-size: 18px; font-weight: 700; }
+.event-stats__chip small { color: #19325f; font-size: 10.5px; }
+.event-stats__chip--percent { flex-direction: column; justify-content: center; gap: 2px; padding: 0 8px; border-color: color-mix(in srgb, var(--accent) 22%, transparent); background: color-mix(in srgb, var(--accent) 6%, #fff); text-align: center; }
+.event-stats__chip--percent strong { color: var(--accent); font-size: 19px; line-height: 1.1; }
+.event-stats__chip--percent small { color: #465064; font-size: 10.5px; line-height: 1.2; }
+
+.event-stats__stands { display: flex; align-items: center; gap: 16px; height: 68px; margin-top: 12px; padding: 0 16px; border: 2px solid var(--accent); border-radius: 17px; background: color-mix(in srgb, var(--accent) 12%, #fff); }
+.event-stats__stands img { flex: none; width: 42px; height: 42px; padding-right: 16px; border-right: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); box-sizing: content-box; }
+.event-stats__stands strong { display: block; color: var(--accent); font-weight: 700; line-height: 1.1; }
+.event-stats__stands small { display: block; color: #465064; line-height: 1.25; }
+.event-stats__stands-count { flex: 1; }
+.event-stats__stands-count strong { font-size: 28px; }
+.event-stats__stands-count small { font-size: 15px; }
+.event-stats__stands-age strong { font-size: 21px; }
+.event-stats__stands-age small { font-size: 11px; line-height: 1.25; }
+.event-stats__num { font-variant-numeric: tabular-nums; }
+
+@keyframes event-stats-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .event-stats__panel, .event-stats__panel.is-active .event-stats__card, .event-stats__chip, .event-stats__tab { animation: none !important; transition: none !important; }
+}
