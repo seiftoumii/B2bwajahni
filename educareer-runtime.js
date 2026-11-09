@@ -12,7 +12,7 @@
     const scale = window.innerWidth / width;
     document.documentElement.style.setProperty('--canvas-scale', String(scale));
     viewport.style.width = (width * scale) + 'px';
-    fitServiceArtboard(viewport, scale, height, 1018, 1018, [127, 960]);
+    fitServiceArtboard(viewport, scale, height, 1018, 1018, [162, 960]);
   }
 
   function hydrate() {

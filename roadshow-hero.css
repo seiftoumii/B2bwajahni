@@ -175,6 +175,20 @@
 .rs-hero__cta:hover { translate: 0 calc(-2 * var(--u)); filter: brightness(1.05); box-shadow: 0 calc(12 * var(--u)) calc(26 * var(--u)) rgba(236, 97, 39, .45); }
 .rs-hero__cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 
+/* Desktop: the hero is exactly one screen tall and full width. The scenery
+   covers the whole screen; the content (tagline to button, 745 design px
+   tall) shrinks with --u when the screen is too short for it, so the button
+   is always visible without scrolling, and sits just below the navbar. */
+@media (min-width: 1024px) {
+  .rs-hero {
+    --u: min(calc(100cqw / 1440), calc((100vh - var(--rs-header, 75px) - 48px) / 745));
+    --u: min(calc(100cqw / 1440), calc((100svh - var(--rs-header, 75px) - 48px) / 745));
+  }
+  .rs-hero__stage { height: 100vh; height: 100svh; }
+  .rs-hero__bg { top: 0; height: 100%; object-position: 50% 40%; }
+  .rs-hero__stage > :not(picture) { margin-top: calc(var(--rs-header, 75px) + 24px - 93 * var(--u)); }
+}
+
 /* Phones and small tablets: same pieces, stacked, over the same scenery. */
 @media (max-width: 1023px) {
   .rs-hero { --u: 1px; }

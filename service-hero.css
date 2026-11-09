@@ -7,13 +7,13 @@
   transform: scale(var(--first-panel-scale, 1));
 }
 .fitted-artboard { height: 1018px; overflow: visible; }
-/* Phones: the hero photo covers the full-screen hero box (see service-hero.js). */
+/* The hero photo covers the full-screen hero box (see service-hero.js). */
 #figma-canvas .fitted-artboard.has-cover-photo > :first-child img {
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 65% center;
+  object-position: 65% 35%;
 }
 #w360-root { padding-top: var(--hero-header, 0px); }
 #w360-root .w360-section:first-child img {
