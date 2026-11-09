@@ -1,0 +1,195 @@
+/* Home "Ils nous font confiance" partners wall.
+   The scenery (palms, medina, flag, handwritten labels, tile pattern) is one
+   image (assets/home/partners/partners-bg.jpg); the heading, the frosted
+   panel, the logo tiles and the footer line are HTML.
+   From 1024px up the section keeps the mockup's composition and scales with
+   the page width (1 design px = --u, mockup is 1560 x 1112).
+   Below 1024px the content stacks and the grid uses fewer columns.
+   partners-wall.js fills the tiles and flips logos through them in waves. */
+.pw {
+  --u: calc(100cqw / 1560);
+  --pw-orange: #ee4f23;
+  --pw-blue: #1a3cc8;
+  --pw-cols: 10;
+  --pw-rows: 5;
+  container-type: inline-size;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #fff8f1;
+  font-family: Poppins, Arial, sans-serif;
+}
+.pw *, .pw *::before, .pw *::after { box-sizing: border-box; }
+.pw :where(p, h2) { margin: 0; }
+
+.pw__stage { position: relative; width: 100%; height: calc(1112 * var(--u)); }
+.pw__bg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; pointer-events: none; user-select: none;
+}
+
+.pw__head {
+  position: absolute; left: 0; right: 0; top: calc(62 * var(--u));
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.pw__kicker, .pw__foot {
+  display: flex; align-items: center; gap: calc(20 * var(--u));
+  text-transform: uppercase; white-space: nowrap; line-height: 1;
+}
+.pw__kicker::before, .pw__kicker::after, .pw__foot::before, .pw__foot::after {
+  content: ""; width: calc(40 * var(--u)); height: max(2px, calc(3 * var(--u)));
+  border-radius: 9px; background: var(--pw-orange);
+}
+.pw__kicker {
+  color: var(--pw-orange); font-size: calc(15 * var(--u)); font-weight: 600;
+  letter-spacing: .34em; padding-left: .34em;
+}
+.pw__title {
+  margin-top: calc(34 * var(--u));
+  font-size: calc(62 * var(--u)); font-weight: 800; line-height: 1;
+  letter-spacing: -.035em; text-transform: uppercase; white-space: nowrap;
+}
+.pw__blue { color: var(--pw-blue); }
+.pw__orange {
+  background: linear-gradient(90deg, #e9411f 0%, #f15a22 55%, #f4702a 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.pw__sub {
+  margin-top: calc(14 * var(--u));
+  color: #2b45c2; font-size: calc(21.5 * var(--u)); font-weight: 400; line-height: 1.3;
+  letter-spacing: -.01em;
+}
+.pw__underline {
+  margin-top: calc(20 * var(--u));
+  width: calc(138 * var(--u)); height: max(3px, calc(5 * var(--u))); border-radius: 9px;
+  background: linear-gradient(90deg, #ea4326 0 55%, #f0a03f 55% 100%);
+}
+
+.pw__panel {
+  position: absolute; left: calc(22 * var(--u)); top: calc(289 * var(--u));
+  width: calc(1515 * var(--u)); height: calc(652 * var(--u));
+  padding: calc(41 * var(--u)) calc(29 * var(--u)) 0;
+  border-radius: calc(34 * var(--u));
+  background: linear-gradient(180deg, rgba(255, 255, 255, .9), rgba(255, 252, 249, .86));
+  border: 1px solid rgba(255, 255, 255, .95);
+  box-shadow: 0 calc(24 * var(--u)) calc(60 * var(--u)) rgba(214, 120, 50, .10),
+              inset 0 1px 0 #fff;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.pw__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--pw-cols), minmax(0, 1fr));
+  gap: calc(15 * var(--u)) calc(14 * var(--u));
+}
+
+.pw__foot {
+  position: absolute; left: 0; right: 0; top: calc(970 * var(--u));
+  justify-content: center;
+  color: #2b45c9; font-size: calc(14 * var(--u)); font-weight: 700;
+  letter-spacing: .38em;
+}
+.pw__foot::before { margin-right: calc(-2 * var(--u)); }
+
+/* Logo tiles */
+.pw-tile {
+  position: relative; aspect-ratio: 133 / 101; min-width: 0;
+  perspective: 900px;
+}
+.pw-card {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--rot, 0deg));
+  transition: transform .95s cubic-bezier(.62, .02, .26, 1);
+}
+.pw-face {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 13% 12%;
+  border-radius: calc(16 * var(--u));
+  background: #fff;
+  border: 1.5px solid #f8e1cb;
+  box-shadow: 0 calc(4 * var(--u)) calc(14 * var(--u)) rgba(222, 140, 70, .09);
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  transition: border-color .5s, box-shadow .5s;
+}
+.pw-face--b { transform: rotateY(180deg); }
+.pw-face img {
+  display: block; max-width: 100%; max-height: 100%;
+  width: auto; height: auto; object-fit: contain;
+  user-select: none; -webkit-user-drag: none;
+}
+.pw-tile.is-lit { animation: pw-pop .95s cubic-bezier(.4, 0, .2, 1); }
+.pw-tile.is-lit .pw-face {
+  border-color: #f6a46c;
+  box-shadow: 0 0 0 3px rgba(244, 98, 42, .10), 0 10px 24px rgba(244, 98, 42, .16);
+}
+@keyframes pw-pop {
+  0%, 100% { transform: translateY(0) scale(1); }
+  45% { transform: translateY(-3px) scale(1.06); }
+}
+
+/* Tablets and phones: stacked layout, scenery cropped to its corners. */
+@media (max-width: 1023px) {
+  .pw {
+    --u: 1px;
+    --pw-cols: 6;
+    --pw-rows: 5;
+    padding: 0 0 56px;
+    background: linear-gradient(180deg, #fff7ef 0%, #fffdfb 42%, #fff6ee 100%);
+  }
+  .pw__stage { z-index: 1; height: auto; padding: 0 16px; display: flex; flex-direction: column; align-items: center; }
+  .pw__bg { display: none; }
+  .pw::before, .pw::after, .pw__stage::before {
+    content: ""; position: absolute; pointer-events: none;
+    background: url('assets/home/partners/partners-bg.jpg') no-repeat;
+  }
+  /* medina, flag and Arabic slogan, top right */
+  .pw::before { top: 0; right: 0; width: 400px; height: 196px; background-size: 1100px auto; background-position: 100% 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%), linear-gradient(180deg, #000 72%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 30%), linear-gradient(180deg, #000 72%, transparent);
+    -webkit-mask-composite: source-in; mask-composite: intersect; }
+  /* handwritten French line and palms, top left */
+  .pw__stage::before { z-index: -1; top: 0; left: 0; width: 330px; height: 196px; background-size: 1100px auto; background-position: 0 0;
+    -webkit-mask-image: linear-gradient(270deg, transparent, #000 30%), linear-gradient(180deg, #000 72%, transparent);
+            mask-image: linear-gradient(270deg, transparent, #000 30%), linear-gradient(180deg, #000 72%, transparent);
+    -webkit-mask-composite: source-in; mask-composite: intersect; }
+  /* tile pattern and dune, bottom left */
+  .pw::after { left: 0; bottom: 0; width: 100%; height: 120px; background-size: 1000px auto; background-position: 0 100%;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 70%); mask-image: linear-gradient(180deg, transparent, #000 70%); opacity: .8; }
+  .pw__head { position: relative; top: auto; padding: 200px 0 0; }
+  .pw__kicker { font-size: 12px; }
+  .pw__title { margin-top: 14px; font-size: clamp(27px, 6.4vw, 48px); white-space: normal; line-height: 1.05; }
+  .pw__sub { margin-top: 10px; font-size: clamp(13.5px, 2.2vw, 17px); max-width: 30em; }
+  .pw__underline { margin-top: 14px; width: 110px; height: 4px; }
+  .pw__panel {
+    position: relative; left: auto; top: auto; width: 100%; max-width: 860px; height: auto;
+    margin-top: 26px; padding: 16px; border-radius: 24px;
+  }
+  .pw__grid { gap: 10px; }
+  .pw-face { border-radius: 12px; }
+  .pw__foot {
+    position: relative; top: auto; margin-top: 28px;
+    font-size: 12px; letter-spacing: .3em;
+  }
+  .pw__foot::before, .pw__foot::after { width: 30px; flex: none; }
+  .pw-tile:nth-child(n + 31) { display: none; }
+}
+@media (max-width: 640px) {
+  .pw { --pw-cols: 3; }
+  .pw::before { width: 260px; height: 160px; background-size: 900px auto; }
+  .pw__stage::before { display: none; }
+  .pw__head { padding-top: 150px; }
+  .pw__panel { padding: 12px; border-radius: 20px; }
+  .pw__grid { gap: 8px; }
+  .pw__foot { font-size: 9.5px; letter-spacing: .2em; }
+  .pw__foot::before, .pw__foot::after { display: none; }
+  .pw-tile:nth-child(n + 16) { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pw-card { transform: none; transition: none; }
+  .pw-face { -webkit-backface-visibility: visible; backface-visibility: visible; transition: opacity .6s; }
+  .pw-face--b { transform: none; }
+  .pw-tile[data-front="a"] .pw-face--b, .pw-tile[data-front="b"] .pw-face--a { opacity: 0; }
+  .pw-tile.is-lit { animation: none; }
+}
