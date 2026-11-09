@@ -208,32 +208,10 @@
     const stats2025 = [...pageRoot.children].filter((element) => {
       const top = getTop(element); return top >= 3887 && top < 4697;
     });
-    if (stats2026.length && stats2025.length) {
-      const makeStatsPanel = (nodes, name) => {
-        const panel = document.createElement('div');
-        panel.className = `summit-stats-panel ${name}`;
-        nodes.forEach((node) => panel.append(node));
-        pageRoot.append(panel);
-        return panel;
-      };
-      const statsPanelCurrent = makeStatsPanel(stats2026, 'summit-stats-panel--current');
-      const statsPanelPrevious = makeStatsPanel(stats2025, 'summit-stats-panel--previous');
-      const statsTabs = document.createElement('div');
-      statsTabs.className = 'summit-stats-tabs'; statsTabs.setAttribute('role', 'tablist');
-      statsTabs.innerHTML = '<button type="button" role="tab" aria-selected="true">2026–2025</button><button type="button" role="tab" aria-selected="false">2024–2023</button>';
-      canvas.append(statsTabs);
-      const panels = { current: statsPanelCurrent, previous: statsPanelPrevious };
-      const activateStats = (panelName) => {
-        Object.entries(panels).forEach(([name, panel]) => {
-          const active = name === panelName;
-          panel.classList.toggle('is-active', active); panel.classList.toggle('is-hidden', !active);
-          panel.style.transform = name === 'previous' && active ? 'translateY(-811px)' : '';
-        });
-        [...statsTabs.querySelectorAll('button')].forEach((button) => button.setAttribute('aria-selected', String((button.textContent.includes('2026')) === (panelName === 'current'))));
-      };
-      statsTabs.querySelectorAll('button').forEach((button) => button.addEventListener('click', () => activateStats(button.textContent.includes('2026') ? 'current' : 'previous')));
-      activateStats('current');
-    }
+    // Replace both Figma stats frames (2025–2026 and 2023–2024) by the shared
+    // stats section with 2025 | 2026 tabs, same on all event pages.
+    [...stats2026, ...stats2025].forEach((node) => node.remove());
+    window.WajahniStats?.mount({ page: 'educareer', parent: pageRoot, top: 3076, height: 811 });
 
     const dialog = document.querySelector('#contact-dialog');
     const toast = document.querySelector('.figma-toast');

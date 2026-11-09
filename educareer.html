@@ -120,10 +120,6 @@
       .summit-investment-tab { cursor: pointer; transition: transform 180ms ease, filter 180ms ease; }
       .summit-investment-tab:hover { transform: scale(1.035); filter: brightness(1.03); }
       .summit-investment-tab:active { transform: scale(.97); }
-      .summit-stats-panel { position: absolute; inset: 0; transition: opacity 240ms ease, transform 360ms cubic-bezier(.22,1,.36,1); }
-      .summit-stats-panel.is-hidden { display: none; opacity: 0; pointer-events: none; }
-      .summit-stats-panel.is-active { display: block; opacity: 1; pointer-events: none; }
-      .summit-stats-panel > * { pointer-events: auto; }
       .summit-pack-panel { position: absolute; inset: 0; transition: opacity 240ms ease, transform 360ms cubic-bezier(.22,1,.36,1); }
       .summit-pack-panel.is-hidden { display: none; opacity: 0; pointer-events: none; }
       .summit-pack-panel.is-active { display: block; opacity: 1; pointer-events: auto; }
@@ -132,10 +128,6 @@
       .summit-pack-details li { position: relative; padding-left: 15px; }
       .summit-pack-details li::before { position: absolute; top: .41em; left: 0; width: 6px; height: 6px; border-radius: 50%; background: #f4671f; content: ""; }
       .summit-pack-recommended { position: absolute; z-index: 8; top: 20px; right: 0; border-radius: 11px 0 0 11px; padding: 7px 12px; color: #fff; background: linear-gradient(90deg, #ff5f00, #ff9a3d); box-shadow: 0 4px 10px rgba(255,95,0,.25); font: 700 9px/1 Poppins, Arial, sans-serif; letter-spacing: .5px; }
-      .summit-stats-tabs { position: absolute; z-index: 18; display: flex; gap: 8px; left: 50%; top: 3836px; transform: translateX(-50%); padding: 5px; border: 1px solid rgba(19,44,110,.12); border-radius: 999px; background: rgba(255,255,255,.94); box-shadow: 0 8px 20px rgba(19,44,110,.12); font: 700 13px Poppins, Arial, sans-serif; }
-      .summit-stats-tabs button { min-width: 68px; border: 0; border-radius: 999px; padding: 8px 14px; color: #526078; background: transparent; cursor: pointer; transition: background 180ms ease, color 180ms ease, transform 180ms ease; }
-      .summit-stats-tabs button:hover { transform: translateY(-1px); }
-      .summit-stats-tabs button[aria-selected="true"] { color: #fff; background: linear-gradient(90deg, #f4671f, #fb9800); box-shadow: 0 5px 12px rgba(244,103,31,.28); }
       @keyframes summit-section-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
       @keyframes figma-fade-in { from { opacity: 0; } to { opacity: 1; } }
       @keyframes figma-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
@@ -182,7 +174,7 @@
       .figma-close:hover { transform: rotate(90deg); filter: brightness(.96); }
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
     </style>
-  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><link rel="stylesheet" href="event-packs.css"><script src="service-hero.js"></script></head>
+  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><link rel="stylesheet" href="event-packs.css"><link rel="stylesheet" href="event-stats.css"><script src="service-hero.js"></script></head>
   <body id="top"><header class="site-header"></header><script src="site-nav.js"></script>
     <main id="figma-viewport" aria-label="Wajahni Edu-Career Summit 2027">
       <div id="figma-shell"><div id="figma-canvas"></div></div>
@@ -198,6 +190,7 @@
     <script type="text/babel">ReactDOM.createRoot(document.getElementById('figma-canvas')).render(<PageEduCareerSummit />);</script>
     <div class="fx-progress" aria-hidden="true"></div>
     <script src="event-packs.js"></script>
+    <script src="event-stats.js"></script>
     <script src="educareer-runtime.js"></script>
     <script src="service-links.js"></script>
   </body>

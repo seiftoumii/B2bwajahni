@@ -70,6 +70,16 @@
       node.classList.add('roadshow-counter');
       counterObserver.observe(node);
     });
+    // Replace the Figma stats frame (2025 and 2026 cards) by the shared stats
+    // section with 2025 | 2026 tabs, same on all event pages.
+    const statsRoot = canvas.querySelector('[data-node-id="247:11211"]');
+    if (statsRoot && window.WajahniStats) {
+      [...statsRoot.children].forEach((node) => {
+        const top = Number.parseFloat(getComputedStyle(node).top);
+        if (top >= 3076 && top < 3887) node.remove();
+      });
+      window.WajahniStats.mount({ page: 'roadshow', parent: statsRoot, top: 3076, height: 811 });
+    }
     // Replace the two Figma pack frames (one per tab, each with its own tab
     // switch) by the shared packs section, identical on all three event pages.
     const packsFrame = canvas.querySelector('[data-node-id="247:11437"]');

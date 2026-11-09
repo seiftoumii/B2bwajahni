@@ -153,36 +153,14 @@
       canvas.querySelectorAll('[data-investment-section]').forEach((section) => section.remove());
       window.WajahniPacks.mount({ page: 'caravan', parent: packsParent, top: 3926, height: 812 });
     }
-    const statsSections = canvas.querySelectorAll('[data-stats-section]');
-    let statsSwitching = false;
-    function selectStats(tab) {
-      const next = canvas.querySelector(`[data-stats-section="${tab}"]`);
-      const current = [...statsSections].find((section) => !section.classList.contains('is-hidden'));
-      if (statsSwitching || !next || current === next) return;
-      statsSwitching = true;
-      current.classList.remove('is-entering');
-      current.classList.add('is-leaving');
-      canvas.querySelectorAll('[data-stats-tab]').forEach((control) => {
-        control.setAttribute('aria-pressed', String(control.dataset.statsTab === tab));
-      });
-      window.setTimeout(() => {
-        current.classList.add('is-hidden');
-        current.classList.remove('is-leaving');
-        current.setAttribute('aria-hidden', 'true');
-        next.classList.remove('is-hidden');
-        next.setAttribute('aria-hidden', 'false');
-        next.classList.remove('is-entering');
-        window.requestAnimationFrame(() => next.classList.add('is-entering'));
-        statsSwitching = false;
-      }, 150);
+    // Replace the Caravan-only stats block (year pairs behind unlabeled dots)
+    // by the shared stats section with 2025 | 2026 tabs, same on all event pages.
+    const statsFrame = canvas.querySelector('[data-node-id="stats-section"]');
+    if (statsFrame && window.WajahniStats) {
+      const statsParent = statsFrame.parentElement;
+      statsFrame.remove();
+      window.WajahniStats.mount({ page: 'caravan', parent: statsParent, top: 3076, height: 850 });
     }
-    canvas.querySelectorAll('[data-stats-tab]').forEach((control) => {
-      const choose = () => selectStats(control.dataset.statsTab);
-      control.addEventListener('click', choose);
-      control.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); choose(); }
-      });
-    });
 
     ['201:1321', '201:1374', '210:3462', '215:5178'].forEach((id) => {
       const element = canvas.querySelector(`[data-node-id="${id}"]`);

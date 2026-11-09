@@ -39,7 +39,7 @@
       @keyframes roadshow-reveal-in { to { opacity: 1; transform: translateY(0); } }
       @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
     </style>
-  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="roadshow-hero.css"><link rel="stylesheet" href="event-packs.css"></head>
+  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="roadshow-hero.css"><link rel="stylesheet" href="event-packs.css"><link rel="stylesheet" href="event-stats.css"></head>
   <body id="top"><header class="site-header"></header><script src="site-nav.js"></script>
     <section class="rs-hero" id="roadshow-hero" aria-labelledby="rs-hero-title">
       <div class="rs-hero__stage">
@@ -74,6 +74,7 @@
     <script type="text/babel" src="roadshow-page.jsx"></script>
     <script type="text/babel">ReactDOM.createRoot(document.getElementById('figma-canvas')).render(<PageRoadshow />);</script>
     <script src="event-packs.js"></script>
+    <script src="event-stats.js"></script>
     <script src="roadshow-runtime.js"></script>
     <script src="service-links.js"></script>
   </body>
