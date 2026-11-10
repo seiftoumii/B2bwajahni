@@ -1,0 +1,77 @@
+/* Accueil: smooth "fondu" between sections.
+   Every seam used to be a hard edge where one section's picture stopped and
+   the next one's started. Here each background picture fades out over its
+   first and last --fade pixels into a soft colour, and the neighbouring
+   section fades in from that same colour, so one section melts into the
+   next. Only backgrounds fade: text, cards and buttons are never masked. */
+:root {
+  --fade: clamp(56px, 7vw, 140px);
+  --seam-cream: #fffaf5;   /* hero / video / chiffres */
+  --seam-peach: #fcf2ea;   /* chiffres / partners */
+  --seam-warm: #fdf8f3;    /* partners / testimonials */
+  --seam-white: #fcfcfc;   /* testimonials / influencers / services */
+  --seam-light: #fbfbfd;   /* services / contact */
+}
+.chf__bg, .pw__bg, .tm__bg {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%);
+}
+
+/* Hero: the photo melts into the video section's cream. The transparent strip
+   at the very bottom leaves room for the photo's slow zoom. */
+.hero { background-color: var(--seam-cream); }
+.hero__bg {
+  -webkit-mask-image: linear-gradient(0deg, transparent 0, transparent 5%, rgba(0,0,0,.55) 12%, #000 24%);
+          mask-image: linear-gradient(0deg, transparent 0, transparent 5%, rgba(0,0,0,.55) 12%, #000 24%);
+}
+/* The scroll cue now sits on the cream fade, so it switches to the heading ink. */
+.hero__scroll { color: #13204a; text-shadow: 0 1px 6px rgba(255, 250, 245, .8); }
+
+/* Sections whose background is a picture: each edge fades into the seam colour. */
+.chf { background: linear-gradient(180deg, var(--seam-cream), #fbf1ea 50%, var(--seam-peach)); }
+.pw  { background: linear-gradient(180deg, var(--seam-peach), #fff8f1 50%, var(--seam-warm)); }
+.tm  { background: linear-gradient(180deg, var(--seam-warm), #fdfdfc 50%, var(--seam-white)); }
+.tm.im { background: var(--seam-white); }
+
+/* Sections painted with CSS backgrounds get a soft veil at their top edge
+   (behind their content), so the colour change is gradual. */
+.summit-services, .contact { isolation: isolate; }
+.summit-services::before, .contact::before, .contact::after {
+  content: ""; position: absolute; z-index: -1; left: 0; right: 0; height: var(--fade); pointer-events: none;
+}
+.summit-services::before { top: 0; background: linear-gradient(180deg, var(--seam-white), rgba(251, 251, 253, 0)); }
+.contact { position: relative; }
+.contact::before { top: 0; background: linear-gradient(180deg, var(--seam-light), rgba(255, 249, 244, 0)); }
+.contact::after { bottom: 0; background: linear-gradient(0deg, #fff, rgba(255, 255, 255, 0)); }
+
+/* Very wide screens: the sections span the whole width, so no white strips
+   appear beside them. */
+@media (min-width: 1700px) { main { max-width: none; } }
+
+/* Tablets and phones: the cropped scenery at the top and bottom of the
+   partners and testimonials sections fades in and out too. */
+@media (max-width: 1023px) {
+  .chf { background: linear-gradient(180deg, var(--seam-cream), #fffaf6 40%, var(--seam-peach)); }
+  .chf__stage::before {
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 56px, #000 72%, transparent);
+            mask-image: linear-gradient(180deg, transparent 0, #000 56px, #000 72%, transparent);
+  }
+  .pw { background: linear-gradient(180deg, var(--seam-peach) 0%, #fffdfb 42%, var(--seam-warm) 100%); }
+  .pw::before {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%), linear-gradient(180deg, transparent 0, #000 48px, #000 72%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 30%), linear-gradient(180deg, transparent 0, #000 48px, #000 72%, transparent);
+  }
+  .pw__stage::before {
+    -webkit-mask-image: linear-gradient(270deg, transparent, #000 30%), linear-gradient(180deg, transparent 0, #000 48px, #000 72%, transparent);
+            mask-image: linear-gradient(270deg, transparent, #000 30%), linear-gradient(180deg, transparent 0, #000 48px, #000 72%, transparent);
+  }
+  .pw::after, .tm::after {
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 50%, #000 70%, transparent);
+            mask-image: linear-gradient(180deg, transparent, #000 50%, #000 70%, transparent);
+  }
+  .tm::before, .tm__stage::before {
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 48px, #000 70%, transparent);
+            mask-image: linear-gradient(180deg, transparent 0, #000 48px, #000 70%, transparent);
+  }
+  .hero { background: linear-gradient(180deg, #f7eee9 0%, #fde8d6 45%, var(--seam-cream) 100%); }
+}
