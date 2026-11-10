@@ -8,14 +8,14 @@
 .event-stats__title span { color: #f96b28; }
 
 /* The year switch never changes size or place: one element, fixed slot. */
-.event-stats__tabs { position: absolute; z-index: 2; top: 172px; left: 50%; display: flex; width: 240px; height: 42px; border-radius: 999px; background: #f0f2f6; box-shadow: 0 6px 16px rgba(19, 44, 110, .08); transform: translateX(-50%); }
-.event-stats__tab { display: flex; flex: 1 1 0; align-items: center; justify-content: center; margin: 0; padding: 0; border: 0; border-radius: 999px; color: #93a0b4; background: transparent; font: 700 15px/1 Poppins, Arial, sans-serif; letter-spacing: .9px; cursor: pointer; transition: color .2s ease, background-color .2s ease, box-shadow .2s ease; }
+.event-stats__tabs { position: absolute; z-index: 2; top: 172px; left: 50%; display: flex; width: auto; height: 42px; border-radius: 999px; background: #f0f2f6; box-shadow: 0 6px 16px rgba(19, 44, 110, .08); transform: translateX(-50%); }
+.event-stats__tab { display: flex; flex: 1 1 0; align-items: center; justify-content: center; min-width: 120px; margin: 0; padding: 0 22px; border: 0; border-radius: 999px; color: #93a0b4; white-space: nowrap; background: transparent; font: 700 15px/1 Poppins, Arial, sans-serif; letter-spacing: .9px; cursor: pointer; transition: color .2s ease, background-color .2s ease, box-shadow .2s ease; }
 .event-stats__tab:hover { color: #5e6c86; }
 .event-stats__tab[aria-selected="true"] { color: #fff; background: linear-gradient(90deg, #f97316, #f4571b); box-shadow: 0 5px 7px rgba(244, 87, 27, .35); }
 .event-stats__tab:focus-visible { outline: 3px solid #0d2a52; outline-offset: 3px; }
 
 /* Both year panels share one slot; only opacity changes when switching. */
-.event-stats__panel { position: absolute; z-index: 1; top: 232px; left: 50%; width: 506px; transform: translateX(-50%); visibility: hidden; opacity: 0; transition: opacity .25s ease, visibility 0s linear .25s; }
+.event-stats__panel { position: absolute; z-index: 1; top: 232px; left: 50%; display: grid; grid-template-columns: repeat(var(--event-stats-columns, 1), 506px); gap: 66px; align-items: start; transform: translateX(-50%); visibility: hidden; opacity: 0; transition: opacity .25s ease, visibility 0s linear .25s; }
 .event-stats__panel.is-active { visibility: visible; opacity: 1; transition: opacity .25s ease; }
 .event-stats__panel.is-active .event-stats__card { animation: event-stats-in .42s cubic-bezier(.22,1,.36,1) both; }
 
