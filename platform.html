@@ -18,7 +18,7 @@
       @keyframes platform-spin { to { transform: rotate(360deg); } }
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; }.platform-loader::before { animation: none; }* { transition-duration: .01ms !important; } }
     </style>
-  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script><link rel="stylesheet" href="platform-hero.css"><link rel="stylesheet" href="platform-chapters.css"><link rel="stylesheet" href="site-motion.css"></head>
+  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script><link rel="stylesheet" href="platform-hero.css"><link rel="stylesheet" href="platform-sections.css"><link rel="stylesheet" href="site-motion.css"></head>
   <body id="top"><header class="site-header"></header><script src="site-nav.js"></script>
     <div class="platform-loader" aria-live="polite">Chargement de WAJAHNI Platform</div>
     <section class="ph" id="platform-hero" aria-labelledby="ph-title"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="ph-grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb341"/><stop offset="1" stop-color="#f2541b"/></linearGradient></defs></svg>
@@ -33,7 +33,428 @@
         <p class="ph__tag"><span>Connectez votre établissement</span><span>aux talents de demain.</span><svg viewBox="0 0 290 28" preserveAspectRatio="none" aria-hidden="true"><path d="M4 24C80 10 180 4 286 6" fill="none" stroke="#f4622a" stroke-width="5" stroke-linecap="round"/></svg></p>
       </div>
     </section>
-    <main id="platform-chapters" aria-label="Présentation de WAJAHNI Platform"></main>
+    <main class="pf" aria-label="Wajahni Platform">
+
+      <!-- 2 · Intro -->
+      <section class="pf-sec pf-intro" id="pf-intro" aria-labelledby="pf-intro-title">
+        <img class="pf-intro__bg" src="assets/platform/sections/intro-bg.jpg" alt="Aperçu de la plateforme WAJAHNI sur un ordinateur portable, avec les catégories Universités, CAP/BTP/BTS, Centres de formation et Centres de langues" loading="lazy" decoding="async" />
+        <div class="pf-in">
+          <div class="pf-intro__text">
+            <p class="pf-eyebrow">Plateforme WAJAHNI</p>
+            <h2 class="pf-intro__title" id="pf-intro-title">La plateforme N°1 des <em>institutions</em> de référence en Tunisie</h2>
+            <p class="pf-intro__lead">Présentez vos programmes, attirez les bons profils et développez votre visibilité auprès de milliers de jeunes en quête d’orientation.</p>
+            <div class="pf-intro__row">
+              <a class="pf-btn" href="mailto:contact@wajahni.tn?subject=Devenir%20partenaire%20WAJAHNI%20Platform">Devenez partenaire <span aria-hidden="true">→</span></a>
+              <ul class="pf-intro__stats">
+                <li><strong>+30K</strong><span>visites</span></li>
+                <li><strong>+200</strong><span>programmes</span></li>
+                <li><strong>+100</strong><span>candidatures</span></li>
+              </ul>
+            </div>
+            <p class="pf-intro__foot">Ensemble pour des parcours d’avenir</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 · Pourquoi : l'orientation en Tunisie -->
+      <section class="pf-sec pf-light" id="pf-pourquoi" aria-labelledby="pf-why-title">
+        <img class="pf-bg" src="assets/platform/sections/light-bg.jpg" alt="" loading="lazy" decoding="async" />
+        <div class="pf-in">
+          <header class="pf-head">
+            <img class="pf-head__mascot" src="assets/platform/sections/mascot-point.webp" alt="" loading="lazy" />
+            <h2 class="pf-title" id="pf-why-title">Pourquoi WAJAHNI est <em>essentiel</em> pour les jeunes tunisiens ?</h2>
+            <p class="pf-sub">L’orientation en Tunisie : un enjeu national</p>
+          </header>
+          <div class="pf-cols3">
+            <article class="pf-card">
+              <h3 class="pf-card__bar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>La réalité sur le terrain</h3>
+              <p class="pf-card__lead">Des milliers de jeunes et diplômés :</p>
+              <ul class="pf-list">
+                <li>Recherchent des formations adaptées à leurs ambitions</li>
+                <li>Cherchent des compétences pratiques et employables</li>
+                <li>Préparent des études à l’étranger ou une réorientation professionnelle</li>
+              </ul>
+              <p class="pf-alert">Mais ils ne savent pas toujours vers qui se tourner.</p>
+            </article>
+            <article class="pf-card">
+              <h3 class="pf-card__bar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 13V5a2 2 0 0 1 4 0v6"/><path d="M12 11V9a2 2 0 0 1 4 0v3"/><path d="M16 12a2 2 0 0 1 4 0v3a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3.4L3.6 15a2 2 0 0 1 3.3-2.2L8 14"/></svg>Ce qui se passe aujourd’hui</h3>
+              <ul class="pf-list">
+                <li>Une offre de formation complexe et parfois peu claire</li>
+                <li>Des établissements de qualité mélangés avec des offres peu fiables</li>
+                <li>Des choix souvent basés sur : le prix, la proximité, l’influence des réseaux sociaux</li>
+              </ul>
+              <p class="pf-alert">Pas toujours sur la vraie valeur et les opportunités réelles.</p>
+            </article>
+            <article class="pf-card">
+              <h3 class="pf-card__bar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>L’impact sur les établissements académiques</h3>
+              <ul class="pf-list pf-list--chart">
+                <li>Des programmes et niveaux mal compris par les étudiants et les parents</li>
+                <li>Des attentes parfois irréalistes par rapport aux débouchés</li>
+                <li>Une forte concurrence et une différenciation difficile</li>
+              </ul>
+            </article>
+          </div>
+          <p class="pf-script pf-script--end">Une meilleure orientation pour un plus bel avenir</p>
+        </div>
+      </section>
+
+      <!-- 4 · Atteignez les bons étudiants -->
+      <section class="pf-sec pf-white" id="pf-benefices" aria-labelledby="pf-ben-title">
+        <div class="pf-in pf-split">
+          <figure class="pf-split__media">
+            <img src="assets/platform/sections/woman-laptop.webp" alt="Une étudiante consulte WAJAHNI sur son ordinateur, partout en Tunisie" loading="lazy" decoding="async" />
+          </figure>
+          <div class="pf-split__body">
+            <p class="pf-eyebrow">Pourquoi WAJAHNI</p>
+            <h2 class="pf-title pf-title--left" id="pf-ben-title">Atteignez les bons étudiants, au bon moment, avec le <em>bon message</em></h2>
+            <ul class="pf-rows">
+              <li><img src="assets/platform/sections/why-icon-1.webp" alt="" loading="lazy" /><div><h3>Leads qualifiés</h3><p>Les étudiants qui recherchent activement des cours de langues dans leur ville, des certifications et des compétences professionnelles trouvent votre centre en premier.</p></div></li>
+              <li class="is-blue"><img src="assets/platform/sections/why-icon-2.webp" alt="" loading="lazy" /><div><h3>Crédibilité &amp; confiance</h3><p>Être présent sur WAJAHNI renforce votre image de qualité et de sérieux et vous différencie des acteurs informels ou peu connus.</p></div></li>
+              <li><img src="assets/platform/sections/why-icon-3.webp" alt="" loading="lazy" /><div><h3>Visibilité maximale</h3><p>Soyez visibles dès le début du parcours de décision, avant les réseaux sociaux, la publicité ou le bouche-à-oreille.</p></div></li>
+              <li class="is-gold"><img src="assets/platform/sections/why-icon-4.webp" alt="" loading="lazy" /><div><h3>Inscriptions toute l’année</h3><p>Un seul profil = 365 jours de visibilité auprès des étudiants dans toute la Tunisie.</p></div></li>
+              <li><img src="assets/platform/sections/why-icon-5.webp" alt="" loading="lazy" /><div><h3>Expliquez clairement votre valeur</h3><p>Vos programmes, niveaux, débouchés, calendriers et tarifs sont présentés de manière professionnelle et transparente, ce qui facilite la décision d’inscription.</p></div></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 · La référence -->
+      <section class="pf-sec pf-light" id="pf-reference" aria-labelledby="pf-ref-title">
+        <img class="pf-bg" src="assets/platform/sections/light-bg.jpg" alt="" loading="lazy" decoding="async" />
+        <div class="pf-in">
+          <header class="pf-head">
+            <img class="pf-head__deco" src="assets/platform/sections/checklist-target.webp" alt="" loading="lazy" />
+            <p class="pf-banner">Si les étudiants recherchent une formation ou un programme en Tunisie, ils recherchent sur WAJAHNI</p>
+            <h2 class="pf-title" id="pf-ref-title">WAJAHNI est <em>la référence</em> en orientation académique en Tunisie</h2>
+          </header>
+          <div class="pf-ref">
+            <img class="pf-ref__shot" src="assets/platform/sections/site-screen.webp" alt="Page d’accueil du site WAJAHNI" loading="lazy" />
+            <img class="pf-ref__shot pf-ref__shot--photo" src="assets/platform/sections/salon-photo.webp" alt="Des étudiants visitent un salon d’orientation WAJAHNI" loading="lazy" />
+            <article class="pf-card pf-ref__card">
+              <h3><img src="assets/platform/sections/question.webp" alt="" loading="lazy" />Pourquoi votre institution doit être présente ?</h3>
+              <p class="pf-card__lead">Les étudiants utilisent activement WAJAHNI pour :</p>
+              <ol class="pf-steps">
+                <li>Rechercher des établissements</li>
+                <li>Comprendre les programmes</li>
+                <li>Prendre leur décision finale</li>
+              </ol>
+              <p class="pf-flag pf-flag--ok"><img src="assets/platform/sections/presence-icon.webp" alt="" loading="lazy" />Présence = légitimité &amp; confiance</p>
+              <p class="pf-flag pf-flag--ko"><img src="assets/platform/sections/absence-icon.webp" alt="" loading="lazy" />Absence = visibilité perdue</p>
+            </article>
+          </div>
+          <p class="pf-warn"><img src="assets/platform/sections/warning.webp" alt="" loading="lazy" /><span>Ne pas être présent sur WAJAHNI, <strong>c’est laisser les autres raconter votre histoire</strong></span></p>
+        </div>
+      </section>
+
+      <!-- 6 · Point d'entrée -->
+      <section class="pf-sec pf-warm" id="pf-entree" aria-labelledby="pf-entry-title">
+        <div class="pf-in">
+          <header class="pf-head">
+            <h2 class="pf-title" id="pf-entry-title">WAJAHNI comme point d’entrée de l’orientation</h2>
+            <p class="pf-sub">WAJAHNI : la porte d’entrée vers les choix académiques en Tunisie</p>
+          </header>
+          <div class="pf-entry">
+            <div class="pf-entry__left">
+              <img class="pf-entry__student" src="assets/platform/sections/student.webp" alt="" loading="lazy" />
+              <ol class="pf-bubble">
+                <li>Les étudiants commencent par chercher et comparer les options</li>
+                <li>Ils recherchent une information claire, simple et neutre</li>
+                <li>WAJAHNI devient souvent leur premier réflexe</li>
+                <li>Les institutions présentes sur WAJAHNI sont vues en premier et choisies en premier</li>
+              </ol>
+            </div>
+            <ol class="pf-timeline">
+              <li><h3>Recherche d’orientation <small>(WAJAHNI Platform)</small></h3><p>Les étudiants explorent, comparent et comprennent les options</p></li>
+              <li><h3>Candidature / suivi en ligne</h3><p>Les étudiants suivent les institutions présélectionnées</p></li>
+              <li><h3>Visites terrain / Journées portes ouvertes</h3><p>Les étudiants confirment leur choix</p></li>
+              <li><h3>Inscription</h3><p>Décision finale</p></li>
+            </ol>
+          </div>
+          <p class="pf-punch">La première visibilité crée la préférence.</p>
+        </div>
+      </section>
+
+      <!-- 7 · Qu'est-ce que WAJAHNI Platform -->
+      <section class="pf-sec pf-warm pf-warm--alt" id="pf-quoi" aria-labelledby="pf-what-title">
+        <div class="pf-in">
+          <header class="pf-head">
+            <h2 class="pf-title" id="pf-what-title">Qu’est-ce que WAJAHNI Platform ?</h2>
+            <p class="pf-sub">La première plateforme d’orientation académique et professionnelle en Tunisie</p>
+          </header>
+          <div class="pf-what">
+            <div class="pf-what__col">
+              <h3 class="pf-what__label">Positionnement</h3>
+              <ul class="pf-pos">
+                <li style="--c:#f26a1b"><img src="assets/platform/sections/pos-icon-1.webp" alt="" loading="lazy" />Universités</li>
+                <li style="--c:#f2a514"><img src="assets/platform/sections/pos-icon-2.webp" alt="" loading="lazy" />Institutions de formation pro <small>(CAP, BTP, BTS)</small></li>
+                <li style="--c:#d8321b"><img src="assets/platform/sections/pos-icon-3.webp" alt="" loading="lazy" />Centres de formation</li>
+                <li style="--c:#1e9bd0"><img src="assets/platform/sections/pos-icon-4.webp" alt="" loading="lazy" />Centres de langues</li>
+              </ul>
+            </div>
+            <div class="pf-what__col">
+              <h3 class="pf-what__label">Audience</h3>
+              <ol class="pf-aud">
+                <li><img src="assets/platform/sections/aud-icon-1.webp" alt="" loading="lazy" />Lycéens</li>
+                <li><img src="assets/platform/sections/aud-icon-2.webp" alt="" loading="lazy" />Bacheliers &amp; titulaires d’une licence</li>
+                <li><img src="assets/platform/sections/aud-icon-3.webp" alt="" loading="lazy" />Étudiants universitaires</li>
+                <li><img src="assets/platform/sections/aud-icon-4.webp" alt="" loading="lazy" />Parents</li>
+                <li><img src="assets/platform/sections/aud-icon-5.webp" alt="" loading="lazy" />Personnes en reconversion</li>
+              </ol>
+            </div>
+          </div>
+          <p class="pf-script pf-script--light">Des parcours, des opportunités, un meilleur avenir.</p>
+        </div>
+      </section>
+
+      <!-- 8 · Ce que vous pouvez accomplir -->
+      <section class="pf-sec pf-warm" id="pf-accomplir" aria-labelledby="pf-do-title">
+        <div class="pf-in">
+          <header class="pf-head">
+            <h2 class="pf-title" id="pf-do-title">Ce que vous pouvez accomplir sur WAJAHNI Platform</h2>
+            <p class="pf-sub">WAJAHNI vous aide à mieux expliquer votre offre, à vous démarquer clairement et à convertir plus rapidement.</p>
+          </header>
+          <ol class="pf-do">
+            <li style="--c:#f26a1b"><img src="assets/platform/sections/do-icon-1.webp" alt="" loading="lazy" /><h3>Présentez clairement tous vos programmes</h3><p>Mettez en avant toutes vos formations, niveaux, certifications et calendriers dans un seul espace structuré.</p></li>
+            <li style="--c:#efa514"><img src="assets/platform/sections/do-icon-2.webp" alt="" loading="lazy" /><h3>Valorisez la qualité et les atouts de vos formations</h3><p>Présentez les débouchés, l’employabilité, les accréditations, la méthodologie et vos points forts.</p></li>
+            <li style="--c:#d8321b"><img src="assets/platform/sections/do-icon-3.webp" alt="" loading="lazy" /><h3>Éduquez le marché</h3><p>Utilisez les données, tendances et statistiques pour aider les étudiants à comprendre pourquoi votre offre compte réellement.</p></li>
+            <li style="--c:#15808f"><img src="assets/platform/sections/do-icon-4.webp" alt="" loading="lazy" /><h3>Touchez les personnes en reconversion et les chercheurs actifs</h3><p>Ciblez les diplômés, les professionnels et les étudiants qui recherchent activement une montée en compétences ou des langues.</p></li>
+            <li style="--c:#1b8fcf"><img src="assets/platform/sections/do-icon-5.webp" alt="" loading="lazy" /><h3>Positionnez-vous parmi les meilleurs de votre région</h3><p>Placez votre centre aux côtés d’institutions reconnues et sérieuses, loin des offres aléatoires.</p></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 9 · Expérience WAJAHNI Platform -->
+      <section class="pf-sec pf-exp" id="pf-experience" aria-labelledby="pf-exp-title">
+        <img class="pf-exp__bg" src="assets/platform/sections/experience-bg.jpg" alt="La plateforme WAJAHNI ouverte sur un ordinateur portable" loading="lazy" decoding="async" />
+        <div class="pf-in">
+          <div class="pf-exp__text">
+            <p class="pf-eyebrow pf-eyebrow--light">Expérience WAJAHNI Platform</p>
+            <h2 class="pf-exp__title" id="pf-exp-title">WAJAHNI <em>Platform</em></h2>
+            <p class="pf-exp__sub">Fonctionnalités &amp; capacités</p>
+            <a class="pf-exp__url" href="https://www.wajahni.tn" target="_blank" rel="noopener">www.wajahni.tn</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10–16 · Fonctionnalités -->
+      <div class="pf-features">
+
+        <section class="pf-sec pf-feat" id="pf-dashboard" aria-labelledby="pf-f10">
+          <div class="pf-in pf-feat__grid">
+            <img class="pf-feat__shot" src="assets/platform/sections/laptop-10.webp" alt="Tableau de bord partenaire WAJAHNI" loading="lazy" decoding="async" />
+            <div class="pf-feat__body">
+              <h2 class="pf-feat__title" id="pf-f10">Tableau de bord <em>partenaire</em></h2>
+              <p class="pf-feat__sub">Votre espace dédié pour piloter votre présence</p>
+              <ol class="pf-feat__list">
+                <li>Accès privé pour chaque partenaire</li>
+                <li>Gestion centralisée de : <span>profil de l’institution · programmes &amp; formations · contenus visuels</span></li>
+                <li>Vue en temps réel de votre visibilité</li>
+                <li>Simple, intuitive, sans compétence technique requise</li>
+              </ol>
+              <p class="pf-feat__foot">Gérez votre présence. Suivez votre impact. Pilotez votre visibilité.</p>
+              <p class="pf-pill"><img src="assets/platform/sections/bulb.webp" alt="" loading="lazy" />Tout ce dont vous avez besoin, dans un seul dashboard</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="pf-sec pf-feat pf-feat--flip" id="pf-page-institution" aria-labelledby="pf-f11">
+          <div class="pf-in pf-feat__grid">
+            <img class="pf-feat__shot" src="assets/platform/sections/laptop-11.webp" alt="Page établissement sur WAJAHNI" loading="lazy" decoding="async" />
+            <div class="pf-feat__body">
+              <h2 class="pf-feat__title" id="pf-f11">Page <em>institution</em></h2>
+              <p class="pf-feat__sub">Votre page établissement sur WAJAHNI</p>
+              <ol class="pf-feat__list">
+                <li>Présentation complète de votre établissement</li>
+                <li>Description, mission &amp; positionnement</li>
+                <li>Identité visuelle (logo, photos, vidéos)</li>
+                <li>Accréditations &amp; points forts</li>
+                <li>Contact &amp; call-to-action</li>
+              </ol>
+              <p class="pf-feat__foot">Votre vitrine digitale officielle pour l’orientation en Tunisie</p>
+              <p class="pf-pill"><img src="assets/platform/sections/bulb.webp" alt="" loading="lazy" />Une image professionnelle, crédible et structurée — 24/7</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="pf-sec pf-feat" id="pf-pages-programmes" aria-labelledby="pf-f12">
+          <div class="pf-in pf-feat__grid">
+            <img class="pf-feat__shot" src="assets/platform/sections/laptop-12.webp" alt="Page programme sur WAJAHNI" loading="lazy" decoding="async" />
+            <div class="pf-feat__body">
+              <h2 class="pf-feat__title" id="pf-f12">Pages <em>programmes &amp; formations</em></h2>
+              <p class="pf-feat__sub">Des pages dédiées à chaque programme et formation</p>
+              <ol class="pf-feat__list">
+                <li>Objectifs de formation &amp; acquis</li>
+                <li>Niveaux, durée &amp; calendriers</li>
+                <li>Certifications &amp; reconnaissance</li>
+                <li>Profils ciblés (étudiants, professionnels, personnes en reconversion)</li>
+                <li>Débouchés professionnels ou possibilités de mobilité</li>
+              </ol>
+              <p class="pf-feat__foot">Présentez clairement votre offre. Aidez les étudiants à décider plus vite.</p>
+              <p class="pf-pill"><img src="assets/platform/sections/bulb.webp" alt="" loading="lazy" />La clarté améliore la conversion</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="pf-sec pf-feat pf-feat--flip" id="pf-contenus" aria-labelledby="pf-f13">
+          <div class="pf-in pf-feat__grid">
+            <img class="pf-feat__shot" src="assets/platform/sections/laptop-13.webp" alt="Édition d’une page programme sur WAJAHNI" loading="lazy" decoding="async" />
+            <div class="pf-feat__body">
+              <h2 class="pf-feat__title" id="pf-f13">Contenus <em>&amp; mises à jour</em></h2>
+              <p class="pf-feat__sub">Gardez vos informations toujours à jour</p>
+              <ol class="pf-feat__list">
+                <li>Mettez à jour vos programmes à tout moment</li>
+                <li>Ajoutez de nouvelles sessions ou certifications</li>
+                <li>Publiez vos temps forts et vos annonces</li>
+                <li>Restez pertinent tout au long de l’année</li>
+              </ol>
+              <p class="pf-feat__foot">Ajoutez et mettez à jour vos pages à tout moment</p>
+              <p class="pf-pill"><img src="assets/platform/sections/bulb.webp" alt="" loading="lazy" />Votre offre évolue — votre page évolue avec elle</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="pf-sec pf-feat" id="pf-prospects" aria-labelledby="pf-f14">
+          <div class="pf-in pf-feat__grid">
+            <img class="pf-feat__shot" src="assets/platform/sections/laptop-14.webp" alt="Liste des candidatures dans l’espace partenaire WAJAHNI" loading="lazy" decoding="async" />
+            <div class="pf-feat__body">
+              <h2 class="pf-feat__title" id="pf-f14">Prospects <em>&amp; contacts</em></h2>
+              <p class="pf-feat__sub">De la visibilité à l’inscription</p>
+              <ol class="pf-feat__list">
+                <li>Contact direct avec les étudiants</li>
+                <li>En cliquant sur le bouton, vous accédez à toutes leurs informations</li>
+              </ol>
+              <p class="pf-feat__foot">Transformez l’intérêt en véritables opportunités</p>
+              <p class="pf-pill"><img src="assets/platform/sections/bulb.webp" alt="" loading="lazy" />Pas une visibilité de masse — une découverte ciblée</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="pf-sec pf-feat pf-feat--flip" id="pf-accompagnement" aria-labelledby="pf-f15">
+          <div class="pf-in pf-feat__grid">
+            <img class="pf-feat__shot" src="assets/platform/sections/laptop-15.webp" alt="Espace partenaire WAJAHNI : simple, accompagné et sécurisé" loading="lazy" decoding="async" />
+            <div class="pf-feat__body">
+              <h2 class="pf-feat__title" id="pf-f15">Simple, accompagnée <em>&amp; sécurisée</em></h2>
+              <p class="pf-feat__sub">Facile à utiliser. Un accompagnement à chaque étape.</p>
+              <ol class="pf-feat__list">
+                <li>Aucune complexité technique</li>
+                <li>L’équipe WAJAHNI à vos côtés</li>
+                <li>Une prise en main accompagnée</li>
+                <li>Un accès sécurisé pour les partenaires</li>
+              </ol>
+              <p class="pf-feat__foot">Transformez l’intérêt en véritables opportunités.</p>
+              <p class="pf-pill"><img src="assets/platform/sections/bulb.webp" alt="" loading="lazy" />Concentrez-vous sur la formation. Nous gérons la plateforme.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="pf-sec pf-feat" id="pf-recherche" aria-labelledby="pf-f16">
+          <div class="pf-in pf-feat__grid">
+            <img class="pf-feat__shot" src="assets/platform/sections/laptop-16.webp" alt="Le quiz WAJAHNI « Trouvez votre voie »" loading="lazy" decoding="async" />
+            <div class="pf-feat__body">
+              <p class="pf-eyebrow pf-eyebrow--light">Expérience visiteur</p>
+              <h2 class="pf-feat__title" id="pf-f16">Recherche, <em>filtres &amp; découverte</em></h2>
+              <p class="pf-feat__sub">Soyez trouvés par les étudiants qui vous correspondent.</p>
+              <ol class="pf-feat__list pf-feat__list--rich">
+                <li><strong>Recherche personnalisée</strong>Quelques questions pour trouver les programmes adaptés à chaque profil.</li>
+                <li><strong>Rapide et interactif</strong>Sans longs formulaires : une expérience dynamique qui engage les étudiants.</li>
+                <li><strong>Des choix éclairés</strong>Le quiz aide à comprendre les options et à comparer les programmes.</li>
+                <li><strong>Visibilité ciblée</strong>Vos programmes apparaissent auprès des étudiants dont les intérêts correspondent.</li>
+              </ol>
+              <p class="pf-feat__foot">Avec le Quiz WAJAHNI, la découverte se transforme en inscriptions.</p>
+              <p class="pf-pill"><img src="assets/platform/sections/bulb.webp" alt="" loading="lazy" />Une découverte ciblée pour des profils pertinents.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 17 · Logique tarifaire -->
+        <section class="pf-sec pf-feat pf-logic" id="pf-logique" aria-labelledby="pf-logic-title">
+          <div class="pf-in">
+            <header class="pf-head">
+              <h2 class="pf-feat__title" id="pf-logic-title">Notre logique <em>tarifaire</em></h2>
+              <p class="pf-feat__sub">Une tarification juste, accessible et stratégique.</p>
+              <p class="pf-logic__lead">Votre tarif repose sur 3 critères</p>
+            </header>
+            <ol class="pf-tiles">
+              <li><img src="assets/platform/sections/tarif-crit-1.webp" alt="" loading="lazy" /><h3>Type d’établissement</h3><p>Université, centre de formation, centre de langues ou établissement CAP / BTP / BTS.</p></li>
+              <li><img src="assets/platform/sections/tarif-crit-2.webp" alt="" loading="lazy" /><h3>Nombre de programmes</h3><p>Le nombre de programmes proposés : licences, masters et autres formations.</p></li>
+              <li><img src="assets/platform/sections/tarif-crit-3.webp" alt="" loading="lazy" /><h3>Niveau de visibilité</h3><p>La possibilité de mettre en avant un ou plusieurs programmes sponsorisés.</p></li>
+            </ol>
+            <p class="pf-pill pf-pill--center"><img src="assets/platform/sections/bulb.webp" alt="" loading="lazy" />Bénéficiez de tarifs préférentiels pour participer à nos événements.</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- 18–19 · Tarifs -->
+      <section class="pf-sec pf-light pf-price" id="pf-tarifs" aria-labelledby="pf-price-title">
+        <img class="pf-bg" src="assets/platform/sections/price-bg.jpg" alt="" loading="lazy" decoding="async" />
+        <div class="pf-in">
+          <header class="pf-head">
+            <p class="pf-script pf-script--start">Investir dans les talents de demain.</p>
+            <h2 class="pf-title" id="pf-price-title"><em>Tarifs</em> concernés</h2>
+            <div class="pf-tabs" role="tablist" aria-label="Type d’établissement">
+              <button class="pf-tab" type="button" role="tab" id="pf-tab-uni" aria-controls="pf-tarifs-grid" aria-selected="true" data-plan="uni">Université <span>· École de Formation Pro (CAP, BTP, BTS)</span></button>
+              <button class="pf-tab" type="button" role="tab" id="pf-tab-centre" aria-controls="pf-tarifs-grid" aria-selected="false" tabindex="-1" data-plan="centre">Centre de langue <span>· Centre de Formation</span></button>
+            </div>
+          </header>
+          <div class="pf-plans" id="pf-tarifs-grid" role="tabpanel" aria-labelledby="pf-tab-uni" data-plan="uni">
+            <article class="pf-plan">
+              <img src="assets/platform/sections/plan-1.webp" alt="" loading="lazy" />
+              <h3 class="pf-plan__head"><span>Basic</span><strong><b data-uni="1 990" data-centre="990">1 990</b> <small>DT HT / an</small></strong></h3>
+              <ul class="pf-checks">
+                <li>Présence de votre établissement sur la plateforme WAJAHNI</li>
+                <li>Accès aux statistiques de performance de votre établissement</li>
+                <li>1 établissement inclus</li>
+                <li>Jusqu’à 20 programmes</li>
+              </ul>
+            </article>
+            <article class="pf-plan pf-plan--extra">
+              <img src="assets/platform/sections/plan-2.webp" alt="" loading="lazy" />
+              <h3 class="pf-plan__head"><span>Suppléments</span></h3>
+              <ul class="pf-extras">
+                <li><span>+1 établissement <small>(20 programmes inclus)</small></span><strong>990 <small>DT HT / an</small></strong></li>
+                <li><span>+50 programmes</span><strong>990 <small>DT HT / an</small></strong></li>
+                <li><span>+1 programme mis en avant</span><strong>990 <small>DT HT / an</small></strong></li>
+              </ul>
+            </article>
+            <article class="pf-plan pf-plan--idol">
+              <img src="assets/platform/sections/plan-3.webp" alt="" loading="lazy" />
+              <h3 class="pf-plan__head"><span>IDOL</span><strong><b data-uni="9 990" data-centre="5 990">9 990</b> <small>DT HT / an</small></strong></h3>
+              <ul class="pf-checks">
+                <li>Présence de votre établissement sur la plateforme WAJAHNI</li>
+                <li>Accès aux statistiques de performance de votre établissement</li>
+                <li>Établissements illimités</li>
+                <li>Programmes illimités</li>
+                <li>5 programmes de votre choix mis en avant sur la plateforme</li>
+              </ul>
+            </article>
+          </div>
+          <ul class="pf-benefits">
+            <li><img src="assets/platform/sections/benefit-1.webp" alt="" loading="lazy" /><span><strong>Plus de visibilité</strong>Touchez la bonne audience.</span></li>
+            <li><img src="assets/platform/sections/benefit-2.webp" alt="" loading="lazy" /><span><strong>Plus d’étudiants</strong>Développez votre attractivité.</span></li>
+            <li><img src="assets/platform/sections/benefit-3.webp" alt="" loading="lazy" /><span><strong>Plus d’opportunités</strong>Optimisez vos résultats.</span></li>
+            <li><img src="assets/platform/sections/benefit-4.webp" alt="" loading="lazy" /><span><strong>Un impact durable</strong>Construisons l’avenir ensemble.</span></li>
+            <li class="pf-benefits__end"><img src="assets/platform/sections/plane-icon.webp" alt="" loading="lazy" /><span>Plus qu’une plateforme, un partenaire de votre impact.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 20 · Pourquoi nous rejoindre -->
+      <section class="pf-sec pf-feat pf-join" id="pf-rejoindre" aria-labelledby="pf-join-title">
+        <div class="pf-in">
+          <header class="pf-head">
+            <h2 class="pf-feat__title" id="pf-join-title">Pourquoi nous rejoindre <em>maintenant ?</em></h2>
+            <p class="pf-feat__sub">Les premiers à nous rejoindre prennent une longueur d’avance.</p>
+          </header>
+          <ol class="pf-tiles pf-tiles--4">
+            <li><img src="assets/platform/sections/join-1.webp" alt="" loading="lazy" /><h3>Un nombre limité d’établissements par catégorie</h3></li>
+            <li><img src="assets/platform/sections/join-2.webp" alt="" loading="lazy" /><h3>Une visibilité renforcée dès le lancement</h3></li>
+            <li><img src="assets/platform/sections/join-3.webp" alt="" loading="lazy" /><h3>Un positionnement prioritaire</h3></li>
+            <li><img src="assets/platform/sections/join-4.webp" alt="" loading="lazy" /><h3>Des conditions préférentielles</h3></li>
+          </ol>
+          <p class="pf-join__cta"><a class="pf-btn pf-btn--big" href="mailto:contact@wajahni.tn?subject=Devenir%20partenaire%20WAJAHNI%20Platform">Devenir partenaire <span aria-hidden="true">→</span></a></p>
+        </div>
+      </section>
+    </main>
     <script src="platform-runtime.js"></script>
   <script src="site-motion.js"></script>
 </body>

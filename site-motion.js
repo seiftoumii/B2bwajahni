@@ -408,7 +408,7 @@
     shine(cta, true);
   }
 
-  /* ---------- Platform and 360° (image decks) ---------- */
+  /* ---------- Platform sections and 360° ---------- */
   function platform() {
     const hero = $('#platform-hero');
     if (hero) {
@@ -421,17 +421,20 @@
       stagger($$('.ph__card', hero), 'pop', { base: 150 + items.length * 120, step: 110 });
       mark($('.ph__tag', hero), 'fade', 150 + items.length * 120 + 520);
     }
-    $$('#platform-chapters .pc').forEach((chapter) => {
-      const side = $('.pc__side', chapter);
-      mark($('.pc__kicker', side), 'rise', 0, chapter, { '--mo-y': '20px' });
-      heading($('.pc__title', side), 120, chapter);
-      stagger($$('.pc__menu li', side), 'rise', { base: 260, step: 60, trigger: chapter, vars: { '--mo-y': '14px' } });
-      mark($('.pc__stage', chapter), 'zoom', 150, chapter);
-      const nav = $('.pc__nav', chapter);
-      if (nav) mark(nav, 'fade', 500, chapter);
-      const cta = $('.pc__cta', chapter);
-      if (cta) { mark(cta, 'pop', 400, chapter); shine(cta, true); }
+    const page = $('main.pf');
+    if (!page) return;
+    $$('.pf-sec', page).forEach((section) => {
+      $$('.pf-head, .pf-intro__text > *, .pf-exp__text > *', section).forEach((el, i) => mark(el, 'rise', i * 90, null, { '--mo-y': '26px' }));
+      $$('.pf-feat__shot, .pf-split__media, .pf-intro__bg', section).forEach((el) => mark(el, 'zoom', 0));
+      const groups = ['.pf-cols3', '.pf-rows', '.pf-ref', '.pf-bubble', '.pf-timeline', '.pf-pos', '.pf-aud', '.pf-do', '.pf-feat__list', '.pf-tiles', '.pf-plans', '.pf-benefits'];
+      groups.forEach((selector) => $$(selector, section).forEach((group) => {
+        stagger([...group.children], 'rise', { base: 120, step: 90, trigger: group, vars: { '--mo-y': '30px' } });
+      }));
+      $$('.pf-feat__body > :not(.pf-feat__list)', section).forEach((el, i) => mark(el, 'rise', i * 90, null, { '--mo-y': '24px' }));
+      $$('.pf-warn, .pf-punch, .pf-script, .pf-pill--center, .pf-join__cta', section).forEach((el) => mark(el, 'pop', 150));
+      $$('.pf-head__mascot, .pf-head__deco', section).forEach((el) => { mark(el, 'pop', 300); float(el, 10); });
     });
+    $$('.pf-btn', page).forEach((btn) => shine(btn, true));
   }
 
   function w360() {
@@ -470,7 +473,7 @@
     }
     if ($('#roadshow-hero')) roadshowHero();
     if ($('main > .hero') || $('.vid')) home();
-    if ($('#platform-hero') || $('#platform-chapters')) platform();
+    if ($('#platform-hero')) platform();
     if ($('#w360-root') || $('.w360-page') || document.querySelector('script[src*="wajahni360"]')) {
       const started = performance.now();
       const wait = () => ($$('[data-w360-panel]').length ? w360() : performance.now() - started < 15000 && setTimeout(wait, 120));
