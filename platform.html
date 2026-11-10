@@ -7,48 +7,18 @@
     <title>Wajahni Platform</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@900&family=Caveat:wght@600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@900&family=Caveat:wght@600&display=swap" rel="stylesheet" />
     <style>
-      :root { --platform-width: 1440; --platform-height: 18729; --platform-scale: 1; }
       * { box-sizing: border-box; }
       html { background: #fff; scroll-behavior: smooth; }
       body { min-width: 320px; margin: 0; overflow-x: hidden; background: #fff; }
-      #platform-viewport { position: relative; width: 100%; height: 18729px; margin: 0 auto; overflow: hidden; }
-      #platform-shell { position: absolute; top: 0; left: 0; width: 1440px; height: 18729px; transform: scale(var(--platform-scale)); transform-origin: top left; }
-      #platform-canvas { position: relative; width: 1440px; height: 18729px; overflow: hidden; background: #fff; }
-      .platform-panel { position: absolute; left: 0; width: 1440px; overflow: hidden; background: #fff; }
-      .platform-panel img { display: block; width: 100%; height: 100%; object-fit: cover; }
-      .platform-panel--blended { -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 28px, #000 92px); mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 28px, #000 92px); }
-      .platform-overlay-logo { position: absolute; z-index: 3; width: 132px; height: 132px; object-fit: contain; }
-      .platform-nav { position: fixed; z-index: 20; top: 43px; left: 36px; right: 36px; display: flex; align-items: center; height: 48px; color: #fff; font: 500 14.5px/1 Poppins,Arial,sans-serif; transition: background .25s ease, box-shadow .25s ease, transform .25s ease, backdrop-filter .25s ease; }
-      .platform-nav.is-scrolled { top: 18px; padding: 7px 10px; border: 1px solid rgba(255,255,255,.2); border-radius: 16px; background: rgba(11,31,77,.38); box-shadow: 0 9px 24px rgba(8,25,69,.2); backdrop-filter: blur(12px); }
-      .platform-nav__logo { display: block; width: 138px; height: 45px; flex: 0 0 auto; object-fit: cover; }
-      .platform-nav__links { display: flex; align-items: center; gap: 36px; margin-left: 26px; }
-      .platform-nav a { position: relative; color: inherit; text-decoration: none; white-space: nowrap; transition: color .18s ease, transform .18s ease; }
-      .platform-nav a:hover { color: #ffd9c6; transform: translateY(-1px); }
-      .platform-nav a[aria-current="page"] { color: #f4622a; font-weight: 700; }
-      .platform-nav__contact { display: flex; align-items: center; gap: 12px; margin-left: auto; border: 0; border-radius: 999px; padding: 14px 26px; color: #fff; background: #f4622a; box-shadow: 0 8px 18px rgba(244,98,42,.28); font: 500 16px/1 Poppins,Arial,sans-serif; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
-      .platform-nav__contact:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(244,98,42,.38); }
-      .platform-nav__contact img { width: 19px; height: 19px; }
-      .platform-nav a:focus-visible, .platform-nav__contact:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
       .platform-loader { position: fixed; z-index: 60; inset: 0; display: grid; place-items: center; color: #fff; background: #11275c; font: 600 15px Poppins,Arial,sans-serif; transition: opacity .38s ease, visibility .38s ease; }
       .platform-loader::before { width: 32px; height: 32px; margin-bottom: 14px; border: 3px solid rgba(255,255,255,.28); border-top-color: #ff6a00; border-radius: 50%; content: ""; animation: platform-spin .8s linear infinite; }
       .platform-loader.is-ready { visibility: hidden; opacity: 0; pointer-events: none; }
-      .platform-dialog { width: min(520px,calc(100vw - 32px)); border: 0; border-radius: 20px; padding: 0; box-shadow: 0 24px 80px rgba(11,28,70,.35); }
-      .platform-dialog::backdrop { background: rgba(8,18,48,.72); backdrop-filter: blur(5px); }
-      .platform-dialog__content { padding: 30px; color: #11275c; font-family: Poppins,Arial,sans-serif; }
-      .platform-dialog__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
-      .platform-dialog h2 { margin: 0; font-size: 28px; line-height: 1.1; }.platform-dialog p { color: #5e6c86; font-size: 14px; line-height: 1.55; }
-      .platform-dialog__close { width: 40px; height: 40px; border: 0; border-radius: 50%; color: #11275c; background: #edf2f9; font-size: 23px; cursor: pointer; }
-      .platform-form { display: grid; gap: 14px; margin-top: 22px; }.platform-form label { display: grid; gap: 6px; color: #1b2a4a; font-size: 13px; font-weight: 700; }
-      .platform-form input,.platform-form textarea { width: 100%; border: 1px solid #dfe6f0; border-radius: 9px; padding: 12px; color: #1b2a4a; font: inherit; }.platform-form textarea { min-height: 98px; resize: vertical; }
-      .platform-form button { justify-self: start; border: 0; border-radius: 10px; padding: 13px 22px; color: #fff; background: linear-gradient(90deg,#f7861d,#ef5a10); font: 700 14px Poppins,Arial,sans-serif; cursor: pointer; }
-      .platform-toast { position: fixed; z-index: 61; bottom: 24px; left: 50%; padding: 13px 18px; border-radius: 999px; transform: translate(-50%,20px); color: #fff; background: #11275c; font: 600 14px Poppins,Arial,sans-serif; opacity: 0; pointer-events: none; transition: opacity .25s ease,transform .25s ease; }.platform-toast.is-visible { transform: translate(-50%,0); opacity: 1; }
       @keyframes platform-spin { to { transform: rotate(360deg); } }
-      @media (max-width: 900px) { .platform-nav__links { gap: 18px; margin-left: 16px; font-size: 12px; }.platform-nav__contact { padding: 12px 18px; font-size: 14px; } }
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; }.platform-loader::before { animation: none; }* { transition-duration: .01ms !important; } }
     </style>
-  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script><link rel="stylesheet" href="platform-hero.css"><link rel="stylesheet" href="site-motion.css"></head>
+  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script><link rel="stylesheet" href="platform-hero.css"><link rel="stylesheet" href="platform-sections.css"><link rel="stylesheet" href="site-motion.css"></head>
   <body id="top"><header class="site-header"></header><script src="site-nav.js"></script>
     <div class="platform-loader" aria-live="polite">Chargement de WAJAHNI Platform</div>
     <section class="ph" id="platform-hero" aria-labelledby="ph-title"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="ph-grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb341"/><stop offset="1" stop-color="#f2541b"/></linearGradient></defs></svg>
@@ -63,10 +33,327 @@
         <p class="ph__tag"><span>Connectez votre établissement</span><span>aux talents de demain.</span><svg viewBox="0 0 290 28" preserveAspectRatio="none" aria-hidden="true"><path d="M4 24C80 10 180 4 286 6" fill="none" stroke="#f4622a" stroke-width="5" stroke-linecap="round"/></svg></p>
       </div>
     </section>
-    <main id="platform-viewport" aria-label="Wajahni Platform"><div id="platform-shell"><div id="platform-canvas"></div></div></main>
-    
-    <dialog class="platform-dialog" id="platform-contact" aria-labelledby="platform-contact-title"><div class="platform-dialog__content"><div class="platform-dialog__top"><div><h2 id="platform-contact-title">Contactez-nous</h2><p>Parlons de votre projet avec WAJAHNI Platform.</p></div><button class="platform-dialog__close" type="button" aria-label="Fermer">×</button></div><form class="platform-form"><label>Nom<input required autocomplete="name" /></label><label>Email<input required type="email" autocomplete="email" /></label><label>Message<textarea required></textarea></label><button type="submit">Envoyer une demande</button></form></div></dialog>
-    <div class="platform-toast" role="status" aria-live="polite"></div>
+    <main class="ps-deck" aria-label="Wajahni Platform">
+      <section class="ps" id="platform-02" aria-label="Plateforme WAJAHNI">
+        <img class="ps__bg" src="assets/platform/slides-clean/s02.jpg" alt="" loading="eager" decoding="async" width="1487" height="1058" />
+        <p class="ps__t"><span style="--x:47.98;--y:302.44;--s:28.89;--ls:2.18;color:#0d0d15">PLATEFORME WAJAHNI</span></p>
+        <p class="ps__t"><span style="--x:48.76;--y:368.03;--s:54.08;color:#030107;font-weight:700">La plateforme N°1</span></p>
+        <p class="ps__t"><span style="--x:48.91;--y:437.76;--s:54.4;--ls:-0.82;color:#040208;font-weight:700">des</span></p>
+        <p class="ps__t"><span style="--x:161.82;--y:437.69;--s:54.48;color:#f65714;font-weight:700">institutions</span></p>
+        <p class="ps__t"><span style="--x:48.06;--y:508;--s:47.06;color:#030207;font-weight:700">de référence en Tunisie</span></p>
+        <p class="ps__t"><span style="--x:50.73;--y:595.58;--s:18.14;--ls:0.04;color:#6a6c77">Présentez vos programmes, attirez les bons profils</span><span style="--x:50.27;--y:624.58;--s:18.14;--ls:-0.07;color:#6a6c79">et développez votre visibilité auprès de milliers de jeunes</span><span style="--x:50.27;--y:653.58;--s:18.14;color:#6d6f79">en quête d’orientation.</span></p>
+        <p class="ps__t"><span style="--x:68.93;--y:738.98;--s:15.31;color:#fff0d3;font-weight:500">Devenez partenaire</span></p>
+        <p class="ps__t"><span style="--x:322.11;--y:724.79;--s:17.89;color:#da591a;font-weight:700">+30K</span></p>
+        <p class="ps__t"><span style="--x:323.88;--y:751.62;--s:12.22;color:#717481">visites</span></p>
+        <p class="ps__t"><span style="--x:410.07;--y:724.14;--s:18.66;color:#dd581b;font-weight:700">+200</span></p>
+        <p class="ps__t"><span style="--x:396.14;--y:751.55;--s:12.29;--ls:-0.55;color:#737683">programmes</span></p>
+        <p class="ps__t"><span style="--x:511.07;--y:724.27;--s:18.5;color:#de5d1b;font-weight:700">+100</span></p>
+        <p class="ps__t"><span style="--x:493.51;--y:752.6;--s:12.24;--ls:-0.47;color:#72747f">candidatures</span></p>
+        <p class="ps__t"><span style="--x:49.53;--y:905.12;--s:21.04;color:#212235">ENSEMBLE POUR DES PARCOURS D’AVENIR</span></p>
+        <p class="ps__t"><span style="--x:733.13;--y:907.69;--s:14.48;color:#05092b;font-weight:600">Universités</span></p>
+        <p class="ps__t"><span style="--x:917.57;--y:907.71;--s:14.45;color:#0a0e30;font-weight:600">CAP/BTP/BTS</span></p>
+        <p class="ps__t"><span style="--x:1080.58;--y:908.15;--s:13.94;color:#060b2c;font-weight:600">Centres de formation</span></p>
+        <p class="ps__t"><span style="--x:1281.59;--y:908.48;--s:13.55;color:#080c30;font-weight:600">Centres de langues</span></p>
+      </section>
+      <section class="ps" id="platform-03" aria-label="Pourquoi WAJAHNI est essentiel">
+        <img class="ps__bg" src="assets/platform/slides-clean/s03.jpg" alt="" loading="eager" decoding="async" width="1487" height="1058" />
+        <p class="ps__t"><span style="--x:400.43;--y:95.32;--s:51.38;color:#010d1a;font-weight:800">POURQUOI WAJAHNI</span></p>
+        <p class="ps__t"><span style="--x:245.13;--y:154.15;--s:37.47;color:#020a19;font-weight:800">EST</span></p>
+        <p class="ps__t"><span style="--x:321.87;--y:149.72;--s:42.68;color:#f2580f;font-weight:800">ESSENTIEL</span></p>
+        <p class="ps__t"><span style="--x:544.13;--y:154.23;--s:37.37;color:#020a14;font-weight:800">POUR LES JEUNES TUNISIENS ?</span></p>
+        <p class="ps__t"><span style="--x:443.24;--y:205.61;--s:25.17;color:#79787a">L’orientation en Tunisie : un enjeu national</span></p>
+        <p class="ps__t"><span style="--x:259.63;--y:356.58;--s:22.84;color:#fff6ed;font-weight:600">La réalité sur le terrain</span></p>
+        <p class="ps__t"><span style="--x:647.42;--y:358.45;--s:19.46;color:#fff5e8;font-weight:600">Ce qui se passe aujourd’hui</span></p>
+        <p class="ps__t"><span style="--x:1055.92;--y:345.69;--s:18.01;color:#fff3e3;font-weight:600">L’impact sur les</span><span style="--x:1055.46;--y:372.69;--s:18.01;--ls:-0.82;color:#fff1e3;font-weight:600">établissements académiques</span></p>
+        <p class="ps__t"><span style="--x:189.91;--y:434.53;--s:18.21;color:#d2421e;font-weight:600">Des milliers de jeunes et diplômés :</span></p>
+        <p class="ps__t"><span style="--x:261.86;--y:484.1;--s:16.35;--ls:-0.3;color:#222d61">Recherchent des formations</span><span style="--x:261.35;--y:508.1;--s:16.35;--ls:-0.5;color:#212b5f">adaptées à leurs ambitions</span></p>
+        <p class="ps__t"><span style="--x:261.37;--y:572.57;--s:15.8;color:#232b59">Cherchent des compétences</span><span style="--x:261.89;--y:596.57;--s:15.8;--ls:-0.12;color:#212d5c">pratiques et employables</span></p>
+        <p class="ps__t"><span style="--x:261.88;--y:652.37;--s:16.03;color:#202a5a">Préparent des études</span><span style="--x:261.36;--y:675.37;--s:16.03;--ls:-0.01;color:#202c5a">à l’étranger ou une reorientation</span><span style="--x:261.88;--y:699.37;--s:16.03;--ls:0.09;color:#222d58">professionnelle</span></p>
+        <p class="ps__t"><span style="--x:273.05;--y:772.59;--s:15.78;color:#080927;font-weight:600">Mais ils ne savent pas toujours</span><span style="--x:273.84;--y:796.59;--s:15.78;--ls:-0.22;color:#080a29;font-weight:600">vers qui se tourner.</span></p>
+        <p class="ps__t"><span style="--x:664.88;--y:442.41;--s:15.99;color:#253262">Une offre de formation</span><span style="--x:664.36;--y:465.41;--s:15.99;color:#1e2c5c">complexe et parfois</span><span style="--x:664.88;--y:488.41;--s:15.99;--ls:-0.3;color:#272f63">peu claire</span></p>
+        <p class="ps__t"><span style="--x:664.88;--y:543.43;--s:15.96;color:#212d5f">Des établissements de qualité</span><span style="--x:664.88;--y:566.43;--s:15.96;--ls:-0.2;color:#202a5c">mélangés avec des offres</span><span style="--x:663.88;--y:590.43;--s:15.96;--ls:-0.03;color:#1d2d5e">peu fiables</span></p>
+        <p class="ps__t"><span style="--x:664.88;--y:646.45;--s:15.94;--ls:-0.04;color:#263162">Des choix souvent basés sur :</span></p>
+        <p class="ps__t"><span style="--x:678.92;--y:670.93;--s:15.38;--ls:0.44;color:#293368">Le prix</span><span style="--x:678.92;--y:692.93;--s:15.38;--ls:-0.03;color:#263261">La proximité</span><span style="--x:678.92;--y:714.93;--s:15.38;--ls:-0.19;color:#24305d">L’influence des réseaux sociaux</span></p>
+        <p class="ps__t"><span style="--x:678.09;--y:777.05;--s:15.24;--ls:-0.18;color:#0a0a28;font-weight:600">Pas toujours sur la vraie valeur</span><span style="--x:677.54;--y:801.05;--s:15.24;--ls:-0.05;color:#080b2b;font-weight:600">et les opportunités réelles.</span></p>
+        <p class="ps__t"><span style="--x:1064.92;--y:450.93;--s:15.38;--ls:-0.08;color:#222d62">Des programmes et niveaux</span><span style="--x:1064.92;--y:475.93;--s:15.38;--ls:-0.13;color:#212c5e">mal compris par les étudiants</span><span style="--x:1064.38;--y:498.93;--s:15.38;color:#212d63">et les parents</span></p>
+        <p class="ps__t"><span style="--x:1064.91;--y:578.72;--s:15.62;color:#1e2a5d">Des attentes parfois irréalistes</span><span style="--x:1064.91;--y:602.72;--s:15.62;--ls:-0.04;color:#232d5c">par rapport aux débouchés</span></p>
+        <p class="ps__t"><span style="--x:1064.78;--y:689.18;--s:17.44;--ls:-0.84;color:#242f5e">Une forte concurrence</span><span style="--x:1065.3;--y:714.18;--s:17.44;--ls:-0.88;color:#222b58">et une différenciation difficile</span></p>
+      </section>
+      <section class="ps" id="platform-04" aria-label="Atteignez les bons étudiants">
+        <img class="ps__bg" src="assets/platform/slides-clean/s04.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <p class="ps__t"><span style="--x:287.6;--y:101.24;--s:47.96;color:#00060e;font-weight:900">POURQUOI WAJAHNI EST</span></p>
+        <p class="ps__t"><span style="--x:903.55;--y:100.43;--s:48.9;--ls:-0.77;color:#f15507;font-weight:900">ESSENTIEL</span></p>
+        <p class="ps__t"><span style="--x:342.5;--y:151.42;--s:50.1;color:#00050d;font-weight:900">POUR LES JEUNES TUNISIENS ?</span></p>
+        <p class="ps__t"><span style="--x:373.09;--y:212.3;--s:30.24;color:#060d34">Atteignez les bons étudiants, au bon moment,</span><span style="--x:565.79;--y:251.3;--s:30.24;--ls:-0.6;color:#04092b">avec le bon message</span></p>
+        <p class="ps__t"><span style="--x:681.54;--y:378.28;--s:24.37;color:#fff8f1;font-weight:600">Leads qualifiés</span></p>
+        <p class="ps__t"><span style="--x:681.36;--y:500.88;--s:21.32;color:#f0ffff;font-weight:600">Crédibilité &amp; confiance</span></p>
+        <p class="ps__t"><span style="--x:681.77;--y:618.62;--s:22.8;color:#fff6f1;font-weight:600">Visibilité maximale</span></p>
+        <p class="ps__t"><span style="--x:686.61;--y:720.25;--s:23.24;color:#fffdea;font-weight:600">Inscriptions</span><span style="--x:685.54;--y:748.25;--s:23.24;--ls:-0.08;color:#fffde8;font-weight:600">toute l’année</span></p>
+        <p class="ps__t"><span style="--x:684.62;--y:841.51;--s:22.93;color:#fffaed;font-weight:600">Expliquez clairement</span><span style="--x:685.77;--y:870.51;--s:22.93;--ls:-0.05;color:#fffaec;font-weight:600">votre valeur</span></p>
+        <p class="ps__t"><span style="--x:976.77;--y:354.01;--s:17.64;--ls:-0.04;color:#0b0f2d">Les étudiants qui recherchent activement des cours</span><span style="--x:976.29;--y:376.01;--s:17.64;--ls:0.04;color:#0e112a">de langues dans leur ville, des certifications et des</span><span style="--x:976.29;--y:398.01;--s:17.64;color:#0d102d">compétences professionnelles trouvent votre centre</span><span style="--x:976.29;--y:419.01;--s:17.64;--ls:-0.47;color:#0e102b">en premier.</span></p>
+        <p class="ps__t"><span style="--x:976.75;--y:482.79;--s:17.9;--ls:0.21;color:#0a0d2d">Être présent sur WAJAHNI renforce votre image</span><span style="--x:976.28;--y:505.79;--s:17.9;color:#0d102d">de qualité et de sérieux et vous différencie des</span><span style="--x:976.28;--y:527.78;--s:17.9;--ls:-0.2;color:#090d2a">acteurs informels ou peu connus.</span></p>
+        <p class="ps__t"><span style="--x:976.11;--y:599.91;--s:17.75;color:#090d25">Soyez visibles dès le début du parcours de décision,</span><span style="--x:976.29;--y:622.91;--s:17.75;--ls:0.02;color:#0c0f2c">avant les réseaux sociaux, la publicité ou le</span><span style="--x:975.76;--y:644.91;--s:17.75;--ls:-0.2;color:#11152c">bouche-à-oreille.</span></p>
+        <p class="ps__t"><span style="--x:975.74;--y:725.71;--s:17.99;color:#0e1230">Un seul profil = 365 jours de visibilité auprès des</span><span style="--x:976.28;--y:748.71;--s:17.99;--ls:-0.1;color:#0f1332">étudiants dans toute la Tunisie.</span></p>
+        <p class="ps__t"><span style="--x:977.65;--y:832.16;--s:17.46;--ls:0.15;color:#0f122e">Vos programmes, niveaux, débouchés, calendriers</span><span style="--x:976.3;--y:855.16;--s:17.46;--ls:-0.03;color:#0a0d28">et tarifs sont présentés de manière professionnelle et</span><span style="--x:976.65;--y:877.16;--s:17.46;color:#0d102e">transparente, ce qui facilite la décision d’inscription.</span></p>
+      </section>
+      <section class="ps" id="platform-05" aria-label="WAJAHNI, la référence">
+        <img class="ps__bg" src="assets/platform/slides-clean/s05.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <p class="ps__t ps__t--soft"><span style="--x:279.52;--y:113.65;--s:36.88;--ls:0.06;color:#fffbf6;font-weight:700">Si les étudiants recherchent une formation</span><span style="--x:406.26;--y:154.65;--s:36.88;color:#fffbf4;font-weight:700">ou un programme en Tunisie,</span><span style="--x:422.52;--y:195.65;--s:36.88;--ls:-0.44;color:#fffbf4;font-weight:700">ils recherchent sur WAJAHNI</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:391.24;--y:296.55;--s:38.18;color:#fffaf6;font-weight:700">WAJAHNI est la référence en</span><span style="--x:347.24;--y:337.55;--s:38.18;--ls:-0.28;color:#fffbf5;font-weight:700">orientation académique en Tunisie</span></p>
+        <p class="ps__t"><span style="--x:996.98;--y:454.36;--s:33.7;color:#e53412;font-weight:600">Pourquoi votre institution</span><span style="--x:996.99;--y:493.36;--s:33.7;--ls:-0.19;color:#e43311;font-weight:600">doit être présente ?</span></p>
+        <p class="ps__t"><span style="--x:896.72;--y:548.83;--s:21.38;color:#0a2353;font-weight:600">Les étudiants utilisent activement WAJAHNI pour :</span></p>
+        <p class="ps__t"><span style="--x:986.71;--y:595.67;--s:21.56;--ls:0.1;color:#0b2453;font-weight:600">Rechercher des établissements</span><span style="--x:986.35;--y:639.67;--s:21.56;--ls:-0.1;color:#082253;font-weight:600">Comprendre les programmes</span><span style="--x:986.71;--y:683.67;--s:21.56;color:#082454;font-weight:600">Prendre leur décision finale</span></p>
+        <p class="ps__t"><span style="--x:1003.53;--y:753.18;--s:24.5;color:#095c27;font-weight:600">Présence = légitimité &amp; confiance</span></p>
+        <p class="ps__t"><span style="--x:1004.5;--y:831.74;--s:25.01;color:#b90b0e;font-weight:600">Absence = visibilité perdue</span></p>
+        <p class="ps__t"><span style="--x:164.05;--y:953.41;--s:32.46;color:#fff9f4;font-weight:600">Ne pas être présent sur WAJAHNI,</span></p>
+        <p class="ps__t"><span style="--x:725.08;--y:954.82;--s:30.81;color:#ffde62;font-weight:600">c’est laisser les autres raconter votre histoire</span></p>
+      </section>
+      <section class="ps" id="platform-06" aria-label="Point d’entrée de l’orientation">
+        <img class="ps__bg" src="assets/platform/slides-clean/s06.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <h2 class="ps__t ps__t--title"><span style="--x:127.68;--y:48.69;--s:43.9;color:#fffdfa;font-weight:900">WAJAHNI COMME POINT D’ENTRÉE DE L’ORIENTATION</span></h2>
+        <p class="ps__t ps__t--soft"><span style="--x:214.36;--y:102.6;--s:32.23;color:#fffcee">WAJAHNI : la porte d’entrée vers les choix académiques en Tunisie</span></p>
+        <p class="ps__t"><span style="--x:263.56;--y:195.51;--s:20.58;color:#07081d">Les étudiants commencent</span><span style="--x:263.56;--y:218.51;--s:20.58;--ls:0.03;color:#060820">par chercher et comparer</span><span style="--x:263.56;--y:241.51;--s:20.58;--ls:-0.05;color:#02051a">les options</span></p>
+        <p class="ps__t"><span style="--x:268.55;--y:283.4;--s:20.71;color:#050820">Ils recherchent une information</span><span style="--x:268.17;--y:305.4;--s:20.71;--ls:-0.02;color:#04071e">claire, simple et neutre</span></p>
+        <p class="ps__t"><span style="--x:270.58;--y:354.26;--s:20.87;color:#050820">WAJAHNI devient souvent</span><span style="--x:269.54;--y:377.26;--s:20.87;--ls:-0.15;color:#060921">leur premier réflexe</span></p>
+        <p class="ps__t"><span style="--x:272.54;--y:418.25;--s:20.88;color:#04071d">Les institutions présentes sur WAJAHNI</span><span style="--x:273.16;--y:442.25;--s:20.88;--ls:-0.32;color:#05061d">sont vues en premier et choisies</span></p>
+        <p class="ps__t"><span style="--x:272.18;--y:464.53;--s:20.55;color:#05071d">en premier</span></p>
+        <p class="ps__t"><span style="--x:992.85;--y:232.69;--s:19.19;--ls:-0.39;color:#040100;font-weight:700">Recherche d’orientation</span><span style="--x:993.46;--y:258.69;--s:19.19;color:#050200;font-weight:700">(WAJAHNI Platform)</span></p>
+        <p class="ps__t"><span style="--x:996.42;--y:416.62;--s:19.27;color:#040100;font-weight:700">Candidature / suivi en ligne</span></p>
+        <p class="ps__t"><span style="--x:998;--y:583.78;--s:19.08;color:#060100;font-weight:700">Visites terrain / Journées portes ouvertes</span></p>
+        <p class="ps__t"><span style="--x:998.78;--y:736.79;--s:20.25;color:#050200;font-weight:700">Inscription</span></p>
+        <p class="ps__t"><span style="--x:993.7;--y:306.17;--s:18.62;color:#fff6d6">Les étudiants explorent, comparent</span><span style="--x:993.26;--y:332.17;--s:18.62;--ls:-0.06;color:#fff5d7">et comprennent les options</span></p>
+        <p class="ps__t"><span style="--x:995.71;--y:467.33;--s:18.43;--ls:-0.16;color:#fff5d6">Les étudiants suivent les institutions</span><span style="--x:995.71;--y:493.33;--s:18.43;color:#fff4da">présélectionnées</span></p>
+        <p class="ps__t"><span style="--x:996.71;--y:634.37;--s:18.39;color:#fff3db">Les étudiants confirment leur choix</span></p>
+        <p class="ps__t"><span style="--x:996.73;--y:790.53;--s:18.2;color:#fff5dd">Décision finale</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:319.51;--y:915.92;--s:24.8;color:#fffbf4;font-weight:600">La première visibilité crée la préférence.</span></p>
+      </section>
+      <section class="ps" id="platform-07" aria-label="Qu’est-ce que WAJAHNI Platform">
+        <img class="ps__bg" src="assets/platform/slides-clean/s07.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <h2 class="ps__t ps__t--title"><span style="--x:211.35;--y:64.12;--s:55.15;color:#fffdfb;font-weight:800">QU’EST-CE QUE WAJAHNI PLATFORM ?</span></h2>
+        <p class="ps__t ps__t--soft"><span style="--x:188.05;--y:132.27;--s:27.91;color:#fffbed;font-weight:500">La première plateforme d’orientation académique et professionnelle en Tunisie</span></p>
+        <p class="ps__t"><span style="--x:1084.5;--y:301.76;--s:24.99;color:#01040d;font-weight:600">Lycéens</span></p>
+        <p class="ps__t"><span style="--x:1085.6;--y:405.23;--s:23.26;color:#00040b;font-weight:600">Bacheliers &amp;</span><span style="--x:1085.53;--y:433.23;--s:23.26;--ls:0.02;color:#01040e;font-weight:600">titulaires d’une</span><span style="--x:1085.6;--y:461.23;--s:23.26;color:#02050d;font-weight:600">licence</span></p>
+        <p class="ps__t"><span style="--x:1090.57;--y:549.76;--s:23.81;color:#01050e;font-weight:600">Étudiants</span><span style="--x:1089.57;--y:577.76;--s:23.81;--ls:-0.08;color:#01040c;font-weight:600">universitaires</span></p>
+        <p class="ps__t"><span style="--x:1087.5;--y:694.73;--s:25.03;color:#00040d;font-weight:600">Parents</span></p>
+        <p class="ps__t"><span style="--x:1090.58;--y:813.86;--s:23.69;color:#01050d;font-weight:600">Personnes</span><span style="--x:1090.29;--y:842.86;--s:23.69;--ls:-0.76;color:#00040c;font-weight:600">en reconversion</span></p>
+      </section>
+      <section class="ps" id="platform-08" aria-label="Ce que vous pouvez accomplir">
+        <img class="ps__bg" src="assets/platform/slides-clean/s08.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <h2 class="ps__t ps__t--title"><span style="--x:264.31;--y:64.24;--s:56.19;--ls:-1.07;color:#fefdfb;font-weight:800">CE QUE VOUS POUVEZ ACCOMPLIR</span><span style="--x:376.31;--y:120.24;--s:56.19;color:#fffdfc;font-weight:800">SUR WAJAHNI PLATFORM</span></h2>
+        <p class="ps__t ps__t--soft"><span style="--x:222.49;--y:195.25;--s:25.59;color:#fff8e2">WAJAHNI vous aide à mieux expliquer votre offre, à vous démarquer clairement</span><span style="--x:550.98;--y:224.25;--s:25.59;--ls:-0.77;color:#fff8e1">et à convertir plus rapidement.</span></p>
+        <p class="ps__t"><span style="--x:91.74;--y:560.11;--s:21.05;color:#fff8ec;font-weight:700">Présentez clairement</span><span style="--x:89.58;--y:586.11;--s:21.05;--ls:-0.25;color:#fff8ed;font-weight:700">tous vos programmes</span></p>
+        <p class="ps__t"><span style="--x:97.68;--y:636.93;--s:18.91;--ls:0.06;color:#ffedd5">Mettez en avant toutes</span><span style="--x:92.81;--y:662.93;--s:18.91;--ls:0.05;color:#ffedd4">vos formations, niveaux,</span><span style="--x:134.24;--y:689.93;--s:18.91;color:#ffedd9">certifications et</span><span style="--x:91.24;--y:715.93;--s:18.91;--ls:-0.04;color:#ffedd8">calendriers dans un seul</span><span style="--x:124.24;--y:742.93;--s:18.91;--ls:-0.25;color:#ffecd8">espace structuré.</span></p>
+        <p class="ps__t"><span style="--x:369;--y:567.12;--s:21.03;color:#0f1715;font-weight:700">Valorisez la qualité</span><span style="--x:388.58;--y:595.12;--s:21.03;--ls:0.15;color:#111714;font-weight:700">et les atouts de</span><span style="--x:391;--y:622.12;--s:21.03;--ls:-0.04;color:#101610;font-weight:700">vos formations</span></p>
+        <p class="ps__t"><span style="--x:354.71;--y:660.28;--s:18.49;--ls:0.02;color:#291f00">Présentez les débouchés,</span><span style="--x:388.71;--y:685.28;--s:18.49;--ls:-0.13;color:#2a1f00">l’employabilité, les</span><span style="--x:393.26;--y:711.28;--s:18.49;--ls:-0.1;color:#271b00">accréditations, la</span><span style="--x:376.71;--y:737.28;--s:18.49;color:#271f00">méthodologie et vos</span><span style="--x:417.71;--y:763.28;--s:18.49;--ls:0.24;color:#2c1f00">points forts.</span></p>
+        <p class="ps__t"><span style="--x:631.59;--y:583.04;--s:23.48;color:#fff6f1;font-weight:700">Éduquez le marché</span></p>
+        <p class="ps__t"><span style="--x:644.65;--y:635.65;--s:19.24;--ls:0.16;color:#ffe7e0">Utilisez les données,</span><span style="--x:620.62;--y:661.65;--s:19.24;--ls:0.04;color:#ffe9e1">tendances et statistiques</span><span style="--x:628.65;--y:687.65;--s:19.24;color:#ffe9e4">pour aider les étudiants</span><span style="--x:629.23;--y:713.65;--s:19.24;--ls:-0.15;color:#ffe8e1">à comprendre pourquoi</span><span style="--x:653.81;--y:738.65;--s:19.24;--ls:-0.02;color:#ffe8dd">votre offre compte</span><span style="--x:690.65;--y:764.65;--s:19.24;--ls:-0.74;color:#ffe7e0">réellement.</span></p>
+        <p class="ps__t"><span style="--x:901.6;--y:567.09;--s:19.9;--ls:0.09;color:#efffff;font-weight:700">Touchez les personnes</span><span style="--x:906.6;--y:594.09;--s:19.9;color:#eeffff;font-weight:700">en reconversion et les</span><span style="--x:929.6;--y:621.09;--s:19.9;--ls:-0.05;color:#efffff;font-weight:700">chercheurs actifs</span></p>
+        <p class="ps__t"><span style="--x:923.25;--y:657.07;--s:18.74;--ls:0.24;color:#e0ffff">Ciblez les diplômés,</span><span style="--x:919.69;--y:682.07;--s:18.74;--ls:0.34;color:#e3ffff">les professionnels et</span><span style="--x:940.69;--y:707.07;--s:18.74;--ls:0.13;color:#dfffff">les étudiants qui</span><span style="--x:904.69;--y:732.07;--s:18.74;color:#e1ffff">recherchent activement</span><span style="--x:948.69;--y:757.07;--s:18.74;--ls:-0.08;color:#dcffff">une montée en</span><span style="--x:939.25;--y:783.07;--s:18.74;color:#e0ffff">compétences ou</span><span style="--x:961.25;--y:808.07;--s:18.74;--ls:-0.62;color:#dfffff">des langues.</span></p>
+        <p class="ps__t"><span style="--x:1181.67;--y:560.2;--s:22.12;--ls:0.03;color:#eeffff;font-weight:700">Positionnez-vous</span><span style="--x:1172.67;--y:589.2;--s:22.12;--ls:-0.06;color:#f0ffff;font-weight:700">parmi les meilleurs</span><span style="--x:1195.56;--y:619.2;--s:22.12;color:#eeffff;font-weight:700">de votre région</span></p>
+        <p class="ps__t"><span style="--x:1185.58;--y:660.81;--s:20.22;--ls:0.12;color:#d7ffff">Placez votre centre</span><span style="--x:1167.19;--y:687.81;--s:20.22;--ls:0.04;color:#d6ffff">aux côtés d’institutions</span><span style="--x:1165.58;--y:714.81;--s:20.22;--ls:-0.13;color:#d6ffff">reconnues et sérieuses,</span><span style="--x:1212.58;--y:741.81;--s:20.22;color:#d7ffff">loin des offres</span><span style="--x:1232.19;--y:768.81;--s:20.22;--ls:-0.84;color:#d8ffff">aléatoires.</span></p>
+      </section>
+      <section class="ps" id="platform-09" aria-label="Expérience WAJAHNI Platform">
+        <img class="ps__bg" src="assets/platform/slides-clean/s09.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <p class="ps__t"><span style="--x:760.1;--y:388.98;--s:27.08;--ls:0.5;color:#fffbec;font-weight:500">EXPÉRIENCE WAJAHNI PLATFORM</span></p>
+        <p class="ps__t ps__t--title"><span style="--x:759.77;--y:474.65;--s:61.58;color:#fefdfb;font-weight:800">WAJAHNI Platform</span></p>
+        <p class="ps__t ps__t--title"><span style="--x:762.08;--y:546.59;--s:48.72;color:#fffdfa;font-weight:700">Fonctionnalités &amp; capacités</span></p>
+        <p class="ps__t"><span style="--x:67.81;--y:962.55;--s:19.35;color:#fffbf0">www.wajahni.tn</span></p>
+      </section>
+      <section class="ps" id="platform-10" aria-label="Tableau de bord partenaire">
+        <img class="ps__bg" src="assets/platform/slides-clean/s10.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <h2 class="ps__t ps__t--title"><span style="--x:245.38;--y:75.24;--s:62.08;color:#fefefd;font-weight:900">TABLEAU DE BORD</span></h2>
+        <p class="ps__t ps__t--title ps__t--gold"><span style="--x:824.94;--y:75.96;--s:61.23;font-weight:900">PARTENAIRE</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:352.37;--y:139.02;--s:31.74;color:#fffbf1">Votre espace dédié pour piloter votre présence</span></p>
+        <p class="ps__t"><span style="--x:925.32;--y:323.73;--s:22.67;color:#010101">Accès privé pour chaque partenaire</span></p>
+        <p class="ps__t"><span style="--x:925.03;--y:409.49;--s:24.13;--ls:0.08;color:#010101">Gestion centralisée de :</span><span style="--x:928.79;--y:444.49;--s:24.13;color:#010101">- Profil de l’institution</span><span style="--x:928.79;--y:478.49;--s:24.13;--ls:-0.26;color:#040404">- Programmes &amp; formations</span><span style="--x:928.79;--y:513.49;--s:24.13;--ls:-0.1;color:#020202">- Contenus visuels</span></p>
+        <p class="ps__t"><span style="--x:925.53;--y:596.9;--s:23.64;color:#010101">Vue en temps réel de votre visibilité</span></p>
+        <p class="ps__t"><span style="--x:924.81;--y:677.69;--s:23.89;--ls:-0.1;color:#020202">Simple, intuitive, sans compétence</span><span style="--x:925.52;--y:710.69;--s:23.89;color:#010101">technique requise</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:162.18;--y:897.74;--s:27.37;color:#fffcf6;font-weight:700">Gérez votre présence. Suivez votre impact.</span><span style="--x:312.36;--y:931.74;--s:27.37;--ls:-0.07;color:#fffcf7;font-weight:700">Pilotez votre visibilité.</span></p>
+        <p class="ps__t"><span style="--x:919.46;--y:941.8;--s:17.88;color:#fff8e4">Tout ce dont vous avez besoin, dans un seul dashboard</span></p>
+      </section>
+      <section class="ps" id="platform-11" aria-label="Page institution">
+        <img class="ps__bg" src="assets/platform/slides-clean/s11.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <h2 class="ps__t ps__t--title"><span style="--x:304.57;--y:50.74;--s:88.55;color:#fefefe;font-weight:900">PAGE</span></h2>
+        <p class="ps__t ps__t--title ps__t--gold"><span style="--x:568.5;--y:49.56;--s:89.93;font-weight:900">INSTITUTION</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:360.28;--y:135.39;--s:36.01;color:#fffcf4">Votre page établissement sur WAJAHNI</span></p>
+        <p class="ps__t"><span style="--x:955.28;--y:298.13;--s:24.55;color:#010103">Présentation complète</span><span style="--x:955.02;--y:331.13;--s:24.55;--ls:-0.03;color:#020304">de votre établissement</span></p>
+        <p class="ps__t"><span style="--x:957.23;--y:410.45;--s:25.35;color:#010203">Description, mission &amp;</span><span style="--x:957.23;--y:443.45;--s:25.35;--ls:-0.2;color:#000102">positionnement</span></p>
+        <p class="ps__t"><span style="--x:955.26;--y:525.82;--s:24.91;color:#010203">Identité visuelle (logo, photos, vidéos)</span></p>
+        <p class="ps__t"><span style="--x:956.24;--y:610.51;--s:25.29;color:#010204">Accréditations &amp; points forts</span></p>
+        <p class="ps__t"><span style="--x:956.02;--y:690.23;--s:24.43;color:#010203">Contact &amp; call-to-action</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:131.63;--y:903.62;--s:36.92;--ls:-0.12;color:#fffcf7;font-weight:600">Votre vitrine digitale officielle</span><span style="--x:144.78;--y:945.62;--s:36.92;color:#fffcf6;font-weight:600">pour l’orientation en Tunisie</span></p>
+        <p class="ps__t"><span style="--x:803.71;--y:939.78;--s:21.44;color:#fffbef;font-weight:600">Une image professionnelle, crédible et structurée — 24/7</span></p>
+      </section>
+      <section class="ps" id="platform-12" aria-label="Pages programmes et formations">
+        <img class="ps__bg" src="assets/platform/slides-clean/s12.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <h2 class="ps__t ps__t--title"><span style="--x:271.11;--y:65.8;--s:57.88;color:#fefefe;font-weight:900">PAGES PROGRAMMES &amp;</span></h2>
+        <p class="ps__t ps__t--title ps__t--gold"><span style="--x:973.02;--y:64.34;--s:59.6;font-weight:900">FORMATIONS</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:339.33;--y:128.62;--s:33.39;color:#fffbf1;font-weight:300">Des pages dédiées à chaque programme et formation</span></p>
+        <p class="ps__t"><span style="--x:954;--y:310.76;--s:24.99;color:#010204">Objectifs de formation &amp; acquis</span></p>
+        <p class="ps__t"><span style="--x:954.21;--y:411.21;--s:25.64;color:#010205">Niveaux, durée &amp; calendriers</span></p>
+        <p class="ps__t"><span style="--x:956;--y:511.84;--s:24.89;color:#020305">Certifications &amp; reconnaissance</span></p>
+        <p class="ps__t"><span style="--x:959.28;--y:599.07;--s:24.62;color:#020306">Profils ciblés (étudiants,</span><span style="--x:959.28;--y:633.07;--s:24.62;--ls:0.03;color:#020306">professionnels, personnes en</span><span style="--x:959.28;--y:666.07;--s:24.62;--ls:-0.12;color:#020305">reconversion)</span></p>
+        <p class="ps__t"><span style="--x:959.24;--y:741.59;--s:25.19;--ls:-0.4;color:#010205">Débouchés professionnels ou</span><span style="--x:959.24;--y:775.59;--s:25.19;color:#000205">possibilités de mobilité</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:108.13;--y:926.55;--s:31.12;color:#fffcf8;font-weight:700">Présentez clairement votre offre.</span><span style="--x:108.69;--y:963.55;--s:31.12;--ls:-0.36;color:#fffbf6;font-weight:700">Aidez les étudiants à décider plus vite.</span></p>
+        <p class="ps__t"><span style="--x:907.19;--y:948.07;--s:25.8;color:#fffaf2;font-weight:500">La clarté améliore la conversion</span></p>
+      </section>
+      <section class="ps" id="platform-13" aria-label="Contenus et mises à jour">
+        <img class="ps__bg" src="assets/platform/slides-clean/s13.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <h2 class="ps__t ps__t--title"><span style="--x:172.67;--y:66.01;--s:77.63;color:#fdfdfd;font-weight:900">CONTENUS &amp;</span></h2>
+        <p class="ps__t ps__t--title ps__t--gold"><span style="--x:703.88;--y:63.92;--s:82.45;font-weight:900">MISES À JOUR</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:353.84;--y:146.25;--s:38.53;color:#fffcf9;font-weight:500">Gardez vos informations toujours à jour</span></p>
+        <p class="ps__t"><span style="--x:966.38;--y:360.37;--s:23.09;color:#00030e">Mettez à jour vos programmes</span><span style="--x:968.08;--y:389.37;--s:23.09;--ls:-0.14;color:#01040f">à tout moment</span></p>
+        <p class="ps__t"><span style="--x:967.3;--y:467.19;--s:23.3;color:#01040f">Ajoutez de nouvelles sessions</span><span style="--x:969.07;--y:497.19;--s:23.3;color:#030512">ou certifications</span></p>
+        <p class="ps__t"><span style="--x:968.36;--y:579.13;--s:23.38;color:#010410">Publiez vos temps forts et vos annonces</span></p>
+        <p class="ps__t"><span style="--x:971.36;--y:665.07;--s:23.44;color:#000310">Restez pertinent tout au long de l’année</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:74.46;--y:948.87;--s:27.21;color:#fffcf7;font-weight:600">Ajoutez et mettez à jour vos pages à tout moment</span></p>
+        <p class="ps__t"><span style="--x:884.58;--y:957.96;--s:21.23;color:#fff9f1">Votre offre évolue — votre page évolue avec elle</span></p>
+      </section>
+      <section class="ps" id="platform-14" aria-label="Prospects et contacts">
+        <img class="ps__bg" src="assets/platform/slides-clean/s14.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <h2 class="ps__t ps__t--title"><span style="--x:264.36;--y:96.08;--s:72.85;color:#fefefe;font-weight:900">PROSPECTS &amp;</span></h2>
+        <p class="ps__t ps__t--title ps__t--gold"><span style="--x:782.86;--y:97.5;--s:71.18;font-weight:900">CONTACTS</span></p>
+        <p class="ps__t ps__t--title"><span style="--x:454.61;--y:173.07;--s:39.91;color:#fffcf8;font-weight:600">De la visibilité à l’inscription</span></p>
+        <p class="ps__t"><span style="--x:954.97;--y:412.15;--s:25.7;color:#010101">Contact direct avec les étudiants</span></p>
+        <p class="ps__t"><span style="--x:957.16;--y:506.61;--s:26.34;color:#010101">En cliquant sur le bouton, vous</span><span style="--x:956.95;--y:546.61;--s:26.34;--ls:-0.1;color:#020202">accédez à toutes leurs informations</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:98.41;--y:893.13;--s:29.25;color:#fffcf7;font-weight:700">Transformez l’intérêt en véritables opportunités</span></p>
+        <p class="ps__t"><span style="--x:911.65;--y:940.57;--s:19.33;color:#fff6e8">Pas une visibilité de masse — une découverte ciblée</span></p>
+      </section>
+      <section class="ps" id="platform-15" aria-label="Simple, accompagnée et sécurisée">
+        <img class="ps__bg" src="assets/platform/slides-clean/s15.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <h2 class="ps__t ps__t--title"><span style="--x:179.79;--y:106.5;--s:60.58;color:#fefdfd;font-weight:900">SIMPLE,</span></h2>
+        <p class="ps__t ps__t--title ps__t--gold"><span style="--x:431;--y:106.09;--s:59.89;font-weight:900">ACCOMPAGNÉE &amp; SÉCURISÉE</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:279.66;--y:171.56;--s:33.46;color:#fffbf0">Facile à utiliser. Un accompagnement à chaque étape.</span></p>
+        <p class="ps__t"><span style="--x:927.24;--y:335.39;--s:25.43;color:#010308">Aucune complexité technique</span></p>
+        <p class="ps__t"><span style="--x:929.22;--y:428.42;--s:25.39;color:#020409">L’équipe WAJAHNI à vos côtés</span></p>
+        <p class="ps__t"><span style="--x:929.21;--y:511.26;--s:25.58;--ls:-0.14;color:#02050a">Une prise en main</span><span style="--x:929.98;--y:544.26;--s:25.58;color:#03060b">accompagnée</span></p>
+        <p class="ps__t"><span style="--x:929.23;--y:619.48;--s:25.32;color:#010308">Un accès sécurisé pour</span><span style="--x:929.23;--y:651.48;--s:25.32;--ls:-0.11;color:#020409">les partenaires</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:209.95;--y:876.34;--s:34.9;color:#fffcf8;font-weight:600">Transformez l’intérêt</span><span style="--x:175.95;--y:911.34;--s:34.9;--ls:-0.79;color:#fffcf5;font-weight:600">en véritables opportunités.</span></p>
+        <p class="ps__t"><span style="--x:914.31;--y:893.37;--s:23.09;--ls:-0.23;color:#fffaf1;font-weight:500">Concentrez-vous sur la formation.</span><span style="--x:950.38;--y:919.37;--s:23.09;color:#fffaef;font-weight:500">Nous gérons la plateforme.</span></p>
+      </section>
+      <section class="ps" id="platform-16" aria-label="Recherche, filtres et découverte">
+        <img class="ps__bg" src="assets/platform/slides-clean/s16.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <p class="ps__t"><span style="--x:535.87;--y:30.86;--s:35.45;--ls:2.14;color:#fffaf5;font-weight:700">EXPÉRIENCE VISITEUR</span></p>
+        <p class="ps__t ps__t--title"><span style="--x:224.01;--y:98.25;--s:59.71;color:#fefefe;font-weight:900">RECHERCHE,</span></p>
+        <p class="ps__t ps__t--title ps__t--gold"><span style="--x:614.24;--y:102.15;--s:55.11;font-weight:900">FILTRES &amp; DÉCOUVERTE</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:306.42;--y:166.14;--s:31.6;color:#fffbf5">Soyez trouvés par les étudiants qui vous correspondent.</span></p>
+        <p class="ps__t"><span style="--x:944.55;--y:278.43;--s:24.19;color:#010102;font-weight:700">Recherche personnalisée</span></p>
+        <p class="ps__t"><span style="--x:944.16;--y:311.12;--s:21.03;color:#0e0e0f">Quelques questions pour trouver</span><span style="--x:944.53;--y:340.12;--s:21.03;--ls:-0.51;color:#0f1111">les programmes adaptés à chaque profil.</span></p>
+        <p class="ps__t"><span style="--x:945.54;--y:408.32;--s:24.33;color:#010102;font-weight:700">Rapide et interactif</span></p>
+        <p class="ps__t"><span style="--x:944.96;--y:443.24;--s:20.89;--ls:-0.02;color:#0d0d0e">Sans longs formulaires : une expérience</span><span style="--x:945.16;--y:473.24;--s:20.89;color:#101012">dynamique qui engage les étudiants.</span></p>
+        <p class="ps__t"><span style="--x:946.57;--y:540.77;--s:23.8;color:#010102;font-weight:700">Des choix éclairés</span></p>
+        <p class="ps__t"><span style="--x:947.53;--y:573.15;--s:21;color:#0e0f10">Le quiz aide à comprendre les options</span><span style="--x:947.16;--y:602.15;--s:21;color:#111113">et à comparer les programmes.</span></p>
+        <p class="ps__t"><span style="--x:948;--y:667.83;--s:23.72;color:#010102;font-weight:700">Visibilité ciblée</span></p>
+        <p class="ps__t"><span style="--x:947.59;--y:701.39;--s:20.72;color:#121213">Vos programmes apparaissent auprès</span><span style="--x:947.17;--y:731.39;--s:20.72;color:#121214">des étudiants dont les intérêts</span><span style="--x:947.17;--y:759.39;--s:20.72;--ls:0.17;color:#131314">correspondent.</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:114.71;--y:900.43;--s:28.91;color:#fffbf6;font-weight:700">Avec le Quiz WAJAHNI, la découverte</span><span style="--x:168.13;--y:933.43;--s:28.91;--ls:-0.22;color:#fffbf6;font-weight:700">se transforme en inscriptions.</span></p>
+        <p class="ps__t"><span style="--x:847.61;--y:925.06;--s:19.93;color:#fff6eb;font-weight:500">Une découverte ciblée pour des profils pertinents.</span></p>
+      </section>
+      <section class="ps" id="platform-17" aria-label="Notre logique tarifaire">
+        <img class="ps__bg" src="assets/platform/slides-clean/s17.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <h2 class="ps__t ps__t--title"><span style="--x:277.56;--y:70.6;--s:68.71;color:#fefefe;font-weight:900">NOTRE</span></h2>
+        <p class="ps__t ps__t--title ps__t--gold"><span style="--x:529.6;--y:72.25;--s:67.95;font-weight:900">LOGIQUE TARIFAIRE</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:335.63;--y:143.25;--s:33.83;color:#fffbf1">Une tarification juste, accessible et stratégique.</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:510;--y:220.92;--s:29.51;color:#fffcf6;font-weight:700">Votre tarif repose sur 3 critères</span></p>
+        <p class="ps__t"><span style="--x:130.43;--y:652.8;--s:28.47;color:#010512;font-weight:700">Type d’établissement</span></p>
+        <p class="ps__t"><span style="--x:131.38;--y:699.35;--s:23.12;--ls:-0.12;color:#070913">Université, centre de formation,</span><span style="--x:131.08;--y:731.35;--s:23.12;color:#03050f">centre de langues ou</span><span style="--x:131.08;--y:763.35;--s:23.12;--ls:0.06;color:#030610">établissement CAP / BTP / BTS.</span></p>
+        <p class="ps__t"><span style="--x:567.32;--y:653.15;--s:28.06;color:#010513;font-weight:700">Nombre de programmes</span></p>
+        <p class="ps__t"><span style="--x:570.4;--y:699.53;--s:22.91;--ls:0.17;color:#080a15">Le nombre de programmes</span><span style="--x:570.4;--y:732.53;--s:22.91;--ls:-0.05;color:#090c16">proposés : licences, masters</span><span style="--x:570.08;--y:764.53;--s:22.91;color:#060912">et autres formations.</span></p>
+        <p class="ps__t"><span style="--x:1001.26;--y:652.39;--s:28.96;color:#010512;font-weight:700">Niveau de visibilité</span></p>
+        <p class="ps__t"><span style="--x:1001.46;--y:700.27;--s:22.04;color:#0a0c17">La possibilité de mettre en avant</span><span style="--x:1001.46;--y:732.27;--s:22.04;--ls:-0.01;color:#0a0c16">un ou plusieurs programmes</span><span style="--x:1002.12;--y:764.27;--s:22.04;--ls:0.05;color:#090b14">sponsorisés.</span></p>
+        <p class="ps__t"><span style="--x:379.72;--y:917.83;--s:21.38;color:#fffaf1;font-weight:600">Bénéficiez de tarifs préférentiels pour participer à nos événements.</span></p>
+      </section>
+      <section class="ps" id="platform-18" aria-label="Tarifs Université et École de formation pro">
+        <img class="ps__bg" src="assets/platform/slides-clean/s18.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <p class="ps__t ps__t--soft"><span style="--x:568.59;--y:63.57;--s:40.5;color:#fffaf9;font-weight:800">Tarifs concernés</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:421.88;--y:157.97;--s:42.39;color:#fffbf7;font-weight:700">Université</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:767.24;--y:163.06;--s:29.34;color:#fff6f6;font-weight:700">École de Formation Pro</span></p>
+        <p class="ps__t"><span style="--x:846.95;--y:214.21;--s:25.63;color:#041a5b;font-weight:700">(CAP, BTP, BTS)</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:156.71;--y:312.99;--s:45.9;color:#fffbf6;font-weight:800">Basic</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:363.49;--y:297.27;--s:51.45;--ls:-0.37;color:#fffbf7;font-weight:800">1 990</span></p>
+        <p class="ps__t"><span style="--x:381.78;--y:346.68;--s:20.38;color:#fffae3;font-weight:600">DT HT / an</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:590.67;--y:306.41;--s:44.22;color:#fff6f1;font-weight:800">SUPPLÉMENTS</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:1003.48;--y:307.12;--s:50.44;color:#fff9fb;font-weight:800">IDOL</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:1202.81;--y:291.42;--s:54.8;--ls:-2.72;color:#fff9fa;font-weight:800">9 990</span></p>
+        <p class="ps__t"><span style="--x:1231.78;--y:345.68;--s:20.38;color:#fff1ef;font-weight:600">DT HT / an</span></p>
+        <p class="ps__t"><span style="--x:193.69;--y:610.05;--s:18.77;--ls:-0.42;color:#223b80">Présence de votre établissement</span><span style="--x:194.25;--y:634.05;--s:18.77;color:#203a82">sur la plateforme WAJAHNI</span></p>
+        <p class="ps__t"><span style="--x:193.46;--y:680.63;--s:18.08;color:#273f85">Accès aux statistiques de</span><span style="--x:193.73;--y:703.63;--s:18.08;--ls:0.03;color:#223d84">performance de votre</span><span style="--x:194.28;--y:727.63;--s:18.08;--ls:-0.25;color:#263f83">établissement</span></p>
+        <p class="ps__t"><span style="--x:194.46;--y:780.62;--s:18.1;color:#28428b">1 établissement inclus</span></p>
+        <p class="ps__t"><span style="--x:193.28;--y:838.78;--s:17.91;color:#273c86">Jusqu’à 20 programmes</span></p>
+        <p class="ps__t"><span style="--x:568.07;--y:630.18;--s:18.61;color:#010633;font-weight:700">+1 établissement</span></p>
+        <p class="ps__t"><span style="--x:567.54;--y:654.63;--s:14.55;color:#476099">(20 programmes inclus)</span></p>
+        <p class="ps__t"><span style="--x:866.69;--y:625.68;--s:26.26;color:#000532;font-weight:700">990</span></p>
+        <p class="ps__t"><span style="--x:848.94;--y:654.08;--s:15.2;color:#1e2151">DT HT / an</span></p>
+        <p class="ps__t"><span style="--x:568.08;--y:723.29;--s:18.48;color:#010432;font-weight:700">+50 programmes</span></p>
+        <p class="ps__t"><span style="--x:866.69;--y:712.68;--s:26.26;color:#000537;font-weight:700">990</span></p>
+        <p class="ps__t"><span style="--x:848.94;--y:740.08;--s:15.2;color:#20224e">DT HT / an</span></p>
+        <p class="ps__t"><span style="--x:568.08;--y:813.37;--s:18.38;color:#010433;font-weight:700">+1 programme mis en avant</span></p>
+        <p class="ps__t"><span style="--x:866.69;--y:797.68;--s:26.26;color:#000335;font-weight:700">990</span></p>
+        <p class="ps__t"><span style="--x:852.99;--y:826.77;--s:14.39;color:#202452">DT HT / an</span></p>
+        <p class="ps__t"><span style="--x:1043.69;--y:586.11;--s:18.7;--ls:-0.32;color:#24387d">Présence de votre établissement</span><span style="--x:1044.25;--y:609.11;--s:18.7;color:#1e387f">sur la plateforme WAJAHNI</span></p>
+        <p class="ps__t"><span style="--x:1044.45;--y:646.5;--s:18.23;color:#294082">Accès aux statistiques de</span><span style="--x:1043.72;--y:669.5;--s:18.23;color:#233e84">performance de votre</span><span style="--x:1044.27;--y:691.5;--s:18.23;--ls:-0.09;color:#283f87">établissement</span></p>
+        <p class="ps__t"><span style="--x:1043.73;--y:734.53;--s:18.2;color:#243d85">Établissements illimités</span></p>
+        <p class="ps__t"><span style="--x:1044.73;--y:780.53;--s:18.2;color:#25428b">Programmes illimités</span></p>
+        <p class="ps__t"><span style="--x:1044.72;--y:825.49;--s:18.25;--ls:-0.05;color:#253e87">5 programmes de votre choix</span><span style="--x:1043.72;--y:848.49;--s:18.25;color:#253c8a">mis en avant sur la plateforme</span></p>
+        <p class="ps__t"><span style="--x:130.2;--y:951.68;--s:13.31;--ls:-0.26;color:#19367b;font-weight:600">Plus de visibilité</span></p>
+        <p class="ps__t"><span style="--x:129.69;--y:973.28;--s:10.25;color:#707fa5">Touchez la bonne audience.</span></p>
+        <p class="ps__t"><span style="--x:377.2;--y:951.68;--s:13.31;--ls:-0.16;color:#183681;font-weight:600">Plus d’étudiants</span></p>
+        <p class="ps__t"><span style="--x:377.28;--y:973.31;--s:10.23;color:#6a79a1">Développez votre attractivité.</span></p>
+        <p class="ps__t"><span style="--x:625.19;--y:951.58;--s:13.43;color:#173780;font-weight:600">Plus d’opportunités</span></p>
+        <p class="ps__t"><span style="--x:624.55;--y:972.52;--s:11.15;color:#6677a1">Optimisez vos résultats.</span></p>
+        <p class="ps__t"><span style="--x:870.2;--y:951.62;--s:13.39;color:#193882;font-weight:600">Un impact durable</span></p>
+        <p class="ps__t"><span style="--x:870.56;--y:972.74;--s:10.9;--ls:-0.02;color:#6a799f">Construisons l’avenir ensemble.</span></p>
+      </section>
+      <section class="ps" id="platform-19" aria-label="Tarifs Centre de langue et Centre de formation">
+        <img class="ps__bg" src="assets/platform/slides-clean/s19.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <p class="ps__t ps__t--soft"><span style="--x:499.46;--y:105.39;--s:53.65;color:#fffafa;font-weight:800">Tarifs concernés</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:412.12;--y:198.13;--s:29.26;color:#fffaf1;font-weight:700">Centre de langue</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:781.15;--y:196.95;--s:28.29;color:#fff6f6;font-weight:700">Centre de Formation</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:156.71;--y:313.99;--s:45.9;color:#fff8f1;font-weight:800">Basic</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:364.98;--y:300.06;--s:50.52;--ls:-1.76;color:#fff8f1;font-weight:800">990</span></p>
+        <p class="ps__t"><span style="--x:381.79;--y:349.85;--s:20.18;color:#fff8dd;font-weight:600">DT HT / an</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:591.68;--y:308.53;--s:44.08;color:#fff2ea;font-weight:800">SUPPLÉMENTS</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:1004.48;--y:309.12;--s:50.44;color:#fff5f6;font-weight:800">IDOL</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:1201.62;--y:293.42;--s:54.8;--ls:-2.84;color:#fff4f6;font-weight:800">5 990</span></p>
+        <p class="ps__t"><span style="--x:1232.78;--y:347.68;--s:20.38;color:#ffeef1;font-weight:600">DT HT / an</span></p>
+        <p class="ps__t"><span style="--x:193.69;--y:613.05;--s:18.77;--ls:-0.42;color:#2f4d9d">Présence de votre établissement</span><span style="--x:194.25;--y:637.05;--s:18.77;color:#2a4c9d">sur la plateforme WAJAHNI</span></p>
+        <p class="ps__t"><span style="--x:193.46;--y:684.63;--s:18.08;color:#2e4a9b">Accès aux statistiques de</span><span style="--x:193.73;--y:707.63;--s:18.08;--ls:0.03;color:#2f4a9e">performance de votre</span><span style="--x:194.28;--y:730.63;--s:18.08;--ls:-0.17;color:#2b4b99">établissement</span></p>
+        <p class="ps__t"><span style="--x:194.46;--y:784.62;--s:18.1;color:#2d4b9e">1 établissement inclus</span></p>
+        <p class="ps__t"><span style="--x:193.28;--y:842.78;--s:17.91;color:#2d489b">Jusqu’à 20 programmes</span></p>
+        <p class="ps__t"><span style="--x:568.06;--y:633.08;--s:18.73;color:#030436;font-weight:700">+1 établissement</span></p>
+        <p class="ps__t"><span style="--x:566.53;--y:657.49;--s:14.72;color:#3e5ca2">(20 programmes inclus)</span></p>
+        <p class="ps__t"><span style="--x:865.66;--y:628.21;--s:26.82;color:#03063b;font-weight:700">990</span></p>
+        <p class="ps__t"><span style="--x:848.94;--y:657.08;--s:15.2;color:#22255b">DT HT / an</span></p>
+        <p class="ps__t"><span style="--x:568.08;--y:727.29;--s:18.48;color:#030438;font-weight:700">+50 programmes</span></p>
+        <p class="ps__t"><span style="--x:865.66;--y:715.21;--s:26.82;color:#02043c;font-weight:700">990</span></p>
+        <p class="ps__t"><span style="--x:848.94;--y:744.08;--s:15.2;color:#282963">DT HT / an</span></p>
+        <p class="ps__t"><span style="--x:568.08;--y:817.37;--s:18.38;color:#030438;font-weight:700">+1 programme mis en avant</span></p>
+        <p class="ps__t"><span style="--x:866.69;--y:800.68;--s:26.26;color:#030539;font-weight:700">990</span></p>
+        <p class="ps__t"><span style="--x:852.99;--y:830.77;--s:14.39;color:#24255e">DT HT / an</span></p>
+        <p class="ps__t"><span style="--x:1044.69;--y:589.11;--s:18.7;--ls:-0.32;color:#2a469a">Présence de votre établissement</span><span style="--x:1045.25;--y:613.11;--s:18.7;color:#304ba0">sur la plateforme WAJAHNI</span></p>
+        <p class="ps__t"><span style="--x:1044.46;--y:649.58;--s:18.14;--ls:0.09;color:#2e4999">Accès aux statistiques de</span><span style="--x:1044.73;--y:672.58;--s:18.14;color:#2c489f">performance de votre</span><span style="--x:1045.27;--y:695.58;--s:18.14;--ls:-0.21;color:#2e4c9c">établissement</span></p>
+        <p class="ps__t"><span style="--x:1044.73;--y:737.53;--s:18.2;color:#2e499c">Établissements illimités</span></p>
+        <p class="ps__t"><span style="--x:1044.73;--y:784.53;--s:18.2;color:#2d4e9f">Programmes illimités</span></p>
+        <p class="ps__t"><span style="--x:1044.73;--y:828.54;--s:18.19;--ls:-0.01;color:#2c4ba1">5 programmes de votre choix</span><span style="--x:1044.73;--y:852.54;--s:18.19;color:#2e49a1">mis en avant sur la plateforme</span></p>
+        <p class="ps__t"><span style="--x:129.2;--y:955.68;--s:13.31;--ls:-0.2;color:#183986;font-weight:600">Plus de visibilité</span></p>
+        <p class="ps__t"><span style="--x:129.7;--y:977.41;--s:10.11;color:#6d77aa">Touchez la bonne audience.</span></p>
+        <p class="ps__t"><span style="--x:377.2;--y:956.68;--s:13.31;--ls:-0.16;color:#1c3d93;font-weight:600">Plus d’étudiants</span></p>
+        <p class="ps__t"><span style="--x:377.28;--y:977.31;--s:10.23;color:#5c72a9">Développez votre attractivité.</span></p>
+        <p class="ps__t"><span style="--x:625.19;--y:955.58;--s:13.43;color:#1c4091;font-weight:600">Plus d’opportunités</span></p>
+        <p class="ps__t"><span style="--x:625.46;--y:974.62;--s:13.38;--ls:-0.97;color:#6275a8">Optimisez vos résultats.</span></p>
+        <p class="ps__t"><span style="--x:870.2;--y:955.62;--s:13.39;color:#1a4195;font-weight:600">Un impact durable</span></p>
+        <p class="ps__t"><span style="--x:870.43;--y:973.91;--s:14.23;--ls:-1.11;color:#6575aa">Construisons l’avenir ensemble.</span></p>
+      </section>
+      <section class="ps" id="platform-20" aria-label="Pourquoi nous rejoindre maintenant">
+        <img class="ps__bg" src="assets/platform/slides-clean/s20.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1058" />
+        <h2 class="ps__t ps__t--title"><span style="--x:310.02;--y:140.33;--s:59.61;color:#fefefe;font-weight:900">POURQUOI NOUS REJOINDRE</span></h2>
+        <p class="ps__t ps__t--title ps__t--gold"><span style="--x:501.89;--y:199.1;--s:62.24;font-weight:900">MAINTENANT ?</span></p>
+        <p class="ps__t ps__t--soft"><span style="--x:316.06;--y:268.48;--s:27.67;color:#fff9ed">Les premiers à nous rejoindre prennent une longueur d’avance.</span></p>
+        <p class="ps__t"><span style="--x:101.47;--y:687.05;--s:30.53;color:#020309;font-weight:800">Un nombre limité</span><span style="--x:101.39;--y:724.05;--s:30.53;--ls:-0.17;color:#010309;font-weight:800">d’établissements</span><span style="--x:101.47;--y:760.05;--s:30.53;color:#010209;font-weight:800">par catégorie</span></p>
+        <p class="ps__t"><span style="--x:442.49;--y:687.3;--s:30.24;color:#010208;font-weight:800">Une visibilité</span><span style="--x:442.49;--y:724.3;--s:30.24;--ls:0.33;color:#010208;font-weight:800">renforcée dès</span><span style="--x:442.49;--y:760.3;--s:30.24;--ls:-0.2;color:#020309;font-weight:800">le lancement</span></p>
+        <p class="ps__t"><span style="--x:778.54;--y:688.15;--s:29.24;--ls:-1.11;color:#010208;font-weight:800">Un positionnement</span><span style="--x:778.54;--y:725.15;--s:29.24;color:#010209;font-weight:800">prioritaire</span></p>
+        <p class="ps__t"><span style="--x:1114.45;--y:686.68;--s:30.96;color:#010208;font-weight:800">Des conditions</span><span style="--x:1114.45;--y:723.68;--s:30.96;--ls:-0.24;color:#010209;font-weight:800">préférentielles</span></p>
+      </section>
+    </main>
     <script src="platform-runtime.js"></script>
   <script src="site-motion.js"></script>
 </body>
