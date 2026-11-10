@@ -1727,12 +1727,12 @@ function PageRoadshow() {
                   </div>
                 </div>
                 <div className="content-stretch flex flex-col items-start pt-[3.333px] relative shrink-0 w-full" data-node-id="247:12903" data-name="Link">
-                  <a className="[word-break:break-word] flex flex-col font-['Poppins:Regular'] justify-center leading-[0] not-italic relative shrink-0 text-[#ef7016] text-[12.5px] whitespace-nowrap" href="http://127.0.0.1:51656/__h2d_index.html" data-node-id="247:12904" target="_blank">
+                  <a className="[word-break:break-word] flex flex-col font-['Poppins:Regular'] justify-center leading-[0] not-italic relative shrink-0 text-[#ef7016] text-[12.5px] whitespace-nowrap" href="mailto:rayen.mohsni@wajahni.tn" data-node-id="247:12904">
                     <p className="[text-underline-position:from-font] cursor-pointer decoration-from-font decoration-solid leading-[19.376px] underline">rayen.mohsni@wajahni.tn</p>
                   </a>
                 </div>
                 <div className="content-stretch flex flex-col items-start relative shrink-0 w-full" data-node-id="247:12905" data-name="Link">
-                  <a className="[word-break:break-word] flex flex-col font-['Poppins:Regular'] justify-center leading-[0] not-italic relative shrink-0 text-[#ef7016] text-[12.5px] whitespace-nowrap" href="http://127.0.0.1:51656/__h2d_index.html" data-node-id="247:12906" target="_blank">
+                  <a className="[word-break:break-word] flex flex-col font-['Poppins:Regular'] justify-center leading-[0] not-italic relative shrink-0 text-[#ef7016] text-[12.5px] whitespace-nowrap" href="mailto:jamila.moalla@wajahni.tn" data-node-id="247:12906">
                     <p className="[text-underline-position:from-font] cursor-pointer decoration-from-font decoration-solid leading-[19.376px] underline">jamila.moalla@wajahni.tn</p>
                   </a>
                 </div>

@@ -39,6 +39,31 @@
         node.classList.add('roadshow-card');
       }
     });
+    // "Le concept" cards: Figma exported each card as four loose layers
+    // (photo, white fade, icon, text). Hovering one layer lifted it above the
+    // others, so the white fade covered the icon and text. Group the layers
+    // of each card in one box and lift the whole card instead.
+    const groupCard = (ids) => {
+      const layers = ids.map((id) => canvas.querySelector(`[data-node-id="${id}"]`));
+      if (layers.some((layer) => !layer)) return;
+      const boxes = layers.map((layer) => ({ layer, left: layer.offsetLeft, top: layer.offsetTop }));
+      const left = Math.min(...layers.map((layer) => layer.offsetLeft));
+      const top = Math.min(...layers.map((layer) => layer.offsetTop));
+      const right = Math.max(...layers.map((layer) => layer.offsetLeft + layer.offsetWidth));
+      const bottom = Math.max(...layers.map((layer) => layer.offsetTop + layer.offsetHeight));
+      const card = document.createElement('div');
+      card.className = 'roadshow-card roadshow-concept-card';
+      Object.assign(card.style, { position: 'absolute', left: `${left}px`, top: `${top}px`, width: `${right - left}px`, height: `${bottom - top}px` });
+      layers[0].before(card);
+      boxes.forEach(({ layer, left: x, top: y }) => {
+        layer.classList.remove('roadshow-card');
+        layer.style.left = `${x - left}px`;
+        layer.style.top = `${y - top}px`;
+        card.append(layer);
+      });
+    };
+    groupCard(['247:11385', '247:11388', '247:11389', '247:11390']);
+    groupCard(['247:11386', '247:11399', '247:11400', '247:11401']);
 
     const counterObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
       if (!entry.isIntersecting || entry.target.dataset.counted) return;
@@ -89,10 +114,9 @@
       window.WajahniPacks.mount({ page: 'roadshow', parent: packsParent, top: 3887.1, height: 839.566 });
     }
     hero?.querySelector('.rs-hero__cta')?.addEventListener('click', (event) => {
-      const packs = document.querySelector('#packs');
-      if (!packs) return;
+      if (!document.querySelector('#packs') || !window.WajahniPacks?.scrollToPacks) return;
       event.preventDefault();
-      packs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.WajahniPacks.scrollToPacks();
     });
 
     // Remove the blank space produced by the inactive Figma-artboard export and

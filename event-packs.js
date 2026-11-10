@@ -163,5 +163,15 @@
     return section;
   }
 
-  window.WajahniPacks = { mount };
+  // Scroll to the packs with the section title just under the floating
+  // navbar (scrollIntoView put the title behind the navbar).
+  function scrollToPacks() {
+    const section = document.querySelector('#packs');
+    if (!section) return;
+    const header = document.querySelector('.site-header');
+    const offset = header ? header.getBoundingClientRect().bottom + 12 : 0;
+    window.scrollTo({ top: section.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+  }
+
+  window.WajahniPacks = { mount, scrollToPacks };
 })();

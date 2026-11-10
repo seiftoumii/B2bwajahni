@@ -60,10 +60,11 @@
       .figma-hotspot:hover { background: rgba(255,255,255,.1); }
       .figma-hotspot--hero { left: 42px; top: 758px; width: 326px; height: 86px; }
       .figma-hotspot--contact { left: 1150px; top: 26px; width: 250px; height: 72px; }
-      .figma-hotspot--aftermovie { top: 2512px; width: 376px; height: 312px; border-radius: 14px; }
-      .figma-hotspot--aftermovie:nth-of-type(3) { left: 72px; }
-      .figma-hotspot--aftermovie:nth-of-type(4) { left: 530px; }
-      .figma-hotspot--aftermovie:nth-of-type(5) { left: 990px; }
+      /* One hotspot over each after-movie card (white card, photo and title). */
+      .figma-hotspot--aftermovie { top: 2436px; width: 422px; height: 367px; border-radius: 18px; }
+      .figma-hotspot--aftermovie[data-card="0"] { left: 55px; }
+      .figma-hotspot--aftermovie[data-card="1"] { left: 509px; }
+      .figma-hotspot--aftermovie[data-card="2"] { left: 963px; }
       .figma-fade { opacity: 0; }
       .figma-fade.is-visible { animation: figma-fade-in 650ms cubic-bezier(.22,1,.36,1) forwards; }
       [data-node-id="201:1376"].is-visible { animation: figma-backdrop-in 850ms cubic-bezier(.22,1,.36,1) forwards; }
@@ -111,5 +112,6 @@
     <script src="event-stats.js"></script>
     <script src="figma-runtime.js?v=home-nav-2"></script>
     <script src="service-links.js"></script>
+    <script src="event-contact.js"></script>
   </body>
 </html>

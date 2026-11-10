@@ -97,10 +97,11 @@
       .figma-hotspot:hover { background: rgba(255,255,255,.1); }
       .figma-hotspot--hero { left: 42px; top: 882px; width: 330px; height: 74px; }
       .figma-hotspot--contact { left: 1150px; top: 26px; width: 250px; height: 72px; }
-      .figma-hotspot--aftermovie { top: 2512px; width: 376px; height: 312px; border-radius: 14px; }
-      .figma-hotspot--aftermovie:nth-of-type(3) { left: 72px; }
-      .figma-hotspot--aftermovie:nth-of-type(4) { left: 530px; }
-      .figma-hotspot--aftermovie:nth-of-type(5) { left: 990px; }
+      /* One hotspot over each after-movie card (white card, photo and title). */
+      .figma-hotspot--aftermovie { top: 2436px; width: 422px; height: 367px; border-radius: 18px; }
+      .figma-hotspot--aftermovie[data-card="0"] { left: 55px; }
+      .figma-hotspot--aftermovie[data-card="1"] { left: 509px; }
+      .figma-hotspot--aftermovie[data-card="2"] { left: 963px; }
       .figma-fade { opacity: 0; }
       .figma-fade.is-visible { animation: figma-fade-in 650ms cubic-bezier(.22,1,.36,1) forwards; }
       [data-node-id="201:1376"].is-visible { animation: figma-backdrop-in 850ms cubic-bezier(.22,1,.36,1) forwards; }
@@ -164,7 +165,7 @@
       .fx-hero-in { opacity: 0; translate: 0 18px; animation: fx-hero-in 760ms cubic-bezier(.22,1,.36,1) forwards; animation-delay: var(--fx-delay, 0ms); }
       @keyframes fx-hero-in { to { opacity: 1; translate: 0 0; } }
       .figma-hotspot--aftermovie { transition: background .25s ease, box-shadow .25s ease, transform .25s ease; }
-      .figma-hotspot--aftermovie::after { position: absolute; top: 50%; left: 50%; width: 64px; height: 64px; border-radius: 50%; background: rgba(244,98,42,.92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M9 6.5v11l9-5.5z'/%3E%3C/svg%3E") center/30px no-repeat; box-shadow: 0 10px 24px rgba(244,98,42,.45); content: ""; opacity: 0; transform: translate(-50%, -42%) scale(.7); transition: opacity .25s ease, transform .3s cubic-bezier(.22,1,.36,1); }
+      .figma-hotspot--aftermovie::after { position: absolute; top: 38%; left: 50%; width: 64px; height: 64px; border-radius: 50%; background: rgba(244,98,42,.92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M9 6.5v11l9-5.5z'/%3E%3C/svg%3E") center/30px no-repeat; box-shadow: 0 10px 24px rgba(244,98,42,.45); content: ""; opacity: 0; transform: translate(-50%, -42%) scale(.7); transition: opacity .25s ease, transform .3s cubic-bezier(.22,1,.36,1); }
       .figma-hotspot--aftermovie:hover { background: rgba(8,18,48,.18); box-shadow: 0 18px 34px rgba(13,42,82,.22); transform: scale(1.015); }
       .figma-hotspot--aftermovie:hover::after { opacity: 1; transform: translate(-50%, -50%) scale(1); }
       .fx-progress { position: fixed; z-index: 60; top: 0; left: 0; width: 100%; height: 3px; transform: scaleX(0); transform-origin: left center; background: linear-gradient(90deg, #f4622a, #fb9800); pointer-events: none; }
@@ -193,5 +194,6 @@
     <script src="event-stats.js"></script>
     <script src="educareer-runtime.js"></script>
     <script src="service-links.js"></script>
+    <script src="event-contact.js"></script>
   </body>
 </html>
