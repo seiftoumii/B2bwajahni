@@ -18,8 +18,7 @@
       art: { left: 'assets/car/n210-3441.png', corner: 'assets/car/n210-3444.svg', arrow: 'assets/car/n210-5007.svg' },
       features: [
         'Stand personnalisé',
-        'Insertion du logo de votre institution à la fin de l’après-midi',
-        'Insertion votre logo dans la bannière de la campagne de e-mailing/newsletter',
+        'Insertion du logo de votre institution à la fin de l’after movie',
         'Promotion de votre institution sur nos réseaux sociaux',
         'Insertion de votre logo dans la bannière de la page d’inscription de l’événement',
         'Insertion de votre logo sur les affiches urbaines',
@@ -32,8 +31,8 @@
         'Intervention lors de la conférence (10 min)'
       ],
       labels: ['TUNIS', 'SFAX OU SOUSSE', 'CARAVAN (3 RÉGIONS)'],
-      enabled: [5, 7, 10, 13],
-      exhibitor: [['5 500', '4 900', '13 900'], ['6 600', '5 900', '16 900'], ['7 700', '6 900', '19 900'], ['8 800', '7 900', '23 900']],
+      enabled: [4, 6, 9, 12],
+      exhibitor: [['5 500', '4 900', '14 900'], ['6 600', '5 900', '17 900'], ['7 700', '6 900', '20 900'], ['8 800', '7 900', '23 900']],
       partner: [['4 900', '4 400', '13 500'], ['5 900', '5 500', '16 500'], ['6 900', '6 600', '19 500'], ['7 900', '7 700', '22 500']]
     },
     educareer: {
@@ -55,7 +54,7 @@
       labels: [''],
       enabled: [4, 6, 9, 12],
       exhibitor: [['4 900'], ['5 500'], ['5 900'], ['6 500']],
-      partner: [['4 500'], ['4 900'], ['5 500'], ['5 900']]
+      partner: [['4 500'], ['5 000'], ['5 500'], ['6 000']]
     },
     roadshow: {
       art: { left: 'assets/rs/n247-11438.png', corner: 'assets/rs/n247-11440.svg', arrow: 'assets/rs/n247-12029.svg' },
