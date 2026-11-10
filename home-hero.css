@@ -122,7 +122,9 @@
 }
 @media (prefers-reduced-motion: reduce) { .hero__mouse span, .hero__chev { animation: none; } }
 
-/* Video under the hero: framed, autoplaying (muted) and looping. */
+/* Video under the hero: the Caravan Tunis 2026 aftermovie. It is a vertical
+   9:16 reel, so the gradient frame is upright (no black bars, no crop): text on
+   the left and the video on the right on wide screens, stacked on phones. */
 .vid {
   position: relative; padding: clamp(56px, 7vw, 96px) 16px clamp(64px, 8vw, 110px);
   background:
@@ -131,21 +133,39 @@
     #fffaf5;
   text-align: center;
 }
-.vid__head { max-width: 760px; margin: 0 auto clamp(28px, 3.5vw, 44px); }
+.vid__inner { display: grid; gap: clamp(28px, 3.5vw, 44px); justify-items: center; max-width: 1120px; margin: 0 auto; }
+.vid__head { max-width: 760px; }
 .vid__kicker {
   display: inline-flex; align-items: center; gap: 12px;
   color: #f4622a; font-size: 13px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
 }
 .vid__kicker::before, .vid__kicker::after { content: ""; width: 28px; height: 2px; border-radius: 2px; background: currentColor; }
 .vid__title { margin-top: 10px; }
+.vid__caption { margin-top: 14px; color: #4a5568; font-size: clamp(15px, 1.3vw, 18px); }
+.vid__caption strong { color: #132b6d; font-weight: 700; }
+.vid__link {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; padding: 12px 22px;
+  border-radius: 999px; color: #fff; background: linear-gradient(90deg, #f4622a, #f9a825);
+  box-shadow: 0 10px 22px -10px rgba(244, 98, 42, .7); font-weight: 600; text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.vid__link:hover { transform: translateY(-2px); box-shadow: 0 14px 26px -10px rgba(244, 98, 42, .8); }
+.vid__link:focus-visible { outline: 3px solid #132b6d; outline-offset: 3px; }
 .vid__frame {
-  position: relative; max-width: 1120px; margin: 0 auto;
-  padding: clamp(6px, .7vw, 10px); border-radius: clamp(18px, 2.2vw, 30px);
+  position: relative; width: min(82vw, 330px);
+  padding: clamp(6px, .7vw, 10px); border-radius: clamp(22px, 2.4vw, 32px);
   background: linear-gradient(135deg, #f4622a 0%, #f9a825 35%, #ffffff 50%, #3b5bb5 70%, #132b6d 100%);
   box-shadow: 0 30px 60px -18px rgba(19, 43, 109, .35), 0 12px 28px -12px rgba(244, 98, 42, .35);
 }
 .vid__screen {
-  position: relative; aspect-ratio: 16 / 9; overflow: hidden;
-  border-radius: clamp(12px, 1.6vw, 22px); background: #0d204b;
+  position: relative; aspect-ratio: 9 / 16; overflow: hidden;
+  border-radius: clamp(16px, 1.8vw, 24px); background: #0d204b;
 }
-.vid__screen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.vid__screen video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+.vid__screen:hover .event-films__expand { opacity: 1; }
+@media (min-width: 900px) {
+  .vid__inner { grid-template-columns: minmax(0, 1fr) auto; align-items: center; justify-items: start; gap: clamp(48px, 6vw, 96px); text-align: left; }
+  .vid__head { margin: 0; }
+  /* As tall as the screen allows below the navbar, never taller than 760px. */
+  .vid__frame { width: min(440px, calc((100vh - 170px) * 9 / 16)); min-width: 300px; }
+}

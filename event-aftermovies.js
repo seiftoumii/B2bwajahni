@@ -139,6 +139,39 @@
     lightbox.querySelector('.event-films-lightbox__close').focus({ preventScroll: true });
   }
 
+  // Autoplay muted on screen, pause off screen, sound toggle, click to enlarge.
+  // `card` holds the <video>, .event-films__sound and .event-films__open.
+  function wire(film, card) {
+    const video = card.querySelector('video');
+    const sound = card.querySelector('.event-films__sound');
+    video.muted = true; // the property, not only the attribute, is what allows autoplay
+    // Two-city videos: keep this card on its own city's part of the video.
+    if (film.start || film.end) {
+      const start = film.start || 0;
+      video.addEventListener('loadedmetadata', () => { video.currentTime = film.from || start; });
+      video.addEventListener('timeupdate', () => {
+        const end = film.end || video.duration;
+        if (video.currentTime >= end - .08 || video.currentTime < start - .5) video.currentTime = start;
+      });
+    }
+    const play = () => video.play().catch(() => {});
+    // Starts by itself as soon as it is on screen and pauses when scrolled
+    // away, so the videos below the fold are not downloaded with the page.
+    new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (lightbox?.classList.contains('is-open')) return;
+      if (entry.isIntersecting) play(); else video.pause();
+    }), { threshold: .2 }).observe(video);
+    sound.addEventListener('click', (event) => {
+      event.stopPropagation();
+      video.muted = !video.muted;
+      if (!video.muted) play();
+      sound.setAttribute('aria-pressed', String(!video.muted));
+      sound.setAttribute('aria-label', video.muted ? 'Activer le son' : 'Couper le son');
+      sound.innerHTML = video.muted ? ICON_MUTED : ICON_SOUND;
+    });
+    card.querySelector('.event-films__open').addEventListener('click', () => openLightbox(film, video));
+  }
+
   // options: { page, parent, top, remove: [node ids] } → returns the section height (design px)
   function mount({ page: pageName, parent, top, remove = [] }) {
     const page = PAGES[pageName];
@@ -159,35 +192,7 @@
     parent.append(section);
 
     section.querySelectorAll('.event-films__card.has-video').forEach((card, index) => {
-      const film = page.films.filter((item) => item.src)[index];
-      const video = card.querySelector('video');
-      const sound = card.querySelector('.event-films__sound');
-      video.muted = true; // the property, not only the attribute, is what allows autoplay
-      // Two-city videos: keep this card on its own city's part of the video.
-      if (film.start || film.end) {
-        const start = film.start || 0;
-        video.addEventListener('loadedmetadata', () => { video.currentTime = film.from || start; });
-        video.addEventListener('timeupdate', () => {
-          const end = film.end || video.duration;
-          if (video.currentTime >= end - .08 || video.currentTime < start - .5) video.currentTime = start;
-        });
-      }
-      const play = () => video.play().catch(() => {});
-      // Starts by itself as soon as it is on screen and pauses when scrolled
-      // away, so the videos below the fold are not downloaded with the page.
-      new IntersectionObserver((entries) => entries.forEach((entry) => {
-        if (lightbox?.classList.contains('is-open')) return;
-        if (entry.isIntersecting) play(); else video.pause();
-      }), { threshold: .2 }).observe(video);
-      sound.addEventListener('click', (event) => {
-        event.stopPropagation();
-        video.muted = !video.muted;
-        if (!video.muted) play();
-        sound.setAttribute('aria-pressed', String(!video.muted));
-        sound.setAttribute('aria-label', video.muted ? 'Activer le son' : 'Couper le son');
-        sound.innerHTML = video.muted ? ICON_MUTED : ICON_SOUND;
-      });
-      card.querySelector('.event-films__open').addEventListener('click', () => openLightbox(film, video));
+      wire(page.films.filter((item) => item.src)[index], card);
     });
     return size.height;
   }
@@ -213,5 +218,16 @@
     if (bg) bg.style.height = `${bg.offsetHeight + growth}px`;
   }
 
-  window.WajahniAftermovies = { mount, pushBelow, PAGES };
+  // Standalone videos outside the event canvases (Accueil): any
+  // [data-film] block with a <video>, a sound button and an open button.
+  const autowire = () => document.querySelectorAll('[data-film]').forEach((card) => {
+    const video = card.querySelector('video');
+    const source = video?.querySelector('source');
+    if (!video || !source || card.dataset.filmReady) return;
+    card.dataset.filmReady = '1';
+    wire({ src: source.getAttribute('src'), poster: video.getAttribute('poster'), width: Number(video.dataset.width) || 9, height: Number(video.dataset.height) || 16 }, card);
+  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', autowire, { once: true }); else autowire();
+
+  window.WajahniAftermovies = { mount, pushBelow, wire, PAGES };
 })();
