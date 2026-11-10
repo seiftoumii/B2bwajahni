@@ -8,6 +8,9 @@
   const film = (label, file, width, height) => ({
     label, src: `assets/videos/${file}.mp4`, poster: `assets/videos/${file}-poster.jpg`, width, height
   });
+  function rs(label, file, poster) {
+    return { label, src: `assets/videos/roadshow-${file}.mp4`, poster: `assets/videos/roadshow-${poster}-poster.jpg`, width: 720, height: 1280 };
+  }
   const PAGES = {
     // One after-movie only on Edu-Career (the 2026 edition), centred.
     educareer: {
@@ -22,6 +25,27 @@
         film('TUNIS', 'caravan-tunis-aftermovie', 720, 1280),
         film('SFAX', 'caravan-sfax-aftermovie', 720, 1280),
         film('SOUSSE', 'caravan-sousse-aftermovie', 720, 1280)
+      ]
+    },
+    // Same nine city cards as the Figma page, five then four. Some videos cover
+    // two cities: each of those cards plays only its own city's part (start/end
+    // in seconds), looped. Cards without their own video show "Bientôt disponible".
+    roadshow: {
+      name: 'WAJAHNI ROADSHOW',
+      fallback: 'assets/rs/n247-11431.png',
+      layout: { columns: 5, gap: 28, rowGap: 34, pad: 12, title: 66, font: 16 },
+      films: [
+        { ...rs('Bizerte', 'nabeul-bizerte', 'bizerte'), start: 30.1 },
+        { ...rs('Nabeul', 'nabeul-bizerte', 'nabeul'), end: 30.1 },
+        rs('Jendouba', 'jendouba', 'jendouba'),
+        // No Monastir video: it plays the Mahdia part, the closest city.
+        // It starts further into that part so it never mirrors the Mahdia card next to it.
+        { ...rs('Monastir', 'kairouan-mahdia', 'monastir'), start: 31.2, from: 46 },
+        { ...rs('Mahdia', 'kairouan-mahdia', 'mahdia'), start: 31.2 },
+        { ...rs('Kairouan', 'kairouan-mahdia', 'kairouan'), end: 31.2 },
+        { ...rs('Gafsa', 'gafsa-gabes', 'gafsa'), start: 27.4 },
+        { ...rs('Gabes', 'gafsa-gabes', 'gabes'), end: 27.4 },
+        { ...rs('Medenine', 'medenine', 'medenine'), width: 360, height: 640 }
       ]
     }
   };
@@ -40,6 +64,16 @@
     const video = page.films.find((film) => film.src);
     const ratio = video ? video.width / video.height : LANDSCAPE.width / LANDSCAPE.height;
     const count = page.films.length;
+    if (page.layout?.columns) {
+      // Grid of small upright cards (Roadshow: 9 cities), last row centred.
+      const { columns, gap, rowGap, pad, title } = page.layout;
+      const cardW = (ROW.width - (columns - 1) * gap) / columns;
+      const frameW = cardW - pad * 2;
+      const frameH = Math.round(frameW / ratio);
+      const cardH = frameH + pad * 2 + title;
+      const rows = Math.ceil(count / columns);
+      return { ratio, frameW, frameH, cardW, cardH, gap, rowGap, pad, title, height: rows * cardH + (rows - 1) * rowGap };
+    }
     let frameW;
     if (ratio < 1) frameW = count === 1 ? 380 : 344; // vertical reel: tall cards
     else if (ratio > 1.2) frameW = (ROW.width - (count - 1) * 32) / count - ROW.pad * 2; // landscape
@@ -48,7 +82,7 @@
     const cardW = frameW + ROW.pad * 2;
     const cardH = frameH + ROW.pad * 2 + ROW.title;
     const gap = count > 1 ? (ROW.width - cardW * count) / (count - 1) : 0; // one card: centred by CSS
-    return { ratio, frameW, frameH, cardW, cardH, gap };
+    return { ratio, frameW, frameH, cardW, cardH, gap, rowGap: 0, pad: ROW.pad, title: ROW.title, height: cardH };
   }
 
   function renderCard(page, film) {
@@ -114,12 +148,12 @@
     const size = layout(page);
     const section = document.createElement('section');
     section.id = 'aftermovies';
-    section.className = `event-films ${size.ratio < 1 ? 'is-portrait' : 'is-landscape'}${page.films.length === 1 ? ' is-single' : ''}`;
+    section.className = `event-films ${size.ratio < 1 ? 'is-portrait' : 'is-landscape'}${page.films.length === 1 ? ' is-single' : ''}${page.layout?.columns ? ' is-grid' : ''}`;
     section.setAttribute('aria-label', 'Aftermovies');
     Object.assign(section.style, {
-      top: `${top}px`, left: `${ROW.left}px`, width: `${ROW.width}px`, height: `${size.cardH}px`
+      top: `${top}px`, left: `${ROW.left}px`, width: `${ROW.width}px`, height: `${size.height}px`
     });
-    Object.entries({ '--film-card-w': size.cardW, '--film-frame-w': size.frameW, '--film-frame-h': size.frameH, '--film-gap': size.gap, '--film-pad': ROW.pad })
+    Object.entries({ '--film-card-w': size.cardW, '--film-frame-w': size.frameW, '--film-frame-h': size.frameH, '--film-gap': size.gap, '--film-row-gap': size.rowGap, '--film-pad': size.pad, '--film-title-h': size.title, '--film-title-size': page.layout?.font || 20 })
       .forEach(([key, value]) => section.style.setProperty(key, `${value}px`));
     section.innerHTML = page.films.map((film) => renderCard(page, film)).join('');
     parent.append(section);
@@ -129,6 +163,15 @@
       const video = card.querySelector('video');
       const sound = card.querySelector('.event-films__sound');
       video.muted = true; // the property, not only the attribute, is what allows autoplay
+      // Two-city videos: keep this card on its own city's part of the video.
+      if (film.start || film.end) {
+        const start = film.start || 0;
+        video.addEventListener('loadedmetadata', () => { video.currentTime = film.from || start; });
+        video.addEventListener('timeupdate', () => {
+          const end = film.end || video.duration;
+          if (video.currentTime >= end - .08 || video.currentTime < start - .5) video.currentTime = start;
+        });
+      }
       const play = () => video.play().catch(() => {});
       // Starts by itself as soon as it is on screen and pauses when scrolled
       // away, so the videos below the fold are not downloaded with the page.
@@ -146,7 +189,7 @@
       });
       card.querySelector('.event-films__open').addEventListener('click', () => openLightbox(film, video));
     });
-    return size.cardH;
+    return size.height;
   }
 
   const topOf = (element) => {
