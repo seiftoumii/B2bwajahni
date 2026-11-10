@@ -8,7 +8,9 @@
   const ICON = (name) => `assets/stats-icons/icon-${name}.png`;
   const YEARS = {
     2025: { accent: '#f96b28', header: 'assets/stats-2025-header.png' },
-    2026: { accent: '#02aad3', header: 'assets/stats-2026-header.png' }
+    2026: { accent: '#02aad3', header: 'assets/stats-2026-header.png' },
+    2023: { accent: '#f7a823', header: 'assets/stats-2023-header.png' },
+    2024: { accent: '#8b3fe0', header: 'assets/stats-2024-header.png' }
   };
   const PERCENT_LABELS = [
     'À la recherche d’une licence',
@@ -27,18 +29,35 @@
     influenceurs: ['influenceurs', 'Influenceurs']
   };
 
+  // A tab shows one or more year cards side by side. Pages without their own
+  // tabs get one tab per year; Caravan and Edu-Career pair the years up.
+  const YEAR_TABS = [
+    { id: '2025', label: '2025', years: ['2025'] },
+    { id: '2026', label: '2026', years: ['2026'] }
+  ];
+  const PAIRED_TABS = [
+    { id: '2023-2024', label: '2023 – 2024', years: ['2023', '2024'] },
+    { id: '2025-2026', label: '2025 – 2026', years: ['2025', '2026'] }
+  ];
+
   const PAGES = {
     caravan: {
+      tabs: PAIRED_TABS,
       event: 'WAJAHNI Caravan',
       years: {
+        2023: { place: ['Tunis - Sousse - Sfax'], keys: { inscriptions: '16K', portee: '3.0M', conferences: '50', workshops: '20', massMedias: '10', influenceurs: '7' }, percents: ['59%', '67%', '41%', '36%', '78%', '35%'], stands: '127', age: '87%' },
+        2024: { place: ['Tunis - Sfax - Sousse'], keys: { inscriptions: '26K', portee: '3.5M', conferences: '116', workshops: '44', massMedias: '10', influenceurs: '16' }, percents: ['62%', '69%', '53%', '38%', '89%', '49%'], stands: '151', age: '84%' },
         2025: { place: ['Tunis - Sfax - Sousse'], keys: { inscriptions: '22K', portee: '4.0M', conferences: '122', workshops: '44', massMedias: '10', influenceurs: '22' }, percents: ['71%', '68%', '49%', '24%', '68%', '33%'], stands: '152', age: '95%' },
         2026: { place: ['Sfax - Tunis - Sousse'], keys: { inscriptions: '26K', portee: '15.7M', conferences: '140', workshops: '60', massMedias: '10', influenceurs: '22' }, percents: ['81%', '69%', '60%', '19%', '78%', '32%'], stands: '155', age: '95%' }
       }
     },
     educareer: {
+      tabs: PAIRED_TABS,
       event: 'WAJAHNI Edu-Career Summit',
       note: 'Édition de 2 jours avec espace de job fair',
       years: {
+        2023: { place: ['Tunis : Cité de la culture'], keys: { inscriptions: '11K', portee: '2.4M', conferences: '18', workshops: '14', massMedias: '8', influenceurs: '4' }, percents: ['49%', '67%', '41%', '41%', '50%', '30%'], stands: '62', age: '71%' },
+        2024: { place: ['Tunis : Cité de la culture'], keys: { inscriptions: '16K', portee: '2.6M', conferences: '36', workshops: '16', massMedias: '8', influenceurs: '8' }, percents: ['41%', '69%', '51%', '51%', '82%', '37%'], stands: '92', age: '73%' },
         2025: { place: ['Tunis : Cité de la culture'], keys: { inscriptions: '5K', portee: '2.6M', conferences: '24', workshops: '32', massMedias: '10', influenceurs: '12' }, percents: ['49%', '67%', '41%', '51%', '70%', '35%'], stands: '99', age: '85%' },
         2026: { place: ['Tunis : Palais des congrès'], keys: { inscriptions: '5K', portee: '2.6M', conferences: '28', workshops: '34', massMedias: '10', influenceurs: '12' }, percents: ['45%', '70%', '50%', '52%', '85%', '37%'], stands: '60', age: '88%' }
       }
@@ -51,8 +70,6 @@
       }
     }
   };
-  const TABS = ['2025', '2026'];
-  const DEFAULT_TAB = '2026';
 
   const esc = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c]));
   const num = (value) => `<span class="event-stats__num" data-count="${esc(value)}">${esc(value)}</span>`;
@@ -112,6 +129,7 @@
     if (!page || !parent) return null;
     document.querySelector('#stats')?.remove();
     const uid = `event-stats-${pageName}`;
+    const tabsDef = page.tabs || YEAR_TABS;
     const section = document.createElement('section');
     section.id = 'stats';
     section.className = 'event-stats';
@@ -122,9 +140,9 @@
       <span class="event-stats__eyebrow">${esc(page.event)}</span>
       <h2 class="event-stats__title" id="${uid}-title">4 Années d’impact,<br><span>des opportunités infinies</span></h2>
       <div class="event-stats__tabs" role="tablist" aria-label="Année">
-        ${TABS.map((year) => `<button class="event-stats__tab" type="button" role="tab" id="${uid}-tab-${year}" aria-controls="${uid}-panel-${year}" data-stats-year="${year}">${year}</button>`).join('')}
+        ${tabsDef.map((tab) => `<button class="event-stats__tab" type="button" role="tab" id="${uid}-tab-${tab.id}" aria-controls="${uid}-panel-${tab.id}" data-stats-year="${tab.id}">${tab.label}</button>`).join('')}
       </div>
-      ${TABS.map((year) => `<div class="event-stats__panel" role="tabpanel" id="${uid}-panel-${year}" aria-labelledby="${uid}-tab-${year}" data-stats-panel="${year}">${renderCard(page, year)}</div>`).join('')}`;
+      ${tabsDef.map((tab) => `<div class="event-stats__panel" role="tabpanel" id="${uid}-panel-${tab.id}" aria-labelledby="${uid}-tab-${tab.id}" data-stats-panel="${tab.id}" style="--event-stats-columns:${tab.years.length}">${tab.years.map((year) => renderCard(page, year)).join('')}</div>`).join('')}`;
     parent.append(section);
 
     const tabs = [...section.querySelectorAll('[data-stats-year]')];
@@ -153,7 +171,7 @@
         select(tabs[(index + 1) % tabs.length].dataset.statsYear, true);
       });
     });
-    select(DEFAULT_TAB);
+    select(tabsDef[tabsDef.length - 1].id);
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       seen = true;
