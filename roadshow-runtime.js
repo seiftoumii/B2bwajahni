@@ -1,6 +1,7 @@
 (() => {
   const width = 1440;
-  const height = 6460;
+  // Grows by the extra height of the after-movie cards (see hydrate).
+  let height = 6460;
   const viewport = document.querySelector('#figma-viewport');
   const canvas = document.querySelector('#figma-canvas');
   const hero = document.querySelector('#roadshow-hero');
@@ -125,6 +126,26 @@
     Array.from(root?.children || []).forEach((node) => {
       if (Number.parseFloat(getComputedStyle(node).top) >= 5566) node.classList.add('roadshow-after-packs');
     });
+
+    // Real after-movies (event-aftermovies.js) in place of the nine Figma city
+    // cards. The videos are vertical, so the cards are taller than the Figma
+    // ones (two rows ending at 3006 px): push everything below down.
+    if (root && window.WajahniAftermovies) {
+      const filmsHeight = window.WajahniAftermovies.mount({
+        page: 'roadshow', parent: root, top: 2326,
+        remove: ['252:13603', '252:13605', '252:13606', '252:13607', '252:13608', '252:13610', '252:13616', '252:13622', '252:13628', '252:13633', '252:13638', '252:13643']
+      });
+      const growth = filmsHeight ? Math.max(0, Math.round(2326 + filmsHeight - 3006)) : 0;
+      if (growth) {
+        const containers = [root, canvas, document.querySelector('#stats')?.parentElement, document.querySelector('#packs')?.parentElement];
+        window.WajahniAftermovies.pushBelow({ containers, from: 3010, growth, background: '247:11420' });
+        if (root.offsetHeight >= height - 50) root.style.height = `${root.offsetHeight + growth}px`;
+        height += growth;
+        // roadshow.html fixes the canvas and its shell at 6460 px.
+        [canvas, canvas.parentElement].forEach((el) => { el.style.height = `${height}px`; });
+        updateScale();
+      }
+    }
   };
   window.addEventListener('load', hydrate, { once: true });
 })();
