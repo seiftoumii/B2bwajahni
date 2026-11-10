@@ -351,10 +351,10 @@ function PageEduCareerSummit() {
         </div>
       </div>
       <div className="absolute contents left-[47px] top-[634.75px]" data-node-id="237:8142">
-        <div className="absolute inset-[634.75px_36.31%_7866.9px_18.51%] rounded-[15.139px]" data-node-id="237:8144" data-name="Tunis">
+        <div className="absolute h-[145px] left-[266.5px] overflow-hidden rounded-[15.139px] top-[634.75px] w-[651.5px]" data-node-id="237:8144" data-name="Tunis">
           <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[15.139px] size-full" src={imgTunis} />
         </div>
-        <div className="absolute inset-[634.75px_522px_7866.9px_47px] rounded-[18px]" data-node-id="237:8146" style={{ backgroundImage: "linear-gradient(90deg, rgb(226, 67, 26) 0%, rgb(226, 67, 26) 24.038%, rgba(226, 67, 26, 0.55) 65.865%, rgba(226, 67, 26, 0) 100%)" }} data-name="Gradient" />
+        <div className="absolute h-[145px] left-[47px] rounded-[18px] top-[634.75px] w-[871px]" data-node-id="237:8146" style={{ backgroundImage: "linear-gradient(90deg, rgb(226, 67, 26) 0%, rgb(226, 67, 26) 24.038%, rgba(226, 67, 26, 0.55) 65.865%, rgba(226, 67, 26, 0) 100%)" }} data-name="Gradient" />
         <div className="absolute content-stretch flex gap-[9.255px] h-[44.014px] items-center left-[60px] top-[651px] w-[243.988px]" data-node-id="237:8147" data-name="Container">
           <div className="content-stretch flex flex-col items-center justify-center overflow-clip relative shrink-0 size-[31.877px]" data-node-id="237:8148" data-name="image">
             <div className="relative shrink-0 size-[31.877px]" data-node-id="237:8149" data-name="image">
