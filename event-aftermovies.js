@@ -38,9 +38,11 @@
         { ...rs('Bizerte', 'nabeul-bizerte', 'bizerte'), start: 30.1 },
         { ...rs('Nabeul', 'nabeul-bizerte', 'nabeul'), end: 30.1 },
         rs('Jendouba', 'jendouba', 'jendouba'),
-        { label: 'Monastir' },
-        { label: 'Mahdia' },
-        { label: 'Kairouan' },
+        // No Monastir video: it plays the Mahdia part, the closest city.
+        // It starts further into that part so it never mirrors the Mahdia card next to it.
+        { ...rs('Monastir', 'kairouan-mahdia', 'monastir'), start: 31.2, from: 46 },
+        { ...rs('Mahdia', 'kairouan-mahdia', 'mahdia'), start: 31.2 },
+        { ...rs('Kairouan', 'kairouan-mahdia', 'kairouan'), end: 31.2 },
         { ...rs('Gafsa', 'gafsa-gabes', 'gafsa'), start: 27.4 },
         { ...rs('Gabes', 'gafsa-gabes', 'gabes'), end: 27.4 },
         { ...rs('Medenine', 'medenine', 'medenine'), width: 360, height: 640 }
@@ -164,7 +166,7 @@
       // Two-city videos: keep this card on its own city's part of the video.
       if (film.start || film.end) {
         const start = film.start || 0;
-        video.addEventListener('loadedmetadata', () => { video.currentTime = start; });
+        video.addEventListener('loadedmetadata', () => { video.currentTime = film.from || start; });
         video.addEventListener('timeupdate', () => {
           const end = film.end || video.duration;
           if (video.currentTime >= end - .08 || video.currentTime < start - .5) video.currentTime = start;
