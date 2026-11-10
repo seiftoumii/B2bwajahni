@@ -266,13 +266,7 @@
     });
     const growth = filmsHeight ? Math.max(0, Math.round(filmsHeight - 367)) : 0;
     if (growth) {
-      [...pageRoot.children, ...canvas.children].forEach((element) => {
-        if (element === pageRoot || element.id === 'aftermovies') return;
-        const top = getTop(element);
-        if (top >= 3076) element.style.top = `${top + growth}px`;
-      });
-      const filmsBackground = canvas.querySelector('[data-node-id="237:8269"]');
-      if (filmsBackground) filmsBackground.style.height = `${filmsBackground.offsetHeight + growth}px`;
+      window.WajahniAftermovies.pushBelow({ containers: [pageRoot, canvas], from: 3076, growth, background: '237:8269' });
       pageRoot.style.height = `${pageRoot.offsetHeight + growth}px`;
       height += growth;
       updateScale();

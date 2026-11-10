@@ -1,6 +1,7 @@
 (() => {
   const width = 1440;
-  const height = 5513;
+  // Grows by the extra height of the after-movie cards (see hydrate).
+  let height = 5513;
   const viewport = document.querySelector('#figma-viewport');
   const canvas = document.querySelector('#figma-canvas');
   const dialog = document.querySelector('#contact-dialog');
@@ -41,9 +42,6 @@
     window.addEventListener('resize', updateScale, { passive: true });
 
     addHotspot('figma-hotspot--hero', 'Découvrir les packs Wajahni', () => window.WajahniPacks?.scrollToPacks());
-    ['Tunis', 'Sfax', 'Sousse'].forEach((city, index) => {
-      addHotspot('figma-hotspot--aftermovie', `Voir l’after-movie Wajahni Caravan ${city}`, () => toastMessage(`L’after-movie ${city} sera bientôt disponible.`)).dataset.card = index;
-    });
 
     const cardSelectors = [
       '[data-node-id="201:2032"]', '[data-node-id="201:2193"]', '[data-node-id="201:2146"]',
@@ -163,6 +161,26 @@
       const statsParent = statsFrame.parentElement;
       statsFrame.remove();
       window.WajahniStats.mount({ page: 'caravan', parent: statsParent, top: 3076, height: 850 });
+    }
+
+    // Real after-movies (event-aftermovies.js), one vertical video per city.
+    // The cards follow the videos' 9:16 format, so they are taller than the
+    // Figma 367 px cards: push everything below down by the difference.
+    const filmsRef = canvas.querySelector('[data-node-id="210:3412"]');
+    if (filmsRef && window.WajahniAftermovies) {
+      const filmsParent = filmsRef.parentElement;
+      const filmsHeight = window.WajahniAftermovies.mount({
+        page: 'caravan', parent: filmsParent, top: 2436,
+        remove: ['210:3412', '210:3413', '210:3415', '210:3417', '210:3418', '210:3420', '210:3423', '210:3424', '210:3426']
+      });
+      const growth = filmsHeight ? Math.max(0, Math.round(filmsHeight - 367)) : 0;
+      if (growth) {
+        const containers = [filmsParent, canvas, canvas.firstElementChild, document.querySelector('#stats')?.parentElement, document.querySelector('#packs')?.parentElement];
+        window.WajahniAftermovies.pushBelow({ containers, from: 3076, growth, background: '210:2958' });
+        [...new Set(containers.filter(Boolean))].forEach((el) => { if (el !== canvas && el.offsetHeight >= height) el.style.height = `${el.offsetHeight + growth}px`; });
+        height += growth;
+        updateScale();
+      }
     }
 
     ['201:1321', '201:1374', '210:3462', '215:5178'].forEach((id) => {
