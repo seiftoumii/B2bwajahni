@@ -2,8 +2,9 @@
    are more logos than tiles, swaps them in waves of 3D flips that sweep across
    the grid (diagonal, from the centre, then from the other corner). Each wave
    brings the next batch of logos, so every partner shows up in turn.
-   The wall pauses while it is off screen, while the tab is hidden and while
-   the pointer is over it. With reduced motion the logos cross-fade instead. */
+   The wall pauses only while it is off screen or the tab is hidden (not on
+   hover). Logos are preloaded once so no wave waits on the network.
+   With reduced motion the logos cross-fade instead. */
 (() => {
   const grid = document.querySelector('.pw__grid');
   if (!grid) return;
@@ -19,8 +20,8 @@
   }
 
   const TILES = 50;
-  const HOLD = 2000;          // pause between waves (ms)
-  const FLIP = 650;           // flip duration, matches the CSS transition
+  const HOLD = 800;           // pause between waves (ms)
+  const FLIP = 600;           // flip duration, matches the CSS transition
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 
   const makeImg = src => {
@@ -56,19 +57,26 @@
   let timer = 0;
   let running = false;
   let visible = false;
-  let hovered = false;
 
   const patterns = [
-    (r, c) => (r + c) * 40,                                   // top-left to bottom-right
-    (r, c, R, C) => Math.hypot(c - (C - 1) / 2, (r - (R - 1) / 2) * 1.4) * 60, // from the centre out
-    (r, c, R, C) => (r + (C - 1 - c)) * 40                     // top-right to bottom-left
+    (r, c) => (r + c) * 30,                                   // top-left to bottom-right
+    (r, c, R, C) => Math.hypot(c - (C - 1) / 2, (r - (R - 1) / 2) * 1.4) * 55, // from the centre out
+    (r, c, R, C) => (r + (C - 1 - c)) * 30                     // top-right to bottom-left
   ];
 
-  const preload = srcs => Promise.all(srcs.map(src => {
+  // Download and decode every logo once, as soon as the wall is near, so
+  // later waves never wait on the network.
+  let warmed = null;
+  const warm = () => warmed || (warmed = Promise.all(deck.map(src => {
     const img = new Image();
     img.src = src;
     return img.decode ? img.decode().catch(() => {}) : Promise.resolve();
-  }));
+  })));
+  // Wait for this wave's logos, but never longer than a moment.
+  const ready = srcs => Promise.race([
+    Promise.all(srcs.map(src => { const img = new Image(); img.src = src; return img.decode ? img.decode().catch(() => {}) : 0; })),
+    new Promise(r => setTimeout(r, 250))
+  ]);
 
   async function runWave() {
     timer = 0;
@@ -76,9 +84,10 @@
     const list = visibleTiles();
     const C = columns();
     const R = Math.ceil(list.length / C);
+    const started = performance.now();
     const srcs = list.map((_, i) => deck[(next + i) % deck.length]);
     next = (next + list.length) % deck.length;
-    await preload(srcs);
+    await ready(srcs);
     if (!canRun()) { running = false; return; }
 
     const delayOf = patterns[wave++ % patterns.length];
@@ -100,14 +109,16 @@
         setTimeout(() => t.tile.classList.remove('is-lit'), FLIP);
       }, delay);
     });
-    timer = setTimeout(runWave, longest + FLIP + (calm ? HOLD * 2 : HOLD));
+    // Keep a steady rhythm: the next wave is timed from this one's start.
+    const cycle = longest + FLIP + (calm ? HOLD * 3 : HOLD);
+    timer = setTimeout(runWave, Math.max(200, cycle - (performance.now() - started)));
   }
 
-  const canRun = () => visible && !hovered && !document.hidden;
+  const canRun = () => visible && !document.hidden;
   function sync() {
     if (canRun() && !running) {
       running = true;
-      timer = setTimeout(runWave, wave === 0 ? 800 : 500);
+      timer = setTimeout(runWave, wave === 0 ? 600 : 300);
     } else if (!canRun() && running && timer) {
       clearTimeout(timer);
       timer = 0;
@@ -119,13 +130,15 @@
     new IntersectionObserver(entries => {
       visible = entries[0].isIntersecting;
       sync();
-    }, { threshold: .25 }).observe(grid);
+    }, { threshold: .15 }).observe(grid);
+    // Start downloading the logos a little before the wall scrolls in.
+    new IntersectionObserver((entries, io) => {
+      if (entries[0].isIntersecting) { warm(); io.disconnect(); }
+    }, { rootMargin: '600px 0px' }).observe(grid);
   } else {
     visible = true;
+    warm();
   }
-  const panel = grid.parentElement;
-  panel.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { hovered = true; sync(); } });
-  panel.addEventListener('pointerleave', () => { hovered = false; sync(); });
   document.addEventListener('visibilitychange', sync);
   sync();
 })();
