@@ -20,7 +20,17 @@
   const overlayLogo = 'assets/platform/panel-overlay.png';
   const overlays = [[54,8289],[54,9293],[54,10301],[54,11350],[54,12406],[54,13430],[44,14455],[44,15481]];
 
+  // Panel 1 (the hero) is the HTML #platform-hero section above the deck.
+  const heroBottom = panels[1][1] - transitionOverlap;
+  const heroImage = document.querySelector('.ph__bg');
+  if (heroImage) {
+    if (heroImage.complete) loader.classList.add('is-ready');
+    heroImage.addEventListener('load', () => loader.classList.add('is-ready'), { once: true });
+    heroImage.addEventListener('error', () => loader.classList.add('is-ready'), { once: true });
+  }
+
   panels.forEach(([source, top, height], index) => {
+    if (index === 0) return;
     const section = document.createElement('section');
     section.className = 'platform-panel';
     if (index) section.classList.add('platform-panel--blended');
@@ -30,14 +40,10 @@
     section.dataset.panel = String(index + 1);
     const image = new Image();
     image.src = source;
-    image.alt = index === 0 ? 'Présentation de WAJAHNI Platform' : '';
+    image.alt = '';
     image.decoding = 'async';
     image.loading = 'eager';
     image.fetchPriority = index < 3 ? 'high' : 'auto';
-    if (index === 0) {
-      image.addEventListener('load', () => loader.classList.add('is-ready'), { once: true });
-      image.addEventListener('error', () => loader.classList.add('is-ready'), { once: true });
-    }
     section.append(image);
     canvas.append(section);
     const preload = document.createElement('link');
@@ -53,10 +59,12 @@
   });
 
   function updateScale() {
-    const scale = window.innerWidth / canvasWidth;
+    const scale = document.documentElement.clientWidth / canvasWidth;
     document.documentElement.style.setProperty('--platform-scale', String(scale));
     viewport.style.width = `${canvasWidth * scale}px`;
-    fitServiceArtboard(viewport, scale, canvasHeight, 1024.56, 933);
+    // The deck starts at panel 2, right under the full-screen hero.
+    viewport.style.height = `${(canvasHeight - heroBottom) * scale}px`;
+    viewport.firstElementChild.style.top = `${-heroBottom * scale}px`;
   }
   updateScale();
   window.addEventListener('resize', updateScale, { passive: true });

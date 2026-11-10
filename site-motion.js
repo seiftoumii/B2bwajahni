@@ -410,19 +410,40 @@
 
   /* ---------- Platform and 360° (image decks) ---------- */
   function platform() {
+    const hero = $('#platform-hero');
+    if (hero) {
+      kenBurns($('.ph__bg', hero), '80% 45%');
+      const items = [
+        ['.ph__eyebrow', 'rise'], ...$$('.ph__line', hero).map((line) => [line, 'title']),
+        ['.ph__sub', 'rise'], ['.ph__lead', 'rise'],
+      ];
+      items.forEach(([target, kind], i) => mark(typeof target === 'string' ? $(target, hero) : target, kind, 150 + i * 120, null, { '--mo-y': '28px' }));
+      stagger($$('.ph__card', hero), 'pop', { base: 150 + items.length * 120, step: 110 });
+      mark($('.ph__tag', hero), 'fade', 150 + items.length * 120 + 520);
+    }
     const panels = $$('#platform-canvas .platform-panel');
-    panels.forEach((panel, i) => {
-      const img = $('img', panel);
-      if (i === 0) kenBurns(img, '60% 40%');
-      else mark(img, 'settle', 0, panel);
-    });
+    panels.forEach((panel) => mark($('img', panel), 'settle', 0, panel));
     $$('#platform-canvas .platform-overlay-logo').forEach((logo, i) => { mark(logo, 'pop', 200 + i * 40); float(logo, 8); });
   }
 
   function w360() {
+    const hero = $('#w360-hero');
+    if (hero) {
+      kenBurns($('.w3h__photo img', hero), '70% 40%');
+      mark($('.w3h__photo', hero), 'fade', 0);
+      const items = [['.w3h__brand', 'drop'], ['.w3h__title', 'title'], ['.w3h__sub', 'rise'], ['.w3h__lead', 'rise'], ['.w3h__cue', 'pop']];
+      items.forEach(([target, kind], i) => mark($(target, hero), kind, 150 + i * 130, null, { '--mo-y': '28px' }));
+      shine($('.w3h__cue', hero), true);
+    }
+    const why = $('#pourquoi');
+    if (why) {
+      heading($('.w3w__title', why));
+      stagger($$('.w3w__card', why), 'rise', { base: 150, step: 110, trigger: $('.w3w__cards', why), vars: { '--mo-y': '36px' } });
+      mark($('.w3w__quote', why), 'pop', 0);
+      mark($('.w3w__sign', why), 'rise', 200, $('.w3w__quote', why), { '--mo-y': '20px' });
+    }
     const sections = $$('[data-w360-panel]');
-    sections.forEach((section, i) => {
-      if (i === 0) return;
+    sections.forEach((section) => {
       mark($('img', section), 'rise', 0, section, { '--mo-y': '60px', '--mo-t': '1.1s' });
     });
     const contact = $('.w360-contact-section');

@@ -54,13 +54,3 @@ function fitServiceArtboard(viewport, canvasScale, canvasHeight, heroHeight, nex
     left: left + 'px', top: top + 'px', width: width + 'px', height: height + 'px',
   });
 }
-
-// The 360° deck uses ordinary images in document flow.
-function fitFirstSlide() {
-  const header = document.querySelector('.site-header');
-  if (document.getElementById('w360-root') && header) {
-    document.documentElement.style.setProperty('--hero-header', header.getBoundingClientRect().bottom + 'px');
-  }
-}
-document.addEventListener('DOMContentLoaded', fitFirstSlide);
-window.addEventListener('resize', fitFirstSlide);

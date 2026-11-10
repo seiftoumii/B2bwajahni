@@ -1,0 +1,208 @@
+/* WAJAHNI 360° hero and "Pourquoi" section (Nov 2026), rebuilt in HTML from
+   deck slide 1 (assets/w360/slide-01.jpg). The hero fills the full viewport
+   width and height: text on the left, the students photo filling the right
+   half edge to edge. Sizes use --u = one slide unit (slide drawn at 2000 px
+   wide), so the composition scales with the screen. */
+.w3h, .w3w {
+  --orange: #f04a12;
+  --teal: #12798b;
+  --ink: #1d2433;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  color: var(--ink);
+  font-family: Poppins, Arial, sans-serif;
+}
+.w3h {
+  --u: min(calc(100vw * .5 / 1100), calc((100svh - 150px) / 600));
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  min-height: 560px;
+}
+
+/* Photo: right half, full height, curved left edge with an orange-to-teal rim. */
+.w3h__photo { position: absolute; top: 0; right: 0; bottom: 0; width: 49vw; }
+.w3h__ring, .w3h__photo img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.w3h__ring {
+  background: linear-gradient(170deg, #ff7a1a 0%, #f04a12 38%, #f5a028 55%, #12798b 82%);
+  clip-path: ellipse(100% 78% at 100% 46%);
+}
+.w3h__photo img {
+  object-fit: cover; object-position: 68% 40%;
+  clip-path: ellipse(97.6% 76.6% at 100% 46%);
+}
+
+.w3h__corner {
+  position: absolute; left: 0; bottom: 0;
+  width: calc(265 * var(--u)); height: auto;
+  mix-blend-mode: multiply; pointer-events: none;
+}
+
+.w3h__content {
+  position: absolute;
+  left: max(calc(70 * var(--u)), 24px);
+  top: 96px; bottom: calc(40 * var(--u));
+  width: calc(1000 * var(--u));
+  display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+}
+.w3h__brand { display: flex; align-items: center; gap: calc(80 * var(--u)); }
+.w3h__logo { width: calc(400 * var(--u)); height: auto; mix-blend-mode: multiply; }
+.w3h__dots { width: calc(260 * var(--u)); height: auto; mix-blend-mode: multiply; }
+.w3h__title {
+  margin: calc(40 * var(--u)) 0 0;
+  font-size: calc(138 * var(--u)); font-weight: 700; line-height: 1; letter-spacing: -.02em;
+  white-space: nowrap;
+}
+.w3h__word {
+  background: linear-gradient(180deg, #ff5a1c, #e8380d);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.w3h__deg { color: var(--teal); }
+.w3h__sub {
+  margin: calc(24 * var(--u)) 0 0;
+  color: var(--teal);
+  font-size: calc(38 * var(--u)); font-weight: 600; line-height: 1.2; letter-spacing: -.01em;
+}
+.w3h__lead {
+  margin: calc(34 * var(--u)) 0 0;
+  max-width: calc(920 * var(--u));
+  padding-left: calc(28 * var(--u));
+  border-left: max(calc(6 * var(--u)), 3px) solid var(--orange);
+  color: #2b3140;
+  font-size: calc(25 * var(--u)); line-height: 1.5;
+}
+.w3h__cue {
+  display: inline-flex; align-items: center; gap: calc(14 * var(--u));
+  margin-top: calc(44 * var(--u));
+  padding: calc(16 * var(--u)) calc(30 * var(--u));
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff6a1a, #e8410f);
+  box-shadow: 0 calc(10 * var(--u)) calc(26 * var(--u)) rgba(240, 74, 18, .28);
+  color: #fff; text-decoration: none;
+  font-size: max(calc(22 * var(--u)), 13px); font-weight: 600; white-space: nowrap;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.w3h__cue span { display: inline-block; animation: w3h-bob 1.8s ease-in-out infinite; }
+.w3h__cue:hover { transform: translateY(-2px); box-shadow: 0 calc(14 * var(--u)) calc(30 * var(--u)) rgba(240, 74, 18, .36); }
+.w3h__cue:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
+@keyframes w3h-bob { 50% { transform: translateY(3px); } }
+
+/* "Pourquoi WAJAHNI 360° ?" — full width, scales with the page width. */
+.w3w {
+  --u: min(calc(100vw / 2000), 1px);
+  padding: calc(70 * var(--u)) calc(50 * var(--u)) calc(110 * var(--u));
+}
+.w3w__title {
+  display: flex; align-items: center; gap: calc(30 * var(--u));
+  margin: 0 auto; max-width: calc(1380 * var(--u));
+  color: var(--orange);
+  font-size: calc(46 * var(--u)); font-weight: 700; white-space: nowrap;
+}
+.w3w__title::before, .w3w__title::after {
+  flex: 1; height: 9px; content: '';
+  background-repeat: no-repeat; background-size: 9px 9px, 100% 2px;
+}
+.w3w__title::before { background-image: radial-gradient(circle, var(--orange) 0 4px, transparent 4.5px), linear-gradient(90deg, rgba(240, 74, 18, .35), var(--orange)); background-position: left center, center; }
+.w3w__title::after { background-image: radial-gradient(circle, var(--orange) 0 4px, transparent 4.5px), linear-gradient(90deg, var(--orange), rgba(240, 74, 18, .35)); background-position: right center, center; }
+
+.w3w__cards {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: calc(24 * var(--u));
+  margin: calc(40 * var(--u)) 0 0; padding: 0; list-style: none;
+}
+.w3w__card {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center;
+  min-height: calc(410 * var(--u));
+  padding: calc(18 * var(--u)) calc(16 * var(--u)) calc(52 * var(--u));
+  border: 1px solid #eef0f3; border-radius: calc(20 * var(--u));
+  background: #fff;
+  box-shadow: 0 calc(8 * var(--u)) calc(28 * var(--u)) rgba(20, 40, 70, .07);
+  text-align: center;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.w3w__card:hover { transform: translateY(-6px); box-shadow: 0 calc(16 * var(--u)) calc(36 * var(--u)) rgba(20, 40, 70, .13); }
+.w3w__card::after {
+  position: absolute; left: 50%; bottom: calc(22 * var(--u)); translate: -50% 0;
+  width: calc(165 * var(--u)); height: max(calc(6 * var(--u)), 3px); border-radius: 6px; content: '';
+  background: var(--orange);
+}
+.w3w__card--teal::after { background: var(--teal); }
+.w3w__card img { width: calc(144 * var(--u)); height: auto; mix-blend-mode: multiply; }
+.w3w__card h3 {
+  margin: calc(26 * var(--u)) 0 0;
+  color: var(--orange);
+  font-family: 'Barlow Semi Condensed', Poppins, Arial, sans-serif;
+  font-size: calc(30 * var(--u)); font-weight: 600; line-height: 1.15; letter-spacing: -.01em;
+}
+.w3w__card--teal h3 { color: var(--teal); }
+.w3w__card p {
+  margin: calc(18 * var(--u)) 0 0;
+  color: #2b3140;
+  font-size: calc(21 * var(--u)); line-height: 1.58;
+}
+
+.w3w__quote {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center; gap: calc(22 * var(--u));
+  margin: calc(66 * var(--u)) auto 0; max-width: calc(1560 * var(--u));
+}
+.w3w__quote p {
+  margin: 0; padding: calc(18 * var(--u)) calc(30 * var(--u));
+  border: max(calc(2 * var(--u)), 1.5px) dashed rgba(240, 74, 18, .75); border-radius: calc(26 * var(--u));
+  font-size: calc(25 * var(--u)); line-height: 1.35; text-align: center;
+}
+.w3w__mark {
+  align-self: flex-start;
+  color: var(--teal);
+  font-family: Georgia, 'Times New Roman', serif; font-size: calc(110 * var(--u)); font-weight: 700; line-height: .7;
+}
+.w3w__mark--end { align-self: flex-end; translate: 0 calc(30 * var(--u)); }
+.w3w__sign {
+  position: relative; z-index: 1;
+  margin: calc(38 * var(--u)) 0 0;
+  font-size: calc(30 * var(--u)); text-align: center;
+}
+.w3w__sign strong { color: var(--orange); font-weight: 700; }
+.w3w__sign span { color: var(--ink); margin: 0 calc(8 * var(--u)); }
+.w3w__sign em { color: var(--teal); font-style: normal; font-weight: 600; }
+.w3w__corner {
+  position: absolute; right: 0; bottom: 0;
+  width: calc(370 * var(--u)); height: auto;
+  mix-blend-mode: multiply; pointer-events: none;
+}
+
+/* Tablets: three cards per row. */
+@media (max-width: 1100px) {
+  .w3w { --u: calc(100vw / 1300); }
+  .w3w__cards { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Portrait screens and phones: photo on top, text under it. */
+@media (max-width: 820px), (max-aspect-ratio: 1/1) {
+  .w3h { --u: calc((100vw - 40px) / 1000); height: auto; min-height: 100svh; display: flex; flex-direction: column; }
+  .w3h__photo { position: relative; width: 100%; height: 44svh; flex: 0 0 auto; }
+  .w3h__ring { clip-path: ellipse(120% 100% at 50% 0); }
+  .w3h__photo img { clip-path: ellipse(120% 97% at 50% 0); object-position: 70% 35%; }
+  .w3h__content { position: relative; left: auto; top: auto; bottom: auto; width: auto; padding: 18px 20px 48px; justify-content: flex-start; }
+  .w3h__brand { display: none; }
+  .w3h__title { margin-top: 0; }
+  .w3h__sub { font-size: max(calc(38 * var(--u)), 15px); }
+  .w3h__lead { font-size: max(calc(25 * var(--u)), 14px); }
+  .w3h__corner { width: 90px; opacity: .8; }
+}
+@media (max-width: 640px) {
+  .w3w { --u: calc(100vw / 760); padding-inline: 20px; }
+  .w3w__title { font-size: 22px; gap: 12px; }
+  .w3w__cards { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .w3w__card { min-height: 0; padding: 14px 10px 34px; border-radius: 14px; }
+  .w3w__card img { width: 72px; }
+  .w3w__card h3 { font-size: 17px; margin-top: 8px; }
+  .w3w__card p { font-size: 13px; margin-top: 8px; }
+  .w3w__card::after { width: 60px; bottom: 14px; }
+  .w3w__quote p { font-size: 15px; padding: 12px 14px; }
+  .w3w__mark { font-size: 54px; }
+  .w3w__sign { font-size: 15px; }
+  .w3w__corner { width: 120px; }
+}
+@media (prefers-reduced-motion: reduce) { .w3h__cue span { animation: none; } }
