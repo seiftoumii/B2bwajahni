@@ -421,20 +421,12 @@
       stagger($$('.ph__card', hero), 'pop', { base: 150 + items.length * 120, step: 110 });
       mark($('.ph__tag', hero), 'fade', 150 + items.length * 120 + 520);
     }
-    const page = $('main.pf');
-    if (!page) return;
-    $$('.pf-sec', page).forEach((section) => {
-      $$('.pf-head, .pf-intro__text > *, .pf-exp__text > *', section).forEach((el, i) => mark(el, 'rise', i * 90, null, { '--mo-y': '26px' }));
-      $$('.pf-feat__shot, .pf-split__media, .pf-intro__bg', section).forEach((el) => mark(el, 'zoom', 0));
-      const groups = ['.pf-cols3', '.pf-rows', '.pf-ref', '.pf-bubble', '.pf-timeline', '.pf-pos', '.pf-aud', '.pf-do', '.pf-feat__list', '.pf-tiles', '.pf-plans', '.pf-benefits'];
-      groups.forEach((selector) => $$(selector, section).forEach((group) => {
-        stagger([...group.children], 'rise', { base: 120, step: 90, trigger: group, vars: { '--mo-y': '30px' } });
-      }));
-      $$('.pf-feat__body > :not(.pf-feat__list)', section).forEach((el, i) => mark(el, 'rise', i * 90, null, { '--mo-y': '24px' }));
-      $$('.pf-warn, .pf-punch, .pf-script, .pf-pill--center, .pf-join__cta', section).forEach((el) => mark(el, 'pop', 150));
-      $$('.pf-head__mascot, .pf-head__deco', section).forEach((el) => { mark(el, 'pop', 300); float(el, 10); });
+    // Each slide section: the picture settles in, then its text blocks rise
+    // one after another (the text keeps its exact place once it has arrived).
+    $$('.ps-deck .ps').forEach((section) => {
+      mark($('.ps__bg', section), 'settle', 0, section);
+      stagger($$('.ps__t', section), 'rise', { base: 200, step: 70, max: 14, trigger: section, vars: { '--mo-y': '18px' } });
     });
-    $$('.pf-btn', page).forEach((btn) => shine(btn, true));
   }
 
   function w360() {
