@@ -32,6 +32,7 @@
     button.setAttribute('aria-label', label);
     button.addEventListener('click', action);
     (className === 'figma-hotspot--hero' ? canvas.querySelector('.fitted-artboard') : canvas).append(button);
+    return button;
   }
 
   function hydrate() {
@@ -39,8 +40,10 @@
     updateScale();
     window.addEventListener('resize', updateScale, { passive: true });
 
-    addHotspot('figma-hotspot--hero', 'Découvrir les packs Wajahni', () => document.querySelector('#packs')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-    ['Tunis', 'Sfax', 'Sousse'].forEach((city, index) => addHotspot('figma-hotspot--aftermovie', `Voir l’after-movie Wajahni Caravan ${city}`, () => toastMessage(`L’after-movie ${city} sera bientôt disponible.`)));
+    addHotspot('figma-hotspot--hero', 'Découvrir les packs Wajahni', () => window.WajahniPacks?.scrollToPacks());
+    ['Tunis', 'Sfax', 'Sousse'].forEach((city, index) => {
+      addHotspot('figma-hotspot--aftermovie', `Voir l’after-movie Wajahni Caravan ${city}`, () => toastMessage(`L’after-movie ${city} sera bientôt disponible.`)).dataset.card = index;
+    });
 
     const cardSelectors = [
       '[data-node-id="201:2032"]', '[data-node-id="201:2193"]', '[data-node-id="201:2146"]',

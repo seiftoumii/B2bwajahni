@@ -4,7 +4,10 @@
     window.scrollTo(0, 0);
   }
   const width = 1440;
-  const height = 6998;
+  // The canvas is 6998 design px, but the sections below the stats moved up
+  // by 1650 px (one packs tab frame), which left ~540 px of empty page under
+  // the contact form. End the page the same distance below it as Roadshow.
+  const height = 6462;
   const viewport = document.querySelector('#figma-viewport');
   const canvas = document.querySelector('#figma-canvas');
 
@@ -222,9 +225,13 @@
     const addHotspot = (className, label, action) => {
       const button = document.createElement('button'); button.type = 'button'; button.className = `figma-hotspot ${className}`; button.setAttribute('aria-label', label);
       button.addEventListener('click', action); (className === 'figma-hotspot--hero' ? canvas.querySelector('.fitted-artboard') : canvas).append(button);
+      return button;
     };
-    addHotspot('figma-hotspot--hero', 'Contacter Wajahni', () => dialog?.showModal());
-    ['2024', '2025', '2026'].forEach((year) => addHotspot('figma-hotspot--aftermovie', `Voir l’aftermovie ${year}`, () => showToast(`L’aftermovie ${year} arrive bientôt.`)));
+    // The hero button reads "Découvrir nos packs": take the visitor to the packs, as on Caravan and Roadshow.
+    addHotspot('figma-hotspot--hero', 'Découvrir nos packs', () => window.WajahniPacks?.scrollToPacks());
+    ['2024', '2025', '2026'].forEach((year, index) => {
+      addHotspot('figma-hotspot--aftermovie', `Voir l’aftermovie ${year}`, () => showToast(`L’aftermovie ${year} arrive bientôt.`)).dataset.card = index;
+    });
     document.querySelector('.figma-close')?.addEventListener('click', () => dialog?.close());
     document.querySelector('.figma-form')?.addEventListener('submit', (event) => {
       event.preventDefault(); dialog?.close(); showToast('Merci — votre demande a bien été envoyée.'); event.currentTarget.reset();
