@@ -48,7 +48,7 @@
       @media (max-width: 900px) { .platform-nav__links { gap: 18px; margin-left: 16px; font-size: 12px; }.platform-nav__contact { padding: 12px 18px; font-size: 14px; } }
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; }.platform-loader::before { animation: none; }* { transition-duration: .01ms !important; } }
     </style>
-  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script></head>
+  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script><link rel="stylesheet" href="site-motion.css"></head>
   <body id="top"><header class="site-header"></header><script src="site-nav.js"></script>
     <div class="platform-loader" aria-live="polite">Chargement de WAJAHNI Platform</div>
     <main id="platform-viewport" aria-label="Wajahni Platform"><div id="platform-shell"><div id="platform-canvas"></div></div></main>
@@ -56,5 +56,6 @@
     <dialog class="platform-dialog" id="platform-contact" aria-labelledby="platform-contact-title"><div class="platform-dialog__content"><div class="platform-dialog__top"><div><h2 id="platform-contact-title">Contactez-nous</h2><p>Parlons de votre projet avec WAJAHNI Platform.</p></div><button class="platform-dialog__close" type="button" aria-label="Fermer">×</button></div><form class="platform-form"><label>Nom<input required autocomplete="name" /></label><label>Email<input required type="email" autocomplete="email" /></label><label>Message<textarea required></textarea></label><button type="submit">Envoyer une demande</button></form></div></dialog>
     <div class="platform-toast" role="status" aria-live="polite"></div>
     <script src="platform-runtime.js"></script>
-  </body>
+  <script src="site-motion.js"></script>
+</body>
 </html>

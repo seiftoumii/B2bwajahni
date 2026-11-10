@@ -134,7 +134,7 @@
       .w360-contact-section { min-height: 480px; scroll-snap-align: none; }
       @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
     </style>
-  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script></head>
+  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script><link rel="stylesheet" href="site-motion.css"></head>
   <body id="top"><header class="site-header"></header><script src="site-nav.js"></script>
     <div class="w360-loader" id="w360-loader" role="status" aria-live="polite" aria-label="Chargement de WAJAHNI 360°">
       <div class="w360-loader-mark"><div class="w360-loader-orbit" aria-hidden="true"></div><strong>WAJAHNI 360°</strong><span>CHARGEMENT DE L’EXPÉRIENCE</span></div>
@@ -143,5 +143,6 @@
     <script type="text/babel" src="wajahni360-page.jsx"></script>
     <script type="text/babel">ReactDOM.createRoot(document.getElementById('w360-root')).render(<Wajahni360Page />);</script>
     <script src="wajahni360-runtime.js"></script>
-  </body>
+  <script src="site-motion.js"></script>
+</body>
 </html>
