@@ -7,14 +7,42 @@
    slide at any width. The values are generated from the slides; see
    the --x / --y / --s variables on each line. */
 .ps-deck { display: block; container-type: inline-size; background: #fff; }
+/* A section is never taller than most of a screen: the slide (stage) is
+   fitted to that height and centred, and the space left and right is filled
+   with the same slide picture, enlarged and blurred, so there are no white
+   bands. On narrow screens the slide simply fills the width. */
 .ps {
-  --u: calc(100cqw / 1487);
+  --stage-w: min(100cqw, 84svh * 1487 / 1058);
   position: relative;
   width: 100%;
-  aspect-ratio: 1487 / 1058;
+  height: calc(var(--stage-w) * 1058 / 1487);
   overflow: hidden;
   font-family: Poppins, Arial, sans-serif;
 }
+/* Side fills: the slide's own edges mirrored outward and blurred
+   (assets/platform/slides-clean/sides/), tucked slightly under the slide. */
+.ps::before, .ps::after {
+  position: absolute; top: 0; bottom: 0; content: '';
+  width: calc((100% - var(--stage-w)) / 2 + var(--stage-w) * .03);
+  background-image: var(--side); background-repeat: no-repeat; background-size: 200% 100%;
+  pointer-events: none;
+}
+.ps::before { left: 0; background-position: 0 0; }
+.ps::after { right: 0; background-position: 100% 0; }
+.ps__stage {
+  position: absolute; z-index: 1; top: 0; left: 50%; translate: -50% 0;
+  width: var(--stage-w); height: 100%;
+  container-type: inline-size;
+}
+/* Feather the slide's sides into the fills only when the fills are visible
+   (the screen is wider than 84svh x 1487/1058, about 1.18 x its height). */
+@media (min-aspect-ratio: 118/100) {
+  .ps__stage {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
+  }
+}
+.ps__stage > * { --u: calc(100cqw / 1487); }
 .ps__bg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; user-select: none; pointer-events: none; }
 .ps__t { position: absolute; inset: 0; margin: 0; font-weight: 400; pointer-events: none; }
 .ps__t span {
