@@ -408,7 +408,7 @@
     shine(cta, true);
   }
 
-  /* ---------- Platform and 360° (image decks) ---------- */
+  /* ---------- Platform sections and 360° ---------- */
   function platform() {
     const hero = $('#platform-hero');
     if (hero) {
@@ -421,9 +421,12 @@
       stagger($$('.ph__card', hero), 'pop', { base: 150 + items.length * 120, step: 110 });
       mark($('.ph__tag', hero), 'fade', 150 + items.length * 120 + 520);
     }
-    const panels = $$('#platform-canvas .platform-panel');
-    panels.forEach((panel) => mark($('img', panel), 'settle', 0, panel));
-    $$('#platform-canvas .platform-overlay-logo').forEach((logo, i) => { mark(logo, 'pop', 200 + i * 40); float(logo, 8); });
+    // Each slide section: the picture settles in, then its text blocks rise
+    // one after another (the text keeps its exact place once it has arrived).
+    $$('.ps-deck .ps').forEach((section) => {
+      mark($('.ps__bg', section), 'settle', 0, section);
+      stagger($$('.ps__t', section), 'rise', { base: 200, step: 70, max: 14, trigger: section, vars: { '--mo-y': '18px' } });
+    });
   }
 
   function w360() {
@@ -462,7 +465,7 @@
     }
     if ($('#roadshow-hero')) roadshowHero();
     if ($('main > .hero') || $('.vid')) home();
-    if ($('#platform-canvas')) platform();
+    if ($('#platform-hero')) platform();
     if ($('#w360-root') || $('.w360-page') || document.querySelector('script[src*="wajahni360"]')) {
       const started = performance.now();
       const wait = () => ($$('[data-w360-panel]').length ? w360() : performance.now() - started < 15000 && setTimeout(wait, 120));
