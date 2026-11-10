@@ -15,14 +15,6 @@
   object-fit: cover;
   object-position: 65% 35%;
 }
-#w360-root { padding-top: var(--hero-header, 0px); }
-#w360-root .w360-section:first-child img {
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: calc(100svh - var(--hero-header, 0px));
-  margin-inline: auto;
-}
 /* The first panel can extend into the original blend above panel two. */
 #platform-canvas { overflow: visible; }
 /* Size the artboard container to the device, not the 1440px design, so

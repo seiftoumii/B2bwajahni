@@ -7,13 +7,13 @@
     <title>Wajahni Platform</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@900&family=Caveat:wght@600&display=swap" rel="stylesheet" />
     <style>
       :root { --platform-width: 1440; --platform-height: 18729; --platform-scale: 1; }
       * { box-sizing: border-box; }
       html { background: #fff; scroll-behavior: smooth; }
       body { min-width: 320px; margin: 0; overflow-x: hidden; background: #fff; }
-      #platform-viewport { position: relative; width: 1440px; height: 18729px; margin: 0 auto; overflow: hidden; }
+      #platform-viewport { position: relative; width: 100%; height: 18729px; margin: 0 auto; overflow: hidden; }
       #platform-shell { position: absolute; top: 0; left: 0; width: 1440px; height: 18729px; transform: scale(var(--platform-scale)); transform-origin: top left; }
       #platform-canvas { position: relative; width: 1440px; height: 18729px; overflow: hidden; background: #fff; }
       .platform-panel { position: absolute; left: 0; width: 1440px; overflow: hidden; background: #fff; }
@@ -48,9 +48,21 @@
       @media (max-width: 900px) { .platform-nav__links { gap: 18px; margin-left: 16px; font-size: 12px; }.platform-nav__contact { padding: 12px 18px; font-size: 14px; } }
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; }.platform-loader::before { animation: none; }* { transition-duration: .01ms !important; } }
     </style>
-  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script><link rel="stylesheet" href="site-motion.css"></head>
+  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script><link rel="stylesheet" href="platform-hero.css"><link rel="stylesheet" href="site-motion.css"></head>
   <body id="top"><header class="site-header"></header><script src="site-nav.js"></script>
     <div class="platform-loader" aria-live="polite">Chargement de WAJAHNI Platform</div>
+    <section class="ph" id="platform-hero" aria-labelledby="ph-title"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="ph-grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb341"/><stop offset="1" stop-color="#f2541b"/></linearGradient></defs></svg>
+      <img class="ph__bg" src="assets/platform/hero/platform-hero-bg.jpg" alt="" fetchpriority="high" decoding="async" />
+      <div class="ph__shade" aria-hidden="true"></div>
+      <div class="ph__content">
+        <p class="ph__eyebrow">Orientation • Visibilité • Candidatures</p>
+        <h1 class="ph__title" id="ph-title"><span class="ph__line ph__line--main">Wajahni</span><span class="ph__line ph__line--accent">Platform</span></h1>
+        <p class="ph__sub">Votre établissement au cœur<br />des choix d’orientation</p>
+        <p class="ph__lead">Universités, centres de formation, centres de langues, CAP/BTP/BTS… <br />Présentez votre établissement et vos programmes, gagnez en visibilité <br />et recevez les candidatures de vos futurs étudiants.</p>
+        <ul class="ph__cards"><li class="ph__card"><svg viewBox="0 0 64 64" fill="none" stroke="url(#ph-grad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 24 32 10l24 14Z"/><path d="M12 28h40"/><path d="M16 32v16M26 32v16M38 32v16M48 32v16"/><path d="M10 52h44M8 57h48"/></svg><span>Page<br>établissement</span></li><li class="ph__card"><svg viewBox="0 0 64 64" fill="none" stroke="url(#ph-grad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 18c-6-5-14-6-24-5v34c10-1 18 0 24 5 6-5 14-6 24-5V13c-10-1-18 0-24 5Z"/><path d="M32 18v34"/><path d="M4 18v34c10-1 20 0 28 5 8-5 18-6 28-5V18"/></svg><span>Catalogue<br>de&nbsp;programmes</span></li><li class="ph__card"><svg viewBox="0 0 64 64" fill="none" stroke="url(#ph-grad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8h28l8 8v18"/><path d="M14 8v48h20"/><path d="M22 20h18M22 30h18M22 40h10"/><circle cx="46" cy="46" r="11"/><path d="m41 46 4 4 7-8"/></svg><span>Comparateur<br>&amp; Quiz</span></li><li class="ph__card"><svg viewBox="0 0 64 64" fill="none" stroke="url(#ph-grad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6h26l8 8v14"/><path d="M12 6v52h18"/><path d="M19 18h16M19 28h20M19 38h10"/><path d="M58 32 32 46l10 3 3 9Z"/><path d="m42 49 16-17"/></svg><span>Candidature<br>en un clic</span></li></ul>
+        <p class="ph__tag"><span>Connectez votre établissement</span><span>aux talents de demain.</span><svg viewBox="0 0 290 28" preserveAspectRatio="none" aria-hidden="true"><path d="M4 24C80 10 180 4 286 6" fill="none" stroke="#f4622a" stroke-width="5" stroke-linecap="round"/></svg></p>
+      </div>
+    </section>
     <main id="platform-viewport" aria-label="Wajahni Platform"><div id="platform-shell"><div id="platform-canvas"></div></div></main>
     
     <dialog class="platform-dialog" id="platform-contact" aria-labelledby="platform-contact-title"><div class="platform-dialog__content"><div class="platform-dialog__top"><div><h2 id="platform-contact-title">Contactez-nous</h2><p>Parlons de votre projet avec WAJAHNI Platform.</p></div><button class="platform-dialog__close" type="button" aria-label="Fermer">×</button></div><form class="platform-form"><label>Nom<input required autocomplete="name" /></label><label>Email<input required type="email" autocomplete="email" /></label><label>Message<textarea required></textarea></label><button type="submit">Envoyer une demande</button></form></div></dialog>

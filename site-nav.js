@@ -3,8 +3,8 @@ const wajahniPages = [
   { key: 'caravan', label: 'WAJAHNI Caravan', href: 'caravan' },
   { key: 'educareer', label: 'WAJAHNI Edu-Career Summit', href: 'educareer' },
   { key: 'roadshow', label: 'WAJAHNI Roadshow', href: 'roadshow' },
-  { key: 'platform', label: 'WAJAHNI Platform', href: 'platform' },
-  { key: '360', label: 'WAJAHNI 360°', href: 'wajahni360' }
+  { key: 'platform', label: 'WAJAHNI Platform', href: 'platform', isNew: true },
+  { key: '360', label: 'WAJAHNI 360°', href: 'wajahni360', isNew: true }
 ];
 
 (() => {
@@ -16,7 +16,7 @@ const wajahniPages = [
     <a class="site-logo" href="${home}#top" aria-label="Accueil Wajahni"><img src="assets/home/n265-14033.png" alt="Wajahni"></a>
     <button type="button" aria-expanded="false" aria-controls="site-links">Menu ☰</button>
     <nav id="site-links" aria-label="Navigation principale">
-      ${wajahniPages.map(item => `<a href="${item.href}#top" ${item === page ? 'aria-current="page"' : ''}>${item.label}</a>`).join('')}
+      ${wajahniPages.map(item => `<a href="${item.href}#top" ${item === page ? 'aria-current="page"' : ''}>${item.label}${item.isNew ? '<span class="site-new">New</span>' : ''}</a>`).join('')}
     </nav>
     <a class="site-contact" href="${home}#contact">Contactez-nous ↗</a>`;
   const toggle = header.querySelector('button');
