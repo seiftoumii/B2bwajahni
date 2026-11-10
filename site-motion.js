@@ -319,7 +319,26 @@
       mark($('.vid__frame', vid), 'zoom', 200);
     }
 
-    mark($('section[aria-label="Wajahni en chiffres"] .art'), 'zoom');
+    const chf = $('.chf');
+    if (chf) {
+      const intro = $('.chf__intro', chf);
+      mark($('.chf__kicker', intro), 'rise', 0, intro, { '--mo-y': '20px' });
+      heading($('.chf__title', intro), 120, intro);
+      mark($('.chf__bar', intro), 'draw', 320, intro);
+      mark($('.chf__lead', intro), 'rise', 380, intro, { '--mo-y': '26px' });
+      $$('.chf__note', chf).forEach((note, i) => { mark(note, 'pop', 500 + i * 180); float(note, 8); });
+      const band = $('.chf__band', chf);
+      watch(band);
+      mark($('.chf__pill', band), 'pop', 0, band);
+      stagger($$('.chf__metric', band), 'pop', { base: 200, step: 130, trigger: band });
+      $$('.chf__num', band).forEach(countUp);
+      const why = $('.chf__why', chf);
+      mark($('.chf__kicker', why), 'rise', 0, why, { '--mo-y': '20px' });
+      heading($('.chf__subtitle', why), 120, why);
+      const cards = $('.chf__cards', chf);
+      stagger([...cards.children], 'rise', { base: 150, step: 140, trigger: cards, vars: { '--mo-y': '56px' } });
+      mark($('.chf__tagline', chf), 'fade', 300);
+    }
 
     const pw = $('.pw');
     if (pw) {
