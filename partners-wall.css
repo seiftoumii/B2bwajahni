@@ -99,7 +99,7 @@
   position: absolute; inset: 0;
   transform-style: preserve-3d;
   transform: rotateY(var(--rot, 0deg));
-  transition: transform .95s cubic-bezier(.62, .02, .26, 1);
+  transition: transform .65s cubic-bezier(.62, .02, .26, 1);
 }
 .pw-face {
   position: absolute; inset: 0;
@@ -118,7 +118,7 @@
   width: auto; height: auto; object-fit: contain;
   user-select: none; -webkit-user-drag: none;
 }
-.pw-tile.is-lit { animation: pw-pop .95s cubic-bezier(.4, 0, .2, 1); }
+.pw-tile.is-lit { animation: pw-pop .65s cubic-bezier(.4, 0, .2, 1); }
 .pw-tile.is-lit .pw-face {
   border-color: #f6a46c;
   box-shadow: 0 0 0 3px rgba(244, 98, 42, .10), 0 10px 24px rgba(244, 98, 42, .16);
