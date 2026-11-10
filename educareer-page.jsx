@@ -632,7 +632,7 @@ function PageEduCareerSummit() {
       </div>
       <div className="absolute content-stretch flex flex-col h-[44px] items-center left-[-116px] pt-[6px] right-[-116px] top-[2256px]" data-node-id="237:8275" data-name="Container">
         <div className="[word-break:break-word] flex flex-col font-['Poppins:Light'] justify-center leading-[0] not-italic relative shrink-0 text-[#4a5568] text-[24px] text-center whitespace-nowrap" data-node-id="237:8276">
-          <p className="leading-[normal]">Revivez nos éditions de ces 3 dernières années.</p>
+          <p className="leading-[normal]">Revivez l’édition 2026 en vidéo.</p>
         </div>
       </div>
       <div className="absolute h-[367px] left-[55px] pointer-events-none rounded-[18px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] top-[2436px] w-[422px]" data-node-id="237:8277">

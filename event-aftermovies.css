@@ -1,6 +1,6 @@
 /* Shared after-movie cards (event-aftermovies.js).
    Sizes are 1440px design units inside each page's scaled canvas. */
-.event-films { position: absolute; z-index: 11; display: flex; gap: var(--film-gap); align-items: flex-start; font-family: Poppins, Arial, sans-serif; }
+.event-films { position: absolute; z-index: 11; display: flex; justify-content: flex-start; gap: var(--film-gap); align-items: flex-start; font-family: Poppins, Arial, sans-serif; }
 .event-films *, .event-films *::before, .event-films *::after { box-sizing: border-box; }
 
 .event-films__card { position: relative; flex: none; width: var(--film-card-w); padding: var(--film-pad); border-radius: 18px; background: #fff; box-shadow: 0 4px 4px rgba(0, 0, 0, .25), inset 0 4px 4px rgba(0, 0, 0, .12); transition: transform .3s cubic-bezier(.22, 1, .36, 1), box-shadow .3s ease; }
@@ -36,3 +36,6 @@
 @media (prefers-reduced-motion: reduce) {
   .event-films__card, .event-films__card:hover { transform: none; transition: none; }
 }
+
+/* A single after-movie sits in the middle of the row. */
+.event-films.is-single { justify-content: center; }

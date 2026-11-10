@@ -5,20 +5,23 @@
 // so a vertical reel is shown upright and whole, never cropped into a 16:9 box.
 // Clicking the video opens it large, with sound.
 (() => {
+  const film = (label, file, width, height) => ({
+    label, src: `assets/videos/${file}.mp4`, poster: `assets/videos/${file}-poster.jpg`, width, height
+  });
   const PAGES = {
+    // One after-movie only on Edu-Career (the 2026 edition), centred.
     educareer: {
       name: 'WAJAHNI Edu-Career Summit',
       fallback: 'assets/edu/n237-8280.png',
+      films: [film('2026', 'educareer-aftermovie', 360, 640)]
+    },
+    caravan: {
+      name: 'WAJAHNI CARAVAN',
+      fallback: 'assets/car/n210-3417.png',
       films: [
-        { label: '2024' },
-        { label: '2025' },
-        {
-          label: '2026',
-          src: 'assets/videos/educareer-aftermovie.mp4',
-          poster: 'assets/videos/educareer-aftermovie-poster.jpg',
-          width: 360,
-          height: 640
-        }
+        film('TUNIS', 'caravan-tunis-aftermovie', 720, 1280),
+        film('SFAX', 'caravan-sfax-aftermovie', 720, 1280),
+        film('SOUSSE', 'caravan-sousse-aftermovie', 720, 1280)
       ]
     }
   };
@@ -38,20 +41,20 @@
     const ratio = video ? video.width / video.height : LANDSCAPE.width / LANDSCAPE.height;
     const count = page.films.length;
     let frameW;
-    if (ratio < 1) frameW = 344; // vertical reel: tall cards, one row of three
+    if (ratio < 1) frameW = count === 1 ? 380 : 344; // vertical reel: tall cards
     else if (ratio > 1.2) frameW = (ROW.width - (count - 1) * 32) / count - ROW.pad * 2; // landscape
     else frameW = 340;
     const frameH = Math.round(frameW / ratio);
     const cardW = frameW + ROW.pad * 2;
     const cardH = frameH + ROW.pad * 2 + ROW.title;
-    const gap = count > 1 ? (ROW.width - cardW * count) / (count - 1) : 0;
+    const gap = count > 1 ? (ROW.width - cardW * count) / (count - 1) : 0; // one card: centred by CSS
     return { ratio, frameW, frameH, cardW, cardH, gap };
   }
 
   function renderCard(page, film) {
     const title = `<b>${esc(page.name)} <span>${esc(film.label)}</span></b>`;
     const media = film.src
-      ? `<video class="event-films__video" muted loop playsinline autoplay preload="auto" poster="${esc(film.poster || '')}" aria-label="Aftermovie ${esc(page.name)} ${esc(film.label)}">
+      ? `<video class="event-films__video" muted loop playsinline preload="none" poster="${esc(film.poster || '')}" aria-label="Aftermovie ${esc(page.name)} ${esc(film.label)}">
            <source src="${esc(film.src)}" type="video/mp4">
          </video>
          <button class="event-films__open" type="button" aria-label="Regarder l’aftermovie ${esc(film.label)} en grand, avec le son"></button>
@@ -111,7 +114,7 @@
     const size = layout(page);
     const section = document.createElement('section');
     section.id = 'aftermovies';
-    section.className = `event-films ${size.ratio < 1 ? 'is-portrait' : 'is-landscape'}`;
+    section.className = `event-films ${size.ratio < 1 ? 'is-portrait' : 'is-landscape'}${page.films.length === 1 ? ' is-single' : ''}`;
     section.setAttribute('aria-label', 'Aftermovies');
     Object.assign(section.style, {
       top: `${top}px`, left: `${ROW.left}px`, width: `${ROW.width}px`, height: `${size.cardH}px`
@@ -127,12 +130,12 @@
       const sound = card.querySelector('.event-films__sound');
       video.muted = true; // the property, not only the attribute, is what allows autoplay
       const play = () => video.play().catch(() => {});
-      // Play while on screen, pause when scrolled away (saves battery on phones).
+      // Starts by itself as soon as it is on screen and pauses when scrolled
+      // away, so the videos below the fold are not downloaded with the page.
       new IntersectionObserver((entries) => entries.forEach((entry) => {
         if (lightbox?.classList.contains('is-open')) return;
         if (entry.isIntersecting) play(); else video.pause();
       }), { threshold: .2 }).observe(video);
-      play();
       sound.addEventListener('click', (event) => {
         event.stopPropagation();
         video.muted = !video.muted;
@@ -146,5 +149,26 @@
     return size.cardH;
   }
 
-  window.WajahniAftermovies = { mount, PAGES };
+  const topOf = (element) => {
+    const inline = Number.parseFloat(element.style.top || '');
+    if (!Number.isNaN(inline)) return inline;
+    const match = String(element.className).match(/top-\[(-?[\d.]+)px\]/);
+    return match ? Number.parseFloat(match[1]) : null;
+  };
+  // Cards taller than the Figma ones: move every layer that starts at or below
+  // `from` down by `growth` and stretch the section background over the gap.
+  function pushBelow({ containers, from, growth, background }) {
+    if (!growth) return;
+    const seen = new Set();
+    containers.filter(Boolean).forEach((container) => [...container.children].forEach((element) => {
+      if (seen.has(element) || element.id === 'aftermovies' || element.contains(document.querySelector('#aftermovies'))) return;
+      seen.add(element);
+      const top = topOf(element);
+      if (top !== null && top >= from) element.style.top = `${top + growth}px`;
+    }));
+    const bg = background && document.querySelector(`#figma-canvas [data-node-id="${background}"]`);
+    if (bg) bg.style.height = `${bg.offsetHeight + growth}px`;
+  }
+
+  window.WajahniAftermovies = { mount, pushBelow, PAGES };
 })();
