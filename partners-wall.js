@@ -19,8 +19,8 @@
   }
 
   const TILES = 50;
-  const HOLD = 4200;          // pause between waves (ms)
-  const FLIP = 950;           // flip duration, matches the CSS transition
+  const HOLD = 2000;          // pause between waves (ms)
+  const FLIP = 650;           // flip duration, matches the CSS transition
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 
   const makeImg = src => {
@@ -59,9 +59,9 @@
   let hovered = false;
 
   const patterns = [
-    (r, c) => (r + c) * 70,                                   // top-left to bottom-right
-    (r, c, R, C) => Math.hypot(c - (C - 1) / 2, (r - (R - 1) / 2) * 1.4) * 105, // from the centre out
-    (r, c, R, C) => (r + (C - 1 - c)) * 70                     // top-right to bottom-left
+    (r, c) => (r + c) * 40,                                   // top-left to bottom-right
+    (r, c, R, C) => Math.hypot(c - (C - 1) / 2, (r - (R - 1) / 2) * 1.4) * 60, // from the centre out
+    (r, c, R, C) => (r + (C - 1 - c)) * 40                     // top-right to bottom-left
   ];
 
   const preload = srcs => Promise.all(srcs.map(src => {
@@ -107,7 +107,7 @@
   function sync() {
     if (canRun() && !running) {
       running = true;
-      timer = setTimeout(runWave, wave === 0 ? 1600 : 900);
+      timer = setTimeout(runWave, wave === 0 ? 800 : 500);
     } else if (!canRun() && running && timer) {
       clearTimeout(timer);
       timer = 0;
