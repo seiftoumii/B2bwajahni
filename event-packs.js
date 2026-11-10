@@ -63,16 +63,15 @@
         'Stand personnalisé',
         'Insertion du logo de votre institution à la fin de l’after movie',
         'Promotion de votre institution sur nos réseaux sociaux',
-        'Insertion de votre logo dans la bannière de la page d’inscription de l’événement',
         'Intégration de votre logo sur le mur de presse',
+        'Insertion de votre logo dans la bannière de la page d’inscription de l’événement',
         'Animation d’un atelier',
-        'Intégration de votre logo dans la vidéo promotionnelle',
         'Partage de la base de données'
       ],
       labels: ['VILLE', 'SECTEUR', 'ROADSHOW (9 VILLES)'],
-      enabled: [4, 6, 8],
-      exhibitor: [['4 500', '12 900', '37 900'], ['5 000', '13 900', '40 900'], ['5 500', '15 900', '46 900']],
-      partner: [['3 900', '11 500', '33 900'], ['4 400', '12 500', '36 900'], ['4 900', '13 500', '39 900']]
+      enabled: [4, 6, 7],
+      exhibitor: [['4 500', '12 900', '37 900'], ['5 000', '13 900', '39 900'], ['5 500', '14 900', '41 900']],
+      partner: [['4 000', '11 900', '34 900'], ['4 500', '12 900', '37 900'], ['4 900', '13 900', '39 900']]
     }
   };
 
