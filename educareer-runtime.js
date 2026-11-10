@@ -7,7 +7,9 @@
   // The canvas is 6998 design px, but the sections below the stats moved up
   // by 1650 px (one packs tab frame), which left ~540 px of empty page under
   // the contact form. End the page the same distance below it as Roadshow.
-  const height = 6462;
+  // The after-movie cards below may grow the page (a vertical reel needs tall
+  // cards); hydrate() adds that growth here.
+  let height = 6462;
   const viewport = document.querySelector('#figma-viewport');
   const canvas = document.querySelector('#figma-canvas');
 
@@ -229,9 +231,6 @@
     };
     // The hero button reads "Découvrir nos packs": take the visitor to the packs, as on Caravan and Roadshow.
     addHotspot('figma-hotspot--hero', 'Découvrir nos packs', () => window.WajahniPacks?.scrollToPacks());
-    ['2024', '2025', '2026'].forEach((year, index) => {
-      addHotspot('figma-hotspot--aftermovie', `Voir l’aftermovie ${year}`, () => showToast(`L’aftermovie ${year} arrive bientôt.`)).dataset.card = index;
-    });
     document.querySelector('.figma-close')?.addEventListener('click', () => dialog?.close());
     document.querySelector('.figma-form')?.addEventListener('submit', (event) => {
       event.preventDefault(); dialog?.close(); showToast('Merci — votre demande a bien été envoyée.'); event.currentTarget.reset();
@@ -256,6 +255,28 @@
 
     // Shared packs section (event-packs.js), identical on all three event pages.
     window.WajahniPacks?.mount({ page: 'educareer', parent: canvas, top: 3887, height: 839.566 });
+
+    // Real after-movie cards (event-aftermovies.js) in place of the Figma cards.
+    // The frame follows the video's format, so a vertical reel makes the cards
+    // taller than the Figma 367 px: push everything below down by the difference.
+    const filmsTop = 2436;
+    const filmsHeight = window.WajahniAftermovies?.mount({
+      page: 'educareer', parent: pageRoot, top: filmsTop,
+      remove: ['237:8277', '237:8278', '237:8279', '237:8280', '237:8281', '237:8282', '237:8283', '237:8284', '237:8285']
+    });
+    const growth = filmsHeight ? Math.max(0, Math.round(filmsHeight - 367)) : 0;
+    if (growth) {
+      [...pageRoot.children, ...canvas.children].forEach((element) => {
+        if (element === pageRoot || element.id === 'aftermovies') return;
+        const top = getTop(element);
+        if (top >= 3076) element.style.top = `${top + growth}px`;
+      });
+      const filmsBackground = canvas.querySelector('[data-node-id="237:8269"]');
+      if (filmsBackground) filmsBackground.style.height = `${filmsBackground.offsetHeight + growth}px`;
+      pageRoot.style.height = `${pageRoot.offsetHeight + growth}px`;
+      height += growth;
+      updateScale();
+    }
   }
 
   function enhance(tries = 0) {
