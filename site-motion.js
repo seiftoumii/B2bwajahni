@@ -421,9 +421,17 @@
       stagger($$('.ph__card', hero), 'pop', { base: 150 + items.length * 120, step: 110 });
       mark($('.ph__tag', hero), 'fade', 150 + items.length * 120 + 520);
     }
-    const panels = $$('#platform-canvas .platform-panel');
-    panels.forEach((panel) => mark($('img', panel), 'settle', 0, panel));
-    $$('#platform-canvas .platform-overlay-logo').forEach((logo, i) => { mark(logo, 'pop', 200 + i * 40); float(logo, 8); });
+    $$('#platform-chapters .pc').forEach((chapter) => {
+      const side = $('.pc__side', chapter);
+      mark($('.pc__kicker', side), 'rise', 0, chapter, { '--mo-y': '20px' });
+      heading($('.pc__title', side), 120, chapter);
+      stagger($$('.pc__menu li', side), 'rise', { base: 260, step: 60, trigger: chapter, vars: { '--mo-y': '14px' } });
+      mark($('.pc__stage', chapter), 'zoom', 150, chapter);
+      const nav = $('.pc__nav', chapter);
+      if (nav) mark(nav, 'fade', 500, chapter);
+      const cta = $('.pc__cta', chapter);
+      if (cta) { mark(cta, 'pop', 400, chapter); shine(cta, true); }
+    });
   }
 
   function w360() {
@@ -462,7 +470,7 @@
     }
     if ($('#roadshow-hero')) roadshowHero();
     if ($('main > .hero') || $('.vid')) home();
-    if ($('#platform-canvas')) platform();
+    if ($('#platform-hero') || $('#platform-chapters')) platform();
     if ($('#w360-root') || $('.w360-page') || document.querySelector('script[src*="wajahni360"]')) {
       const started = performance.now();
       const wait = () => ($$('[data-w360-panel]').length ? w360() : performance.now() - started < 15000 && setTimeout(wait, 120));

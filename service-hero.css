@@ -1,4 +1,4 @@
-.fitted-artboard, #platform-canvas [data-panel="1"] {
+.fitted-artboard {
   position: absolute;
   width: 1440px;
   left: 0;
@@ -15,8 +15,6 @@
   object-fit: cover;
   object-position: 65% 35%;
 }
-/* The first panel can extend into the original blend above panel two. */
-#platform-canvas { overflow: visible; }
 /* Size the artboard container to the device, not the 1440px design, so
    phones don't widen the layout viewport before the canvas is scaled. */
 #figma-viewport { width: 100%; }
