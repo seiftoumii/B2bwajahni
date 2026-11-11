@@ -8,7 +8,9 @@
   --u: min(calc(100vw / 1487), calc((100svh - 96px) / 900));
   --nav-h: 92px;
   position: relative;
-  z-index: 0;
+  /* No z-index: the hero must not form its own layer, so its text (layer 3,
+     like the slide text) stays above the first slide where that slide fades
+     in over the bottom of the hero (platform-sections.css). */
   width: 100%;
   height: 100vh;
   height: 100svh;
@@ -30,7 +32,7 @@
     linear-gradient(0deg, rgba(8, 24, 80, .35), rgba(8, 24, 80, 0) 30%);
 }
 .ph__content {
-  position: absolute;
+  position: absolute; z-index: 3;
   left: max(calc(66 * var(--u)), 24px);
   top: var(--nav-h); bottom: 0;
   width: calc(780 * var(--u));
