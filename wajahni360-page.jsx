@@ -1,19 +1,9 @@
 // Slide 1 of the deck is rebuilt as HTML: the full-screen hero (#w360-hero)
 // and the "Pourquoi WAJAHNI 360° ?" section under it. Styles: w360-hero.css.
-const panels360 = [
-  "assets/w360/slide-02.jpg",
-  "assets/w360/slide-03.jpg",
-  "assets/w360/slide-04.jpg",
-  "assets/w360/slide-05.jpg",
-  "assets/w360/slide-06.jpg",
-  "assets/w360/slide-07.jpg",
-  "assets/w360/slide-08.jpg",
-  "assets/w360/slide-09.jpg",
-  "assets/w360/slide-10.jpg",
-  "assets/w360/slide-11.jpg",
-  "assets/w360/slide-12.jpg",
-  "assets/w360/slide-13.jpg",
-];
+// Slides 2-13 are sections built like the Platform page: the slide picture
+// with its simple text erased is the background, and that text is real HTML
+// placed back exactly (data in w360-slides.js, styles in platform-sections.css).
+const slides360 = window.W360_SLIDES || [];
 
 const reasons360 = [
   { title: "Leader du marché", text: "WAJAHNI est une référence dans l’orientation académique en Tunisie.", tone: "orange" },
@@ -72,10 +62,21 @@ function Wajahni360Page() {
         <img className="w3w__corner" src="assets/w360/hero/corner-right.png" alt="" aria-hidden="true" />
       </section>
 
-      <main>
-        {panels360.map((src, index) => (
-          <section className="w360-section" data-w360-panel key={src} aria-label={`Présentation Wajahni 360, section ${index + 2}`} style={{ '--side': `url(${src.replace('w360/', 'w360/sides/')})` }}>
-            <img src={src} alt="" loading="eager" decoding="async" />
+      <main className="ps-deck" aria-label="Wajahni 360°">
+        {slides360.map((slide, index) => (
+          <section className="ps" data-w360-panel key={slide.n} id={`w360-${slide.n}`} aria-label={slide.label}
+            style={{ '--side': `url(assets/w360/sides/slide-${slide.n}.jpg)`, '--ov': slide.ov }}>
+            <div className="ps__stage">
+              <img className="ps__bg" src={`assets/w360/clean/slide-${slide.n}.jpg`} alt="" loading={index < 2 ? 'eager' : 'lazy'} decoding="async" width="2160" height="1537" />
+              {slide.blocks.map((block, bi) => {
+                const Tag = block.tag;
+                return (
+                  <Tag className={block.cls} key={bi}>
+                    {block.spans.map((span, si) => <span style={span.s} key={si}>{span.t}</span>)}
+                  </Tag>
+                );
+              })}
+            </div>
           </section>
         ))}
       </main>

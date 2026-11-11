@@ -73,6 +73,7 @@
   filter: drop-shadow(0 calc(3 * var(--u)) calc(4 * var(--u)) rgba(70, 25, 0, .4));
 }
 .ps__t--script span { font-family: Caveat, 'Segoe Script', cursive; }
+.ps__t--cond span { font-family: 'Barlow Semi Condensed', 'Arial Narrow', Arial, sans-serif; }
 
 /* Smooth transitions: each section slides up over the end of the previous
    one by --blend (as much as the texts allow), and its pictures (slide and side

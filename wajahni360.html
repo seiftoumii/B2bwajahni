@@ -127,38 +127,14 @@
       .w360-section { display: block; width: 100%; min-height: 0; padding: 0; overflow: visible; background: #fff; opacity: 1 !important; transform: none !important; scroll-snap-align: none; }
       .w360-section::before, .w360-section::after { display: none; }
       .w360-section img { position: static; display: block; width: 100%; height: auto; max-width: none; max-height: none; border: 0; border-radius: 0; box-shadow: none; object-fit: initial; transform: none !important; transition: none; }
-      /* Slides sized like the Platform page (platform-sections.css): a slide is
-         at most 1.12 screens tall, centred, and the space left and right is
-         filled with its own edges stretched and blurred (assets/w360/sides/),
-         so there are no white bands. On narrow screens it fills the width.
-         Slides are 2160 x 1537. */
-      .w360-page main { position: relative; isolation: isolate; background: none; container-type: inline-size; }
-      .w360-section {
-        --stage-w: min(100cqw, 112svh * 2160 / 1537);
-        --w3-ov: calc(var(--stage-w) * 1537 / 2160 * .04);
-        position: relative; z-index: 1; display: block; width: 100%;
-        height: calc(var(--stage-w) * 1537 / 2160); overflow: hidden;
-      }
-      .w360-section::before, .w360-section::after {
-        display: block; position: absolute; z-index: 0; top: 0; bottom: 0; inset-inline: auto; content: '';
-        width: calc((100% - var(--stage-w)) / 2 + var(--stage-w) * .03);
-        background-image: var(--side); background-repeat: no-repeat; background-size: 200% 100%;
-        filter: none; opacity: 1; transform: none; pointer-events: none;
-      }
-      .w360-section::before { left: 0; background-position: 0 0; }
-      .w360-section::after { right: 0; background-position: 100% 0; }
-      .w360-section img { position: absolute; z-index: 1; top: 0; left: calc((100% - var(--stage-w)) / 2); width: var(--stage-w); height: 100%; }
-      @media (min-aspect-ratio: 157/100) {
-        .w360-section img {
-          -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
-                  mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
-        }
-      }
+      /* Slides 2-13 are .ps sections styled by platform-sections.css (same scale,
+         side fills, crossfades and text layers as the Platform page). */
+      .w360-page main.ps-deck { overflow: visible; }
       /* Smooth seams, as on Platform: each section slides up over the end of
          the one before it by --w3-ov (4% of a slide's height, which only
          covers the slides' plain top and bottom margins, never their text) and
          fades in over that strip on an eased curve. */
-      .w360-section, .w360-contact-section {
+      .w360-contact-section {
         --w3-fade: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.04) calc(var(--w3-ov) * .15), rgba(0,0,0,.15) calc(var(--w3-ov) * .3), rgba(0,0,0,.33) calc(var(--w3-ov) * .45), rgba(0,0,0,.55) calc(var(--w3-ov) * .6), rgba(0,0,0,.77) calc(var(--w3-ov) * .75), rgba(0,0,0,.93) calc(var(--w3-ov) * .9), #000 var(--w3-ov));
         margin-top: calc(-1 * var(--w3-ov));
         -webkit-mask-image: var(--w3-fade); mask-image: var(--w3-fade);
@@ -167,12 +143,13 @@
       .w360-contact-section { min-height: 480px; scroll-snap-align: none; }
       @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
     </style>
-  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script><link rel="stylesheet" href="w360-hero.css"><link rel="stylesheet" href="site-motion.css"></head>
+  <link rel="stylesheet" href="site-nav.css"><link rel="stylesheet" href="service-hero.css"><script src="service-hero.js"></script><link rel="stylesheet" href="w360-hero.css"><link rel="stylesheet" href="platform-sections.css"><link rel="stylesheet" href="site-motion.css"></head>
   <body id="top"><header class="site-header"></header><script src="site-nav.js"></script>
     <div class="w360-loader" id="w360-loader" role="status" aria-live="polite" aria-label="Chargement de WAJAHNI 360°">
       <div class="w360-loader-mark"><div class="w360-loader-orbit" aria-hidden="true"></div><strong>WAJAHNI 360°</strong><span>CHARGEMENT DE L’EXPÉRIENCE</span></div>
     </div>
     <div id="w360-root"></div>
+    <script src="w360-slides.js"></script>
     <script type="text/babel" src="wajahni360-page.jsx"></script>
     <script type="text/babel">ReactDOM.createRoot(document.getElementById('w360-root')).render(<Wajahni360Page />);</script>
     <script src="wajahni360-runtime.js"></script>
