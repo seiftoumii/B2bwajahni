@@ -1,11 +1,15 @@
-// Optional site lock. When the Vercel environment variable REQUIRE_LOGIN is
-// "1", every page asks visitors to log in first (partners and the admin).
-// Without it the site stays public and this does nothing.
+// The whole site is private: only signed-in partners and the admin can see it.
+// Everything except the login page (and the few files it needs) and the API
+// asks for a valid session. Pages send visitors to /login; other files answer 401.
 export const config = {
-  matcher: ['/((?!api/|assets/|login).*)']
+  matcher: ['/((?!api/).*)']
 };
 
-const PUBLIC_FILE = /\.(?!html?$)[a-z0-9]+$/i;
+const OPEN_PATHS = new Set([
+  '/login', '/login.html', '/auth.css', '/robots.txt', '/favicon.ico',
+  '/assets/home/wajahni-logo-white.png', '/assets/home/n265-14033.png', '/assets/home/hero/accueil-hero-bg.jpg'
+]);
+const FILE = /\.(?!html?$)[a-z0-9]+$/i;
 
 function b64urlToBytes(value) {
   const base = value.replace(/-/g, '+').replace(/_/g, '/');
@@ -31,7 +35,8 @@ async function readSession(request) {
   }
 }
 
-// Partners are re-checked in the database so a disabled account is locked out at once.
+// On page loads, partners are re-checked in the database so a disabled,
+// deleted or password-reset account is locked out at once.
 async function partnerIsActive(session) {
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
@@ -51,14 +56,15 @@ async function partnerIsActive(session) {
 }
 
 export default async function middleware(request) {
-  if (process.env.REQUIRE_LOGIN !== '1') return;
   const url = new URL(request.url);
-  if (PUBLIC_FILE.test(url.pathname)) return;
+  if (OPEN_PATHS.has(url.pathname)) return;
+  const isFile = FILE.test(url.pathname);
 
   const session = await readSession(request);
-  if (session && (session.role === 'admin' || await partnerIsActive(session))) return;
+  if (session && (session.role === 'admin' || isFile || await partnerIsActive(session))) return;
 
+  if (isFile) return new Response('Connexion requise.', { status: 401, headers: { 'Cache-Control': 'no-store' } });
   const login = new URL('/login', url);
-  login.searchParams.set('next', url.pathname + url.search);
+  if (url.pathname !== '/' || url.search) login.searchParams.set('next', url.pathname + url.search);
   return Response.redirect(login, 307);
 }
