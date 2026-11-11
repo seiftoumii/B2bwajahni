@@ -421,10 +421,11 @@
       stagger($$('.ph__card', hero), 'pop', { base: 150 + items.length * 120, step: 110 });
       mark($('.ph__tag', hero), 'fade', 150 + items.length * 120 + 520);
     }
-    // Each slide section: the picture settles in, then its text blocks rise
-    // one after another (the text keeps its exact place once it has arrived).
+    // Each slide section: its text blocks rise one after another (the text
+    // keeps its exact place once it has arrived). The slide picture itself is
+    // never animated: it is already on screen while it fades in over the
+    // previous slide, so a picture that pops in would break that crossfade.
     $$('.ps-deck .ps').forEach((section) => {
-      mark($('.ps__bg', section), 'settle', 0, section);
       stagger($$('.ps__t', section), 'rise', { base: 200, step: 70, max: 14, trigger: section, vars: { '--mo-y': '18px' } });
     });
   }
@@ -445,10 +446,9 @@
       mark($('.w3w__quote', why), 'pop', 0);
       mark($('.w3w__sign', why), 'rise', 200, $('.w3w__quote', why), { '--mo-y': '20px' });
     }
-    const sections = $$('[data-w360-panel]');
-    sections.forEach((section) => {
-      mark($('img', section), 'rise', 0, section, { '--mo-y': '60px', '--mo-t': '1.1s' });
-    });
+    // The slide pictures are not animated: each one crossfades into the next
+    // while scrolling (wajahni360.html), and a picture rising in from blank
+    // would show an empty band first.
     const contact = $('.w360-contact-section');
     if (contact) {
       stagger([...contact.children], 'rise', { base: 0, step: 140, trigger: contact });

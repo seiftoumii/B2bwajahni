@@ -78,8 +78,9 @@
    one by --blend (as much as the texts allow), and its pictures (slide and side
    fills) fade in over that whole strip on an eased curve, so one slide
    slowly dissolves into the next. Text is never faded and stays on top. */
-.ps + .ps { margin-top: calc(-1 * var(--blend)); }
-.ps + .ps {
+/* The first slide also fades in over the bottom of the hero. */
+.ps + .ps, .ps-deck > .ps:first-child { margin-top: calc(-1 * var(--blend)); }
+.ps + .ps, .ps-deck > .ps:first-child {
   --fade: linear-gradient(180deg,
     transparent 0,
     rgba(0, 0, 0, .04) calc(var(--blend) * .15),
@@ -90,8 +91,10 @@
     rgba(0, 0, 0, .93) calc(var(--blend) * .9),
     #000 var(--blend));
 }
+
+.ps-deck > .ps:first-child::before, .ps-deck > .ps:first-child::after,
 .ps + .ps::before, .ps + .ps::after { -webkit-mask-image: var(--fade); mask-image: var(--fade); }
-.ps + .ps .ps__bg {
+.ps + .ps .ps__bg, .ps-deck > .ps:first-child .ps__bg {
   -webkit-mask-image: var(--fade), var(--feather); -webkit-mask-composite: source-in;
           mask-image: var(--fade), var(--feather); mask-composite: intersect;
 }

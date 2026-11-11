@@ -127,10 +127,15 @@
       .w360-section { display: block; width: 100%; min-height: 0; padding: 0; overflow: visible; background: #fff; opacity: 1 !important; transform: none !important; scroll-snap-align: none; }
       .w360-section::before, .w360-section::after { display: none; }
       .w360-section img { position: static; display: block; width: 100%; height: auto; max-width: none; max-height: none; border: 0; border-radius: 0; box-shadow: none; object-fit: initial; transform: none !important; transition: none; }
-      /* Let each Figma visual dissolve into the next instead of ending on a hard image edge. */
-      .w360-page main { position: relative; isolation: isolate; background: linear-gradient(120deg, #f2f6fc 0%, #fff8f3 48%, #eef4fd 100%); }
-      .w360-section:not(:first-child) { z-index: 1; margin-top: 42px; -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 28px, #000 92px); mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 28px, #000 92px); }
-      .w360-contact-section { z-index: 2; margin-top: 42px; -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 28px, #000 92px); mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 28px, #000 92px); }
+      /* Smooth seams: no gaps. Each section slides up over the end of the one
+         before it by --w3-ov and fades in over that strip on an eased curve, so
+         every visual (and the contact block) dissolves into the next one.
+         --w3-ov is 4% of a slide's height (slides are 2160 x 1537), which only
+         covers the slides' plain top and bottom margins, never their text. */
+      .w360-page { --w3-ov: calc(100vw * 1537 / 2160 * .04); --w3-fade: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.04) calc(var(--w3-ov) * .15), rgba(0,0,0,.15) calc(var(--w3-ov) * .3), rgba(0,0,0,.33) calc(var(--w3-ov) * .45), rgba(0,0,0,.55) calc(var(--w3-ov) * .6), rgba(0,0,0,.77) calc(var(--w3-ov) * .75), rgba(0,0,0,.93) calc(var(--w3-ov) * .9), #000 var(--w3-ov)); }
+      .w360-page main { position: relative; isolation: isolate; background: none; }
+      .w360-section { z-index: 1; margin-top: calc(-1 * var(--w3-ov)); -webkit-mask-image: var(--w3-fade); mask-image: var(--w3-fade); }
+      .w360-contact-section { z-index: 2; margin-top: calc(-1 * var(--w3-ov)); -webkit-mask-image: var(--w3-fade); mask-image: var(--w3-fade); }
       .w360-contact-section { min-height: 480px; scroll-snap-align: none; }
       @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
     </style>
