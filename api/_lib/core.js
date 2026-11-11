@@ -6,10 +6,24 @@ const COOKIE = 'wj_session';
 const SESSION_DAYS = 7;
 const HISTORY_MAX = 2000;
 
+// Vercel names the Upstash settings KV_REST_API_URL/TOKEN or
+// UPSTASH_REDIS_REST_URL/TOKEN, sometimes with a custom prefix
+// (e.g. STORAGE_KV_REST_API_URL). Accept any of them.
+function findEnv(suffixes) {
+  for (const suffix of suffixes) if (process.env[suffix]) return process.env[suffix];
+  const key = Object.keys(process.env).find(k => suffixes.some(suffix => k.endsWith('_' + suffix)) && process.env[k]);
+  return key ? process.env[key] : '';
+}
+
 function redisConfig() {
-  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) throw httpError(503, 'La base de données n’est pas encore configurée.');
+  const url = findEnv(['KV_REST_API_URL', 'UPSTASH_REDIS_REST_URL']);
+  const token = findEnv(['KV_REST_API_TOKEN', 'UPSTASH_REDIS_REST_TOKEN']);
+  if (!url || !token) {
+    const other = Object.keys(process.env).some(k => /REDIS_URL$|^KV_URL$/.test(k));
+    throw httpError(503, other
+      ? 'Une base Redis est connectée, mais pas Upstash (adresse REST introuvable). Connectez « Upstash for Redis » au projet.'
+      : 'La base de données n’est pas encore configurée.');
+  }
   return { url: url.replace(/\/$/, ''), token };
 }
 

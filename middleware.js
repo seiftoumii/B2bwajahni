@@ -35,11 +35,23 @@ async function readSession(request) {
   }
 }
 
+// Same lookup as api/_lib/core.js: plain names first, then any prefixed name.
+function findEnv(suffixes, direct) {
+  const hit = direct.find(Boolean);
+  if (hit) return hit;
+  try {
+    const key = Object.keys(process.env).find(k => suffixes.some(suffix => k.endsWith('_' + suffix)) && process.env[k]);
+    return key ? process.env[key] : '';
+  } catch {
+    return '';
+  }
+}
+
 // On page loads, partners are re-checked in the database so a disabled,
 // deleted or password-reset account is locked out at once.
 async function partnerIsActive(session) {
-  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+  const url = findEnv(['KV_REST_API_URL', 'UPSTASH_REDIS_REST_URL'], [process.env.KV_REST_API_URL, process.env.UPSTASH_REDIS_REST_URL]);
+  const token = findEnv(['KV_REST_API_TOKEN', 'UPSTASH_REDIS_REST_TOKEN'], [process.env.KV_REST_API_TOKEN, process.env.UPSTASH_REDIS_REST_TOKEN]);
   if (!url || !token) return false;
   try {
     const res = await fetch(url.replace(/\/$/, ''), {
