@@ -2,7 +2,7 @@
 const crypto = require('crypto');
 const {
   redis, pipeline, keys, hashPassword, readBody, httpError, send, handler,
-  requireAdmin, publicPartner, hashToObject
+  requireAdmin, publicPartner, hashToObject, adminUsername
 } = require('../_lib/core');
 
 const USERNAME = /^[a-z0-9][a-z0-9._@-]{2,39}$/i;
@@ -33,7 +33,7 @@ module.exports = handler(['GET', 'POST'], async (req, res) => {
   const password = String(body.password || '');
   if (!name) throw httpError(400, 'Indiquez le nom du partenaire.');
   if (!USERNAME.test(username)) throw httpError(400, 'L’identifiant doit faire 3 à 40 caractères : lettres, chiffres, point, tiret, @.');
-  if (process.env.ADMIN_USERNAME && username === process.env.ADMIN_USERNAME.toLowerCase()) throw httpError(409, 'Cet identifiant est déjà utilisé.');
+  if (username === adminUsername().toLowerCase()) throw httpError(409, 'Cet identifiant est déjà utilisé.');
   if (password.length < 8) throw httpError(400, 'Le mot de passe doit faire au moins 8 caractères.');
 
   const id = crypto.randomUUID();

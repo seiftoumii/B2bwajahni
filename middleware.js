@@ -18,7 +18,9 @@ function b64urlToBytes(value) {
 }
 
 async function readSession(request) {
-  const secret = process.env.SESSION_SECRET;
+  const own = process.env.SESSION_SECRET;
+  const token = findEnv(['KV_REST_API_TOKEN', 'UPSTASH_REDIS_REST_TOKEN'], [process.env.KV_REST_API_TOKEN, process.env.UPSTASH_REDIS_REST_TOKEN]);
+  const secret = own && own.length >= 16 ? own : token ? 'wj-session:' + token : '';
   const cookie = request.headers.get('cookie') || '';
   const match = cookie.match(/(?:^|;\s*)wj_session=([^;]+)/);
   if (!secret || !match) return null;

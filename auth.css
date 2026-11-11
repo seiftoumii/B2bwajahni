@@ -155,7 +155,8 @@ table.partners tbody tr:hover td { background: #fafbfd; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 @media (max-width: 760px) {
-  .admin-top .title { display: none; }
+  .admin-top .title, .admin-top a.btn-link { display: none; }
+  .admin-top { gap: 10px; }
   .kpis { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
   .kpi { padding: 12px; }
   .kpi b { font-size: 20px; }
