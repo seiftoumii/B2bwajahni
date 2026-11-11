@@ -10,7 +10,7 @@ class WebsiteHandler(SimpleHTTPRequestHandler):
 
     def translate_path(self, path):
         parts = urlsplit(path)
-        pages = ("home", "index", "educareer", "roadshow", "platform", "wajahni360")
+        pages = ("home", "index", "educareer", "roadshow", "platform", "wajahni360", "login", "admin")
         routes = {f"/{page}": f"/{page}.html" for page in pages}
         routes.update({"/": "/index.html", "/caravan": "/index.html"})
         if parts.path in routes:
