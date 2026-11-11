@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Wajahni — Administration</title>
+  <link rel="icon" href="assets/home/n265-14033.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+  <header class="admin-top">
+    <a href="home" aria-label="Voir le site Wajahni"><img src="assets/home/wajahni-logo-white.png" alt="Wajahni"></a>
+    <span class="title">Administration</span>
+    <span class="spacer"></span>
+    <a class="btn-link" href="home">Voir le site</a>
+    <button class="btn btn-ghost btn-sm" id="logout" type="button">Se déconnecter</button>
+  </header>
+
+  <main class="admin-main" id="app" hidden>
+    <div class="admin-head">
+      <div>
+        <h1>Partenaires</h1>
+        <p>Créez les comptes de vos partenaires et suivez leurs connexions et les pages qu’ils consultent.</p>
+      </div>
+      <button class="btn btn-primary" id="new-partner" type="button">+ Nouveau partenaire</button>
+    </div>
+
+    <div class="kpis" aria-live="polite">
+      <div class="kpi"><b id="kpi-accounts">–</b><span>Comptes actifs</span></div>
+      <div class="kpi"><b id="kpi-logins">–</b><span>Connexions</span></div>
+      <div class="kpi"><b id="kpi-views">–</b><span>Pages consultées</span></div>
+    </div>
+
+    <section class="panel" aria-label="Liste des partenaires">
+      <div class="panel-tools">
+        <input class="input" id="search" type="search" placeholder="Rechercher un nom, une société, un identifiant" aria-label="Rechercher un partenaire">
+        <span class="count" id="count"></span>
+      </div>
+      <table class="partners">
+        <thead>
+          <tr><th>Partenaire</th><th>Identifiant</th><th>Dernière connexion</th><th>Connexions</th><th>Pages vues</th><th>Statut</th></tr>
+        </thead>
+        <tbody id="rows">
+          <tr class="loading-row"><td colspan="6"><span class="skeleton" style="width:60%"></span></td></tr>
+          <tr class="loading-row"><td colspan="6"><span class="skeleton" style="width:45%"></span></td></tr>
+        </tbody>
+      </table>
+      <div class="empty" id="empty" hidden>
+        <h2>Aucun partenaire pour l’instant</h2>
+        <p>Créez un premier compte, puis envoyez l’identifiant et le mot de passe au partenaire.</p>
+        <button class="btn btn-primary" type="button" data-action="new">+ Nouveau partenaire</button>
+      </div>
+      <div class="empty" id="no-match" hidden>
+        <h2>Aucun résultat</h2>
+        <p>Aucun partenaire ne correspond à cette recherche.</p>
+        <button class="btn btn-ghost" type="button" data-action="clear-search">Effacer la recherche</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="alert alert-error" id="fatal" role="alert" hidden style="margin:28px auto;max-width:640px"></div>
+
+  <div id="drawer-root" hidden>
+    <div class="scrim" data-action="close"></div>
+    <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+      <div class="drawer-head">
+        <div><h2 id="drawer-title"></h2><p id="drawer-sub"></p></div>
+        <button class="close" type="button" data-action="close" aria-label="Fermer">✕</button>
+      </div>
+      <div class="drawer-body" id="drawer-body"></div>
+    </aside>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Wajahni — Connexion</title>
+  <link rel="icon" href="assets/home/n265-14033.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+  <main class="login-page">
+    <div class="login-card">
+      <a class="login-logo" href="home" aria-label="Retour au site Wajahni"><img src="assets/home/wajahni-logo-white.png" alt="Wajahni"></a>
+      <h1>Espace partenaires</h1>
+      <p class="lead">Connectez-vous avec l’identifiant que l’équipe Wajahni vous a envoyé.</p>
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="username">Identifiant</label>
+          <input class="input" id="username" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required autofocus>
+        </div>
+        <div class="field">
+          <label for="password">Mot de passe</label>
+          <div class="input-row">
+            <input class="input" id="password" name="password" type="password" autocomplete="current-password" required>
+            <button class="peek" type="button" aria-controls="password" aria-pressed="false">Afficher</button>
+          </div>
+        </div>
+        <div class="alert alert-error" id="login-error" role="alert" hidden></div>
+        <button class="btn btn-primary" type="submit">Se connecter</button>
+      </form>
+      <p class="login-foot">Pas encore de compte ? <a href="home#contact">Contactez l’équipe Wajahni</a></p>
+    </div>
+  </main>
+  <script>
+    (() => {
+      const form = document.getElementById('login-form');
+      const error = document.getElementById('login-error');
+      const button = form.querySelector('[type=submit]');
+      const password = document.getElementById('password');
+      const peek = form.querySelector('.peek');
+      const next = new URLSearchParams(location.search).get('next');
+      const safeNext = next && next.startsWith('/') && !next.startsWith('//') ? next : null;
+
+      function go(user) {
+        location.replace(user.role === 'admin' ? (safeNext || '/admin') : (safeNext && safeNext !== '/admin' ? safeNext : '/home'));
+      }
+
+      fetch('/api/me', { credentials: 'same-origin' })
+        .then(r => r.ok ? r.json() : null)
+        .then(data => { if (data && data.user) go(data.user); })
+        .catch(() => {});
+
+      peek.onclick = () => {
+        const show = password.type === 'password';
+        password.type = show ? 'text' : 'password';
+        peek.textContent = show ? 'Masquer' : 'Afficher';
+        peek.setAttribute('aria-pressed', String(show));
+      };
+
+      form.querySelectorAll('input').forEach(input => input.addEventListener('input', () => {
+        error.hidden = true;
+        input.removeAttribute('aria-invalid');
+      }));
+
+      form.addEventListener('submit', async event => {
+        event.preventDefault();
+        const username = form.username.value.trim();
+        if (!username || !password.value) {
+          error.textContent = 'Saisissez votre identifiant et votre mot de passe.';
+          error.hidden = false;
+          (username ? password : form.username).setAttribute('aria-invalid', 'true');
+          return;
+        }
+        button.disabled = true;
+        button.textContent = 'Connexion…';
+        try {
+          const res = await fetch('/api/login', {
+            method: 'POST', credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password: password.value })
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) throw new Error(data.error || 'La connexion a échoué. Réessayez dans un instant.');
+          go(data.user);
+        } catch (err) {
+          error.textContent = err.message === 'Failed to fetch' ? 'Pas de connexion au serveur. Vérifiez votre réseau et réessayez.' : err.message;
+          error.hidden = false;
+          button.disabled = false;
+          button.textContent = 'Se connecter';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
