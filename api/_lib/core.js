@@ -52,10 +52,34 @@ async function pipeline(commands) {
   });
 }
 
+// SESSION_SECRET if set; otherwise derived from the (server-only) Upstash
+// token, so the site works with nothing but the database connected.
 function secret() {
   const value = process.env.SESSION_SECRET;
-  if (!value || value.length < 16) throw httpError(503, 'SESSION_SECRET n’est pas encore configuré.');
-  return value;
+  if (value && value.length >= 16) return value;
+  const token = findEnv(['KV_REST_API_TOKEN', 'UPSTASH_REDIS_REST_TOKEN']);
+  if (!token) throw httpError(503, 'La base de données n’est pas encore configurée.');
+  return 'wj-session:' + token;
+}
+
+// Built-in admin, used when ADMIN_USERNAME/ADMIN_PASSWORD are not set in Vercel.
+// Only a scrypt hash lives here; the admin can change the password from /admin
+// (the new hash is stored in the database under wj:admin:hash).
+const BUILTIN_ADMIN = 'admin';
+const BUILTIN_ADMIN_HASH = 'scrypt$ktgpDIF_-SEQZADmQJdkhw$kzSJDlI-iubY30UpPsteS7xLLmKK_lDPkXAkhxgC14A';
+
+async function checkAdmin(username, password) {
+  const envUser = process.env.ADMIN_USERNAME, envPass = process.env.ADMIN_PASSWORD;
+  if (envUser && envPass) {
+    return username.toLowerCase() === envUser.toLowerCase() ? { match: true, ok: safeEqual(password, envPass), username: envUser } : { match: false };
+  }
+  if (username.toLowerCase() !== BUILTIN_ADMIN) return { match: false };
+  const stored = (await redis('GET', 'wj:admin:hash')) || BUILTIN_ADMIN_HASH;
+  return { match: true, ok: checkPassword(password, stored), username: BUILTIN_ADMIN };
+}
+
+function adminUsername() {
+  return process.env.ADMIN_USERNAME && process.env.ADMIN_PASSWORD ? process.env.ADMIN_USERNAME : BUILTIN_ADMIN;
 }
 
 function signSession(payload) {
@@ -227,5 +251,5 @@ function hashToObject(value) {
 module.exports = {
   redis, pipeline, keys, getPartner, currentUser, setSession, clearSession, hashPassword,
   checkPassword, safeEqual, clientInfo, logEvent, readBody, httpError, send, handler,
-  requireAdmin, publicPartner, hashToObject
+  requireAdmin, publicPartner, hashToObject, checkAdmin, adminUsername
 };

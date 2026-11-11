@@ -411,6 +411,27 @@
     if (row && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); state.lastFocus = row; openPartner(row.dataset.id); }
   });
   $('new-partner').onclick = openCreate;
+  $('change-password').onclick = () => {
+    openDrawer('Mon mot de passe', 'Mot de passe du compte administrateur.', `
+      <form id="pw-form" novalidate>
+        <div class="field"><label for="pw-current">Mot de passe actuel</label><input class="input" id="pw-current" name="current" type="password" autocomplete="current-password"><span class="field-error" data-error-for="current"></span></div>
+        <div class="field"><label for="pw-new">Nouveau mot de passe</label><input class="input" id="pw-new" name="password" type="password" autocomplete="new-password"><span class="hint">10 caractères minimum.</span><span class="field-error" data-error-for="password"></span></div>
+        <div class="alert alert-error" role="alert" hidden></div>
+        <button class="btn btn-primary" type="submit">Changer le mot de passe</button>
+      </form>`);
+    const form = $('pw-form');
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      clearErrors(form);
+      if (!form.current.value) { fieldError(form, 'current', 'Saisissez votre mot de passe actuel.'); form.current.focus(); return; }
+      if (form.password.value.length < 10) { fieldError(form, 'password', 'Utilisez au moins 10 caractères.'); form.password.focus(); return; }
+      try {
+        await api('/api/admin/password', { method: 'POST', body: { current: form.current.value, password: form.password.value } });
+        closeDrawer();
+        toast('Mot de passe changé');
+      } catch (err) { const a = form.querySelector('.alert'); a.textContent = err.message; a.hidden = false; }
+    });
+  };
   $('search').addEventListener('input', event => { state.query = event.target.value.trim(); renderList(); });
   $('logout').onclick = async () => {
     await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' }).catch(() => {});
