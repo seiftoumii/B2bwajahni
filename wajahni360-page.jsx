@@ -74,7 +74,7 @@ function Wajahni360Page() {
 
       <main>
         {panels360.map((src, index) => (
-          <section className="w360-section" data-w360-panel key={src} aria-label={`Présentation Wajahni 360, section ${index + 2}`}>
+          <section className="w360-section" data-w360-panel key={src} aria-label={`Présentation Wajahni 360, section ${index + 2}`} style={{ '--side': `url(${src.replace('w360/', 'w360/sides/')})` }}>
             <img src={src} alt="" loading="eager" decoding="async" />
           </section>
         ))}
