@@ -446,9 +446,11 @@
       mark($('.w3w__quote', why), 'pop', 0);
       mark($('.w3w__sign', why), 'rise', 200, $('.w3w__quote', why), { '--mo-y': '20px' });
     }
-    // The slide pictures are not animated: each one crossfades into the next
-    // while scrolling (wajahni360.html), and a picture rising in from blank
-    // would show an empty band first.
+    // The slide pictures are not animated (they crossfade into each other while
+    // scrolling); their HTML text rises in block by block, as on Platform.
+    $$('.ps-deck .ps').forEach((section) => {
+      stagger($$('.ps__t', section), 'rise', { base: 200, step: 70, max: 14, trigger: section, vars: { '--mo-y': '18px' } });
+    });
     const contact = $('.w360-contact-section');
     if (contact) {
       stagger([...contact.children], 'rise', { base: 0, step: 140, trigger: contact });
