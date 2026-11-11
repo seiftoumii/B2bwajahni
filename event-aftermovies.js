@@ -16,7 +16,7 @@
     educareer: {
       name: 'WAJAHNI Edu-Career Summit',
       fallback: 'assets/edu/n237-8280.png',
-      films: [film('2026', 'educareer-aftermovie', 360, 640)]
+      films: [film('2026', 'educareer-aftermovie', 1280, 720)]
     },
     caravan: {
       name: 'WAJAHNI CARAVAN',
@@ -76,7 +76,7 @@
     }
     let frameW;
     if (ratio < 1) frameW = count === 1 ? 380 : 344; // vertical reel: tall cards
-    else if (ratio > 1.2) frameW = (ROW.width - (count - 1) * 32) / count - ROW.pad * 2; // landscape
+    else if (ratio > 1.2) frameW = count === 1 ? 1100 : (ROW.width - (count - 1) * 32) / count - ROW.pad * 2; // landscape (one film: sized so card + title fit a laptop screen)
     else frameW = 340;
     const frameH = Math.round(frameW / ratio);
     const cardW = frameW + ROW.pad * 2;
