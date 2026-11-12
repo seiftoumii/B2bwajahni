@@ -16,6 +16,7 @@
     viewport.firstElementChild.style.top = `${-heroHeight * scale}px`;
     const header = document.querySelector('.site-header');
     if (header) hero?.style.setProperty('--rs-header', `${header.getBoundingClientRect().bottom}px`);
+    window.WajahniFit?.layout();
   };
   const hydrate = () => {
     if (!canvas.firstElementChild) return window.setTimeout(hydrate, 50);
@@ -146,6 +147,9 @@
         updateScale();
       }
     }
+
+    // Every section below the hero fits on one screen (event-fit.js).
+    window.WajahniFit?.init({ page: 'roadshow', canvas, viewport, end: () => height });
   };
   window.addEventListener('load', hydrate, { once: true });
 })();

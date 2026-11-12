@@ -170,7 +170,10 @@
     if (!section) return;
     const header = document.querySelector('.site-header');
     const offset = header ? header.getBoundingClientRect().bottom + 12 : 0;
-    window.scrollTo({ top: section.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+    // When the packs fill exactly one screen (event-fit.js), show that screen.
+    const screenTop = window.WajahniFit?.screenTop(section);
+    const top = screenTop ?? section.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
   }
 
   window.WajahniPacks = { mount, scrollToPacks };
