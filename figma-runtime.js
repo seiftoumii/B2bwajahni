@@ -12,6 +12,7 @@
     document.documentElement.style.setProperty('--canvas-scale', String(scale));
     viewport.style.width = `${width * scale}px`;
     fitServiceArtboard(viewport, scale, height, 1018, 1018, [162, 976]);
+    window.WajahniFit?.layout();
   }
 
   function toastMessage(message) {
@@ -191,6 +192,9 @@
       if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
     }), { threshold: .08 });
     canvas.querySelectorAll('.figma-fade').forEach((element) => observer.observe(element));
+
+    // Every section below the hero fits on one screen (event-fit.js).
+    window.WajahniFit?.init({ page: 'caravan', canvas, viewport, end: () => height });
   }
 
   document.querySelector('.figma-close').addEventListener('click', () => dialog.close());

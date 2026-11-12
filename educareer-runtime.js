@@ -18,6 +18,7 @@
     document.documentElement.style.setProperty('--canvas-scale', String(scale));
     viewport.style.width = (width * scale) + 'px';
     fitServiceArtboard(viewport, scale, height, 1018, 1018, [162, 960]);
+    window.WajahniFit?.layout();
   }
 
   function hydrate() {
@@ -271,6 +272,9 @@
       height += growth;
       updateScale();
     }
+
+    // Every section below the hero fits on one screen (event-fit.js).
+    window.WajahniFit?.init({ page: 'educareer', canvas, viewport, end: () => height });
   }
 
   function enhance(tries = 0) {
