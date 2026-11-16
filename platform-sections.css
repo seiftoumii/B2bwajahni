@@ -99,3 +99,11 @@
   -webkit-mask-image: var(--fade), var(--feather); -webkit-mask-composite: source-in;
           mask-image: var(--fade), var(--feather); mask-composite: intersect;
 }
+
+/* A line set on its own patch: --w/--h box in slide px, filled with --bg
+   (covers what the picture had there), text centred in it. */
+.ps__t--box span {
+  display: flex; align-items: center; justify-content: center;
+  width: calc(var(--w) * var(--u)); height: calc(var(--h) * var(--u));
+  background: var(--bg); border-radius: calc(var(--r, 0) * var(--u));
+}
