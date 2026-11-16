@@ -45,6 +45,23 @@ const wajahniPages = [
   setupAccount(header.querySelector('.site-account'), header.querySelector('.site-nav-account'));
   matchMedia('(max-width: 1050px)').addEventListener('change', () => setOpen(false));
   window.addEventListener('pageshow', () => setOpen(false));
+
+  // Once the page is scrolled, the bar turns slightly see-through (orange
+  // kept, frosted blur behind). Back at the top it is fully opaque again.
+  // Listens in capture phase so pages that scroll an inner box work too.
+  let ticking = false;
+  const updateScrolled = event => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      const box = event && event.target && event.target.nodeType === 1 ? event.target : null;
+      const y = Math.max(window.scrollY || 0, document.documentElement.scrollTop || 0, box && box.scrollHeight > box.clientHeight + 40 ? box.scrollTop : 0);
+      header.classList.toggle('is-scrolled', y > 12);
+    });
+  };
+  document.addEventListener('scroll', updateScrolled, { capture: true, passive: true });
+  updateScrolled();
 })();
 
 // Partner/admin account button. Asks the server who is signed in and, for a
