@@ -7,7 +7,7 @@ export const config = {
 
 const OPEN_PATHS = new Set([
   '/login', '/login.html', '/auth.css', '/robots.txt', '/favicon.ico',
-  '/assets/home/wajahni-logo-white.png', '/assets/home/n265-14033.png', '/assets/home/hero/accueil-hero-bg.jpg'
+  '/assets/home/wajahni-logo-white.png', '/assets/home/wajahni-logo-color.svg', '/assets/home/n265-14033.png', '/assets/home/hero/accueil-hero-bg.jpg'
 ]);
 const FILE = /\.(?!html?$)[a-z0-9]+$/i;
 
