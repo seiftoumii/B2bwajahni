@@ -233,6 +233,7 @@ function PageRoadshow() {
           <p className="font-['Poppins:Bold'] not-italic">
             <span className="leading-[74px]">{`NOS `}</span>
             <span className="leading-[74px] text-[#f96b28]">AFTER-MOVIES</span>
+            <span className="leading-[74px]">{` 2026`}</span>
           </p>
         </div>
       </div>
