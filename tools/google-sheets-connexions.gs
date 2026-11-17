@@ -53,7 +53,7 @@ function fillConnectionDates() {
   var idCol = header.indexOf('identifiant');
   var dateCols = [];
   header.forEach(function (h, c) {
-    var m = h.match(/^date de connex?ion\s*(\d+)$/);
+    var m = h.match(/^date de conn\w*\s*(\d+)$/);
     if (m) dateCols[Number(m[1]) - 1] = c;
   });
   if (idCol < 0 || !dateCols.length) throw new Error('Colonnes "Identifiant" ou "Date de connection N" introuvables.');
