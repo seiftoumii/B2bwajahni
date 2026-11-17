@@ -29,7 +29,7 @@ module.exports = handler(['GET', 'PATCH', 'DELETE'], async (req, res) => {
 
   if (req.method === 'DELETE') {
     await pipeline([
-      ['DEL', keys.partner(id), keys.stats(id), keys.history(id), keys.user(partner.username)],
+      ['DEL', keys.partner(id), keys.stats(id), keys.history(id), keys.logins(id), keys.user(partner.username)],
       ['SREM', keys.partners, id]
     ]);
     return send(res, 200, { ok: true });

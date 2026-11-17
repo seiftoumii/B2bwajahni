@@ -405,12 +405,16 @@
     else if (action === 'toggle') toggleDisabled();
     else if (action === 'delete') showDelete();
     else if (action === 'cancel-inline') $('inline-slot').innerHTML = '';
+    else if (action === 'copy-key') copy($('sync-key').value);
+    else if (action === 'copy-script') copyScript();
+    else if (action === 'rotate-key') { if (confirm('Remplacer la clé ? L’ancienne cessera de fonctionner dans le Google Sheet.')) loadKey(true); }
   });
   $('rows').addEventListener('keydown', event => {
     const row = event.target.closest('tr[data-id]');
     if (row && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); state.lastFocus = row; openPartner(row.dataset.id); }
   });
   $('new-partner').onclick = openCreate;
+  $('connections').onclick = openConnections;
   $('change-password').onclick = () => {
     openDrawer('Mon mot de passe', 'Mot de passe du compte administrateur.', `
       <form id="pw-form" novalidate>
@@ -437,6 +441,43 @@
     await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' }).catch(() => {});
     location.replace('/login');
   };
+
+  /* ---------- Connection dates (partners sheet) ---------- */
+  function openConnections() {
+    openDrawer('Dates de connexion', 'Pour remplir « Date de connection 1 à 7 » dans le tableau des partenaires.', `
+      <p style="margin:0 0 10px">Une date par jour de connexion (la première connexion du jour), de la plus ancienne à la plus récente, heure de Tunis.</p>
+      <div class="actions"><a class="btn btn-primary btn-sm" href="/api/admin/connections?format=csv&per=day&max=7" download>Télécharger pour Excel (.csv)</a></div>
+      <h3 style="margin:24px 0 6px;font-size:16px">Google Sheets : remplissage automatique</h3>
+      <ol style="margin:0 0 12px;padding-left:20px;line-height:1.6">
+        <li>Dans le Google Sheet : <b>Extensions › Apps Script</b>.</li>
+        <li>Remplacez le contenu par le script ci-dessous, puis enregistrez.</li>
+        <li>Rechargez le Sheet : un menu <b>Wajahni</b> apparaît. Choisissez <b>Configurer la clé</b> et collez la clé.</li>
+        <li>Pour une mise à jour toutes les heures : <b>Wajahni › Remplir automatiquement</b>.</li>
+      </ol>
+      <div class="actions"><button class="btn btn-ghost btn-sm" type="button" data-action="copy-script">Copier le script</button></div>
+      <div class="field" style="margin-top:16px"><label for="sync-key">Clé de synchronisation</label>
+        <div class="input-row"><input class="input mono" id="sync-key" readonly value="Chargement…"><button class="btn btn-ghost btn-sm" type="button" data-action="copy-key">Copier</button></div>
+        <span class="hint">Donne accès aux dates de connexion seulement. Si elle a été partagée par erreur, remplacez-la.</span>
+      </div>
+      <div class="actions"><button class="btn btn-ghost btn-sm" type="button" data-action="rotate-key">Remplacer la clé</button></div>`);
+    loadKey(false);
+  }
+
+  async function loadKey(rotate) {
+    try {
+      const data = await api('/api/admin/connections', { method: 'POST', body: { action: rotate ? 'rotate' : 'key' } });
+      if ($('sync-key')) $('sync-key').value = data.key;
+      if (rotate) toast('Nouvelle clé : collez-la dans le Sheet (Wajahni › Configurer la clé)');
+    } catch (err) { if ($('sync-key')) $('sync-key').value = ''; toast(err.message); }
+  }
+
+  async function copyScript() {
+    try {
+      const res = await fetch('/tools/google-sheets-connexions.gs', { credentials: 'same-origin' });
+      if (!res.ok) throw new Error();
+      copy(await res.text());
+    } catch { toast('Impossible de charger le script. Réessayez.'); }
+  }
 
   /* ---------- Start ---------- */
   (async () => {
