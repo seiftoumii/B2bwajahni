@@ -147,6 +147,8 @@ const keys = {
   user: username => `wj:user:${String(username).toLowerCase()}`,
   partners: 'wj:partners',
   history: id => `wj:hist:${id}`,
+  logins: id => `wj:logins:${id}`, // every login time, oldest first (never trimmed)
+  syncKey: 'wj:sync:key',
   stats: id => `wj:stats:${id}`,
   lastView: (id, path) => `wj:lv:${id}:${path}`,
   attempts: (ip, username) => `wj:try:${ip}:${String(username).toLowerCase()}`
@@ -183,7 +185,7 @@ async function logEvent(id, event) {
     ['LTRIM', keys.history(id), '0', String(HISTORY_MAX - 1)],
     ['HSET', keys.stats(id), 'lastSeen', now]
   ];
-  if (event.type === 'login') commands.push(['HINCRBY', keys.stats(id), 'logins', '1'], ['HSET', keys.stats(id), 'lastLogin', now]);
+  if (event.type === 'login') commands.push(['HINCRBY', keys.stats(id), 'logins', '1'], ['HSET', keys.stats(id), 'lastLogin', now], ['RPUSH', keys.logins(id), now]);
   if (event.type === 'view') commands.push(['HINCRBY', keys.stats(id), 'views', '1']);
   await pipeline(commands);
 }
